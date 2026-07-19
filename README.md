@@ -32,16 +32,22 @@ Criado por **Daniel Bastos · Data Design Inteligência de Comunicação**.
 - **Percepções, temas e posicionamentos** com contagens reais e verbatims
 - **Perguntas ao corpus**: "o que dizem sobre o preço?" → resposta com
   citações reais dos comentários
-- **Exportação CSV** em dois arquivos: universo classificado + resumo com
-  funil de cobertura
+- **Exportação XLSX** em arquivo único com duas abas: universo classificado
+  + resumo com funil de cobertura
+- **Impressão** do relatório direto do navegador (botão Imprimir)
 
 ## Requisitos e o que esperar
 
 | Máquina de uso | Perfil | Modelo | Expectativa |
 |---|---|---|---|
-| Mac Apple Silicon 8 GB | normal | qwen3:4b-instruct | ~500-1.000 comentários/hora |
-| Mac Apple Silicon 16 GB+ | turbo (automático) | qwen3:8b | Mais preciso, mesmo ritmo |
-| Windows sem GPU dedicada | normal | qwen3:4b-instruct | **Lento** (CPU): reserve horas para corpus grande |
+| Mac Apple Silicon 8 GB | normal | qwen3:4b-instruct | ~1.000 comentários/hora (medido: 1.037 em 58 min num MacBook M1) |
+| Mac Apple Silicon 16 GB+ | turbo (automático) | qwen3:8b | Mais preciso, ritmo semelhante |
+| Intel/Windows sem GPU dedicada | normal | qwen3:4b-instruct | ~100-250 comentários/hora (estimativa): reserve horas para corpus grande |
+
+O ritmo depende mais do processador do que da RAM: nos chips Apple Silicon o
+modelo roda na GPU integrada (Metal); num Intel médio sem GPU dedicada ele
+roda só na CPU, cerca de 4 a 8 vezes mais devagar — a estimativa da tabela
+ainda não foi medida em máquina real.
 
 **Durante a análise**: o modelo ocupa a maior parte da RAM. Em máquinas de
 8 GB, feche o navegador com muitas abas e aplicativos pesados; a máquina

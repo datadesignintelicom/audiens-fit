@@ -33,16 +33,22 @@ Created by **Daniel Bastos · Data Design Inteligência de Comunicação**.
 - **Perceptions, topics and stances** with real counts and verbatim quotes
 - **Ask the corpus**: "what do they say about pricing?" → answers with real
   quoted excerpts
-- **CSV export** in two files: classified universe + summary with coverage
-  funnel
+- **XLSX export** as a single file with two sheets: classified universe +
+  summary with coverage funnel
+- **Print** the report straight from the browser (Print button)
 
 ## Requirements and what to expect
 
 | Host machine | Profile | Model | Expectation |
 |---|---|---|---|
-| Mac Apple Silicon 8 GB | normal | qwen3:4b-instruct | ~500-1,000 comments/hour |
-| Mac Apple Silicon 16 GB+ | turbo (automatic) | qwen3:8b | More accurate, same pace |
-| Windows without dedicated GPU | normal | qwen3:4b-instruct | **Slow** (CPU-only): plan hours for large corpora |
+| Mac Apple Silicon 8 GB | normal | qwen3:4b-instruct | ~1,000 comments/hour (measured: 1,037 in 58 min on a MacBook M1) |
+| Mac Apple Silicon 16 GB+ | turbo (automatic) | qwen3:8b | More accurate, similar pace |
+| Intel/Windows without dedicated GPU | normal | qwen3:4b-instruct | ~100-250 comments/hour (estimate): plan hours for large corpora |
+
+Pace depends more on the processor than on RAM: on Apple Silicon the model
+runs on the integrated GPU (Metal); on an average Intel machine without a
+dedicated GPU it runs CPU-only, roughly 4-8x slower — the table's estimate
+has not yet been measured on real hardware.
 
 **During analysis**: the model takes most of the RAM. On 8 GB machines,
 close heavy apps and browsers with many tabs; the machine stays usable for

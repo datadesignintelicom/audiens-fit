@@ -44,7 +44,17 @@
   .rodape { text-align:center; font-size:11px; color:#9ca3af; margin:26px 0 8px; }
   .aviso { background:#fffbeb; border:1px solid #fde68a; color:#92400e; border-radius:10px; padding:10px 14px; font-size:12px; margin-bottom:12px; display:none; }
   .metodo { font-size:11px; color:#9ca3af; line-height:1.7; }
-  a.botao-csv { display:inline-block; margin-top:8px; font-size:13px; color:#6b7280; border:1px solid #e5e7eb; border-radius:10px; padding:8px 16px; text-decoration:none; cursor:pointer; }
+  a.botao-csv { display:inline-block; margin-top:8px; margin-right:8px; font-size:13px; color:#6b7280; border:1px solid #e5e7eb; border-radius:10px; padding:8px 16px; text-decoration:none; cursor:pointer; }
+  .fonte { font-size:13px; border:1px dashed #d1d5db; border-radius:10px; padding:10px 14px; margin-bottom:14px; background:#f9fafb; color:#6b7280; }
+  .fonte.ok { border:1px solid #a7f3d0; background:#ecfdf5; color:#065f46; font-weight:600; }
+  @media print {
+    body { background:#fff; padding:0; }
+    .abas, .aviso, .botao-csv, button, input, textarea, label, .linha-envio,
+    #andamento, #p-perguntas, #cartao-form { display:none !important; }
+    .painel { display:block !important; }
+    .cartao { break-inside:avoid; page-break-inside:avoid; border-color:#ddd; box-shadow:none; }
+    .perfil { border:1px solid #ddd; background:#fff; color:#374151; }
+  }
 </style>
 </head>
 <body>
@@ -61,7 +71,7 @@
 
   <!-- ── ABA: ANÁLISE ── -->
   <div class="painel ativo" id="p-analise">
-    <div class="cartao">
+    <div class="cartao" id="cartao-form">
       <p class="titulo">Planilha de comentários</p>
       <p class="legenda">XLSX ou CSV — a coluna de comentários é detectada automaticamente</p>
       <input type="file" id="arquivo" accept=".xlsx,.csv,.tsv,.txt">
@@ -81,7 +91,7 @@
     <div class="cartao">
       <p class="titulo">Perguntas ao corpus</p>
       <p class="legenda">Responde apenas com base nos comentários carregados, citando trechos reais. Números são estimativas — para percentuais precisos, use a análise completa.</p>
-      <p class="fase" id="fonte-corpus">Fonte: nenhum corpus carregado — analise uma planilha ou carregue uma abaixo.</p>
+      <div class="fonte" id="fonte-corpus">Nenhum arquivo fornecido, ainda. Analise uma planilha na primeira aba ou faça o upload abaixo.</div>
       <label>Carregar planilha só para perguntas (opcional)</label>
       <input type="file" id="arquivo-perguntas" accept=".xlsx,.csv,.tsv,.txt" onchange="carregarCorpus()">
       <div class="chat" id="chat"></div>
@@ -97,8 +107,15 @@
 </div>
 
 <script>
-let sessaoAtual = null;
+let sessaoAtual = null;    // corpus ativo da aba Perguntas
+let sessaoAnalise = null;  // sessão com resultado — alvo do /exportar
 let dadosAtuais = null;
+
+function marcarFonte(nome, total) {
+  const el = document.getElementById('fonte-corpus');
+  el.classList.add('ok');
+  el.textContent = '✓ Corpus carregado: ' + nome + ' (' + total + ' comentários) — pode perguntar.';
+}
 
 function trocarAba(el) {
   document.querySelectorAll('.aba').forEach(a => a.classList.remove('ativa'));
@@ -133,8 +150,8 @@ async function analisar() {
   if (j.erro) { avisar(j.erro); document.getElementById('btn-analisar').disabled = false; return; }
   if (j.aviso) avisar(j.aviso);
   sessaoAtual = j.sessao;
-  document.getElementById('fonte-corpus').textContent =
-    'Fonte: ' + arq.name + ' (' + j.total + ' comentários)';
+  sessaoAnalise = j.sessao;
+  marcarFonte(arq.name, j.total);
   acompanhar(j.sessao);
 }
 
@@ -212,38 +229,10 @@ function render(d) {
     ${cob ? 'Cobertura da classificação (atribuição nunca forçada): ' + cob + '.<br>' : ''}
     ${m.falhas_sentimento ? m.falhas_sentimento + ' comentário(s) sem classificação por falha de lote — contados como "não claro".<br>' : ''}
     ${d.aviso_importacao ? esc(d.aviso_importacao) + '<br>' : ''}</p>
-    <a class="botao-csv" onclick="exportarCSV()">⬇ Exportar CSV (comentários + resumo)</a></div>`;
+    <a class="botao-csv" href="/exportar/${sessaoAnalise}" download>⬇ Exportar XLSX (aba de comentários + aba de resumo)</a>
+    <a class="botao-csv" onclick="window.print()">🖨 Imprimir</a></div>`;
 
   document.getElementById('resultado').innerHTML = h;
-}
-
-function baixar(nome, linhas) {
-  const escCsv = c => /[";\n]/.test(String(c)) ? '"' + String(c).replace(/"/g, '""') + '"' : String(c);
-  const csv = '﻿' + linhas.map(l => l.map(escCsv).join(';')).join('\r\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
-  a.download = nome; a.click(); URL.revokeObjectURL(a.href);
-}
-
-function exportarCSV() {
-  if (!dadosAtuais) return;
-  const d = dadosAtuais, dt = new Date().toLocaleString('pt-BR');
-  const num = v => (v == null || isNaN(v)) ? '' : String(v).replace('.', ',');
-  const lc = [['data_hora', 'fonte', 'comentario', 'sentimento_contextual', 'ironia', 'via',
-               'percepcoes_atribuidas', 'tema_atribuido', 'posicionamento_atribuido']];
-  (d.detalhes || []).forEach(it => lc.push([dt, d.fonte || '', it.texto, it.sentimento || '',
-    it.ironia ? 'sim' : 'nao', it.via, (it.percepcoes || []).join(' | '), it.tema || '', it.posicionamento || '']));
-  baixar('audiensfit_comentarios.csv', lc);
-  const lr = [['data_hora', 'fonte', 'grupo_de_dados', 'rotulo', 'quantidade_comentarios', 'base_do_percentual', 'percentual']];
-  const add = (g, r, n, b, p) => lr.push([dt, d.fonte || '', g, r, num(n), num(b), num(p)]);
-  add('indicador', 'receptividade_0a100', d.receptividade, '', '');
-  add('indicador', 'perfil: ' + (d.metodologia || {}).perfil + ' / ' + (d.metodologia || {}).modelo, '', '', '');
-  Object.entries(d.distribuicao || {}).forEach(([k, n]) => add('sentimento', k, n, d.total, Math.round(n / d.total * 1000) / 10));
-  Object.entries(d.cobertura || {}).forEach(([k, v]) => add('cobertura', k + '_classificados', v.classificados, v.total, Math.round(v.classificados / v.total * 1000) / 10));
-  (d.percepcoes || []).forEach(p => add('percepcao', p.label, p.n, d.total, p.pct));
-  (d.temas || []).forEach(t => add('tema', t.label, t.n, '', t.pct));
-  (d.posicionamentos || []).forEach(p => add('posicionamento', p.label, p.n, d.total, p.pct));
-  setTimeout(() => baixar('audiensfit_resumo.csv', lr), 400);
 }
 
 async function carregarCorpus() {
@@ -253,7 +242,7 @@ async function carregarCorpus() {
   const j = await (await fetch('/carregar-corpus', { method: 'POST', body: fd })).json();
   if (j.erro) { avisar(j.erro); return; }
   sessaoAtual = j.sessao;
-  document.getElementById('fonte-corpus').textContent = 'Fonte: ' + arq.name + ' (' + j.total + ' comentários)';
+  marcarFonte(arq.name, j.total);
   if (j.aviso) avisar(j.aviso);
 }
 

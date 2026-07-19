@@ -7,11 +7,13 @@
 # ---------------------------------------------------------------------------
 
 import threading
+import time
 import uuid
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 
 from .config import PERFIL, PORTA
+from .exportador import gerar_xlsx
 from .importador import extrair_comentarios
 from .motor import analisar, ollama_disponivel, perguntar
 
@@ -50,6 +52,8 @@ def iniciar_analise():
         _corpora[sid] = {"textos": textos, "contexto": contexto}
 
     def rodar():
+        inicio = time.time()
+
         def emitir(pct, fase):
             with _trava:
                 _sessoes[sid].update(pct=pct, fase=fase)
@@ -64,6 +68,10 @@ def iniciar_analise():
                     if aviso:
                         resultado["aviso_importacao"] = aviso
                     _sessoes[sid]["resultado"] = resultado
+            if "erro" not in resultado:
+                minutos = (time.time() - inicio) / 60
+                print(f"[AUDIENS FIT] análise concluída — {len(textos)} comentários "
+                      f"em {minutos:.0f} min. O relatório está aberto no navegador.")
         except Exception as e:
             with _trava:
                 _sessoes[sid]["erro"] = f"Erro interno: {e}"
@@ -93,6 +101,20 @@ def responder():
     if not corpus:
         return jsonify({"erro": "Nenhum corpus carregado. Analise uma planilha primeiro."}), 404
     return jsonify(perguntar(pergunta, corpus["textos"], corpus["contexto"]))
+
+
+@app.get("/exportar/<sid>")
+def exportar(sid):
+    """XLSX único com duas abas — dispensa permissão de múltiplos downloads."""
+    with _trava:
+        s = _sessoes.get(sid)
+        resultado = s.get("resultado") if s else None
+    if not resultado:
+        return jsonify({"erro": "Nenhum resultado disponível para exportar."}), 404
+    return Response(
+        gerar_xlsx(resultado),
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": "attachment; filename=audiensfit_analise.xlsx"})
 
 
 @app.post("/carregar-corpus")
