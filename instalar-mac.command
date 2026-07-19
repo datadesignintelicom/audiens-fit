@@ -90,4 +90,8 @@ fi
 cp "$ORIGEM/launchers/Audiens Fit.command" "$DESTINO/"
 cp "$ORIGEM/launchers/Encerrar Audiens.command" "$DESTINO/"
 chmod +x "$DESTINO/"*.command
-echo "══ Pronto. Ejete o pendrive; em qualquer Mac, abra 'Audiens Fit.command'. ══"
+echo "══ Instalação concluída. ══"
+echo "Para usar: abra 'Audiens Fit.command' na raiz de $DESTINO —"
+echo "neste Mac agora, ou em qualquer outro depois (leve o pendrive plugado)."
+read -p "Abrir o Audiens Fit agora? [s/N] " r
+[ "$r" = "s" ] && exec "$DESTINO/Audiens Fit.command"
