@@ -14,7 +14,19 @@
 # ---------------------------------------------------------------------------
 set -e
 DESTINO="${1:-}"
-[ -z "$DESTINO" ] && { echo "Uso: $0 /Volumes/SEU_PENDRIVE (ou uma pasta local)"; exit 1; }
+# Duplo clique (sem argumento): se o script está dentro de um volume externo,
+# oferece instalar na raiz desse volume — o gesto natural no Mac
+if [ -z "$DESTINO" ]; then
+  case "$0" in
+    /Volumes/*)
+      VOL="/Volumes/$(echo "$0" | cut -d/ -f3)"
+      echo "Nenhum destino informado."
+      read -p "Instalar o Audiens Fit em $VOL? [s/N] " r
+      [ "$r" = "s" ] && DESTINO="$VOL"
+      ;;
+  esac
+fi
+[ -z "$DESTINO" ] && { echo "Uso: $0 /Volumes/SEU_PENDRIVE (ou uma pasta local)"; read -p "Pressione Enter para fechar."; exit 1; }
 ORIGEM="$(cd "$(dirname "$0")" && pwd)"
 RT="$DESTINO/runtime-mac"
 echo "══ Audiens Fit: instalando em $DESTINO ══"
