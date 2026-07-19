@@ -6,7 +6,7 @@ BASE="$(cd "$(dirname "$0")" && pwd)"
 if [ -d "$BASE/audiens-fit/app" ]; then
   :                                   # raiz do pendrive (instalado)
 elif [ -d "$BASE/../app" ]; then
-  BASE="$(cd "$BASE/../.." && pwd)"   # rodando de launchers/ dentro do repo
+  BASE="$(cd "$BASE/.." && pwd)"      # rodando de launchers/ dentro do repo
 fi
 APP="$BASE/audiens-fit"
 [ -d "$APP/app" ] || APP="$BASE"
