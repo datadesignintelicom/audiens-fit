@@ -203,6 +203,8 @@ def _classificar_lote(chave_prompt, rotulos, itens, contexto, multi=False):
                     validos = [int(v) for v in val
                                if (isinstance(v, int) or (isinstance(v, str) and v.isdigit()))
                                and 0 <= int(v) < len(rotulos)]
+                    # o modelo às vezes repete o mesmo índice na lista
+                    validos = list(dict.fromkeys(validos))
                     if validos:
                         atribuicoes[it["i"]] = validos
             else:
@@ -283,7 +285,21 @@ def analisar(textos, contexto="", progresso=None):
             indices_verbais.append(i)
             textos_verbais.append(t)
 
-    sentimentos = _classificar_sentimento(textos_verbais, indices_verbais, contexto, emitir)
+    # Comentários de texto idêntico devem receber a mesma classificação —
+    # em lotes separados o modelo divergia ("Jamais esquecerei" ora favorável,
+    # ora contrário). Classifica um representante por texto único e propaga.
+    unicos = {}
+    for gi, t in zip(indices_verbais, textos_verbais):
+        chave = " ".join(t.split()).casefold()
+        unicos.setdefault(chave, {"texto": t, "indices": []})["indices"].append(gi)
+    reps = list(unicos.values())
+    sentimentos_reps = _classificar_sentimento(
+        [r["texto"] for r in reps], [r["indices"][0] for r in reps], contexto, emitir)
+    sentimentos = {}
+    for r in reps:
+        resultado = sentimentos_reps[r["indices"][0]]
+        for gi in r["indices"]:
+            sentimentos[gi] = resultado
     falhas_sentimento = 0
     for gi, resultado in sentimentos.items():
         itens[gi]["sentimento"] = resultado["s"]
