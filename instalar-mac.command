@@ -15,7 +15,7 @@
 set -e
 DESTINO="${1:-}"
 [ -z "$DESTINO" ] && { echo "Uso: $0 /Volumes/SEU_PENDRIVE (ou uma pasta local)"; exit 1; }
-ORIGEM="$(cd "$(dirname "$0")/.." && pwd)"
+ORIGEM="$(cd "$(dirname "$0")" && pwd)"
 RT="$DESTINO/runtime-mac"
 echo "══ Audiens Fit: instalando em $DESTINO ══"
 

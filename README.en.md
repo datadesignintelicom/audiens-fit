@@ -61,13 +61,20 @@ itself.
 2. Plug in an **exFAT** USB drive (factory default) with 16 GB free
    (24 GB to include the turbo model)
 3. Run the installer pointing at the destination:
-   - **macOS**: `./instalador/instalar-pendrive.command /Volumes/YOUR_DRIVE`
-   - **Windows**: `instalador\instalar-pendrive.bat E:\` *(not yet tested)*
+   - **macOS**: `./instalar-mac.command /Volumes/YOUR_DRIVE`
+   - **Windows**: `instalar-windows.bat E:\` *(not yet tested)*
 4. On any machine, open **Audiens Fit** at the drive's root — the browser
    opens by itself. To quit and free the RAM, use **Encerrar Audiens**
 
 Installing to a local folder instead of a USB drive also works.
 
+> ⚠️ **macOS notice (Gatekeeper)**: on first launch, the Mac may say the
+> item *"can't be opened because Apple cannot check it for malicious
+> software"* — standard for any script downloaded from the internet. Fix:
+> System Settings → Privacy & Security → **"Open Anyway"** (shown right
+> after the blocked attempt); or in Terminal:
+> `xattr -d com.apple.quarantine instalar-mac.command "Audiens Fit.command"`.
+>
 > ⚠️ **Antivirus notice (Windows)**: `.bat` files may be flagged by
 > SmartScreen or antivirus software, since batch scripts are a format
 > malware also uses. Ours are open text — right-click → Edit to read

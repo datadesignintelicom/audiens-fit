@@ -60,14 +60,21 @@ próprio pendrive.
 2. Plugue um pendrive em **exFAT** (padrão de fábrica) com 16 GB livres
    (24 GB para incluir o modelo turbo)
 3. Rode o instalador apontando o destino:
-   - **macOS**: `./instalador/instalar-pendrive.command /Volumes/SEU_PENDRIVE`
-   - **Windows**: `instalador\instalar-pendrive.bat E:\` *(ainda não testado)*
+   - **macOS**: `./instalar-mac.command /Volumes/SEU_PENDRIVE`
+   - **Windows**: `instalar-windows.bat E:\` *(ainda não testado)*
 4. Em qualquer máquina, abra **Audiens Fit** na raiz do pendrive — o
    navegador abre sozinho. Para encerrar liberando a RAM, **Encerrar Audiens**
 
 Instalar numa pasta do computador em vez de pendrive também funciona: é só
 apontar o instalador para ela.
 
+> ⚠️ **Aviso no macOS (Gatekeeper)**: na primeira abertura, o Mac pode dizer
+> que *"o item não foi aberto pois a Apple não pode verificar se está livre
+> de malware"* — padrão para qualquer script baixado da internet. Solução:
+> Ajustes do Sistema → Privacidade e Segurança → botão **"Abrir Mesmo Assim"**
+> (aparece logo após a tentativa bloqueada); ou, no Terminal:
+> `xattr -d com.apple.quarantine instalar-mac.command "Audiens Fit.command"`.
+>
 > ⚠️ **Aviso sobre antivírus (Windows)**: arquivos `.bat` podem ser
 > sinalizados pelo SmartScreen ou por antivírus, porque scripts de lote são
 > um formato que malwares também usam. Os deste projeto são texto aberto —

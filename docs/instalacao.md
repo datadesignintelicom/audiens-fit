@@ -9,8 +9,8 @@
 ## Instalar no pendrive
 - Pendrive em exFAT (padrão de fábrica). 16 GB livres para o perfil normal;
   24 GB para incluir o modelo turbo (qwen3:8b, oferecido pelo instalador).
-- macOS: `./instalador/instalar-pendrive.command /Volumes/SEU_PENDRIVE`
-- Windows: `instalador\instalar-pendrive.bat E:\` (ainda não testado)
+- macOS: `./instalar-mac.command /Volumes/SEU_PENDRIVE`
+- Windows: `instalar-windows.bat E:\` (ainda não testado)
 - Também funciona apontando para uma pasta do computador.
 
 ## Rodar
@@ -22,8 +22,10 @@ modelo: 1-3 minutos em pendrive.
 **Encerrar Audiens** derruba o servidor e descarrega os modelos da RAM.
 
 ## Problemas comuns
-- ".command não abre" (Mac): botão direito → Abrir na primeira vez
-  (Gatekeeper), ou `xattr -d com.apple.quarantine "Audiens Fit.command"`.
+- "O item não foi aberto pois a Apple não pode verificar se está livre de
+  malware" (Mac/Gatekeeper): Ajustes do Sistema → Privacidade e Segurança →
+  "Abrir Mesmo Assim" logo após a tentativa; ou
+  `xattr -d com.apple.quarantine instalar-mac.command "Audiens Fit.command"`.
 - ".bat bloqueado" (Windows): SmartScreen → "Mais informações" → "Executar
   assim mesmo". Veja o aviso no README.
 - Máquinas Intel (Mac) usam o Python x86_64 baixado pelo instalador — o
