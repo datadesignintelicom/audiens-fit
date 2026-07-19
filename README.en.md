@@ -32,7 +32,8 @@ Created by **Daniel Bastos · Data Design Inteligência de Comunicação**.
 - **Contextual receptivity** with favorable/opposed/unclear distribution
 - **Perceptions, topics and stances** with real counts and verbatim quotes
 - **Ask the corpus**: "what do they say about pricing?" → answers with real
-  quoted excerpts
+  quoted excerpts. Works without running the analysis — and unlike asking
+  an online AI chat, your comments never leave the machine
 - **XLSX export** as a single file with two sheets: classified universe +
   summary with coverage funnel
 - **Print** the report straight from the browser (Print button)

@@ -31,7 +31,9 @@ Criado por **Daniel Bastos · Data Design Inteligência de Comunicação**.
 - **Receptividade contextual** com distribuição favorável/contrário/não claro
 - **Percepções, temas e posicionamentos** com contagens reais e verbatims
 - **Perguntas ao corpus**: "o que dizem sobre o preço?" → resposta com
-  citações reais dos comentários
+  citações reais dos comentários. Funciona sem rodar a análise — e a
+  diferença para perguntar a um chat de IA online é que aqui os comentários
+  nunca saem da sua máquina
 - **Exportação XLSX** em arquivo único com duas abas: universo classificado
   + resumo com funil de cobertura
 - **Impressão** do relatório direto do navegador (botão Imprimir)
