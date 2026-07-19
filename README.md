@@ -68,8 +68,11 @@ próprio pendrive.
 3. Rode o instalador apontando o destino:
    - **macOS**: `./instalar-mac.command /Volumes/SEU_PENDRIVE`
    - **Windows**: `instalar-windows.bat E:\` *(ainda não testado)*
-4. Em qualquer máquina, abra **Audiens Fit** na raiz do pendrive — o
-   navegador abre sozinho. Para encerrar liberando a RAM, **Encerrar Audiens**
+4. Em qualquer máquina, abra o aplicativo **Audiens Fit** (ícone "Af") na
+   raiz do pendrive — o navegador abre sozinho. Para encerrar liberando a
+   RAM, o aplicativo **Encerrar Audiens** (ícone vermelho). Os dois são
+   criados pelo instalador na própria máquina, por isso abrem sem o aviso
+   do Gatekeeper
 
 Instalar numa pasta do computador em vez de pendrive também funciona: é só
 apontar o instalador para ela.

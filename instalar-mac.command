@@ -46,7 +46,7 @@ echo "→ Copiando o aplicativo…"
 # Cópia por lista explícita: imune a pastas de sistema (.Spotlight-V100 etc.)
 # e ao caso de o ZIP ter sido extraído direto na raiz do pendrive
 mkdir -p "$DESTINO/audiens-fit"
-for item in app prompts docs launchers requirements.txt README.md README.en.md \
+for item in app prompts docs launchers recursos requirements.txt README.md README.en.md \
             LICENSE LICENSE-CONTEUDO NOTICE instalar-mac.command instalar-windows.bat; do
   [ -e "$ORIGEM/$item" ] && rsync -a "$ORIGEM/$item" "$DESTINO/audiens-fit/"
 done
@@ -90,8 +90,44 @@ fi
 cp "$ORIGEM/launchers/Audiens Fit.command" "$DESTINO/"
 cp "$ORIGEM/launchers/Encerrar Audiens.command" "$DESTINO/"
 chmod +x "$DESTINO/"*.command
+
+# ── Aplicativos com ícone na raiz do pendrive ──
+# Gerados aqui (não vêm no ZIP): arquivos criados localmente não carregam a
+# marca de quarentena, então o duplo clique não dispara o aviso do Gatekeeper.
+criar_app() {   # $1 nome do app · $2 .command alvo · $3 .icns
+  local APP="$DESTINO/$1.app"
+  rm -rf "$APP"
+  mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
+  cat > "$APP/Contents/Info.plist" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>CFBundleName</key><string>$1</string>
+  <key>CFBundleDisplayName</key><string>$1</string>
+  <key>CFBundleExecutable</key><string>abrir</string>
+  <key>CFBundleIconFile</key><string>icone</string>
+  <key>CFBundleIdentifier</key><string>com.datadesign.$(echo "$1" | tr -d ' ' | tr '[:upper:]' '[:lower:]')</string>
+  <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleShortVersionString</key><string>1.0</string>
+</dict></plist>
+PLIST
+  cat > "$APP/Contents/MacOS/abrir" <<ABRIR
+#!/bin/bash
+RAIZ="\$(cd "\$(dirname "\$0")/../../.." && pwd)"
+exec open -a Terminal "\$RAIZ/$2"
+ABRIR
+  chmod +x "$APP/Contents/MacOS/abrir"
+  cp "$DESTINO/audiens-fit/recursos/$3" "$APP/Contents/Resources/icone.icns"
+  xattr -cr "$APP" 2>/dev/null || true
+}
+if [ -f "$DESTINO/audiens-fit/recursos/audiens-fit.icns" ]; then
+  echo "→ Criando os aplicativos com ícone…"
+  criar_app "Audiens Fit" "Audiens Fit.command" "audiens-fit.icns"
+  criar_app "Encerrar Audiens" "Encerrar Audiens.command" "encerrar-audiens.icns"
+fi
+
 echo "══ Instalação concluída. ══"
-echo "Para usar: abra 'Audiens Fit.command' na raiz de $DESTINO —"
+echo "Para usar: abra o aplicativo 'Audiens Fit' (ícone Af) na raiz de $DESTINO —"
 echo "neste Mac agora, ou em qualquer outro depois (leve o pendrive plugado)."
 read -p "Abrir o Audiens Fit agora? [s/N] " r
 [ "$r" = "s" ] && exec "$DESTINO/Audiens Fit.command"

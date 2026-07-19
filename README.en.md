@@ -69,8 +69,11 @@ itself.
 3. Run the installer pointing at the destination:
    - **macOS**: `./instalar-mac.command /Volumes/YOUR_DRIVE`
    - **Windows**: `instalar-windows.bat E:\` *(not yet tested)*
-4. On any machine, open **Audiens Fit** at the drive's root — the browser
-   opens by itself. To quit and free the RAM, use **Encerrar Audiens**
+4. On any machine, open the **Audiens Fit** app (the "Af" icon) at the
+   drive's root — the browser opens by itself. To quit and free the RAM,
+   use the **Encerrar Audiens** app (red icon). Both are created by the
+   installer on the machine itself, so they open without the Gatekeeper
+   warning
 
 Installing to a local folder instead of a USB drive also works.
 
