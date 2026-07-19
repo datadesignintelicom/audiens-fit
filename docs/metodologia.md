@@ -1,0 +1,39 @@
+# Metodologia — Audiens Fit
+
+Criado por Daniel Bastos · Data Design Inteligência de Comunicação — CC-BY-NC-4.0
+
+## Pipeline
+
+1. **Triagem não-verbal** (determinística): comentários com menos de 5
+   caracteres úteis são classificados por tabela de polaridade de emojis,
+   sem chamada de modelo. Declarado na nota metodológica.
+2. **Sentimento binário contextual** (modelo, lotes de 25): cada comentário é
+   classificado como favorável, contrário ou não claro EM RELAÇÃO AO CONTEÚDO
+   descrito no contexto — nunca pela polaridade literal das palavras. Ironia é
+   detectada por sinais textuais explícitos e integrada à posição final.
+   Falha de lote vira "não claro" e é CONTADA, nunca disfarçada de dado.
+3. **Síntese descritiva** (modelo, amostra estratificada por sentimento):
+   resumo, rótulos de percepções (emocionais), temas (assuntos) e
+   posicionamentos (argumentos; desligáveis via AUDIENS_FIT_POSICIONAMENTOS=0).
+   O modelo é instruído a nunca criar rótulos para dar aparência de equilíbrio.
+4. **Shares por contagem real** (modelo, lotes): cada rótulo é aplicado ao
+   corpus inteiro; a atribuição nunca é forçada (opção "nenhum" sempre
+   disponível) e a cobertura real (% classificado) é declarada no relatório.
+5. **Verbatims**: casamento lexical entre rótulo e comentários com fronteira
+   de palavra, preferindo sentimento coerente com a valência do rótulo; sem
+   candidato coerente, o verbatim fica vazio — nunca um exemplo contraditório.
+
+## Reprodutibilidade
+
+Seed fixo (42) na geração e na amostragem: a mesma planilha com o mesmo
+contexto produz o mesmo relatório. O modelo usado, o perfil (normal/turbo) e
+as falhas de lote constam na nota metodológica de cada análise.
+
+## Limitações declaradas
+
+- Modelos compactos (4B) são mais fracos em temas e em nuances raras de
+  ironia do que modelos maiores; o perfil turbo (8B) reduz a diferença.
+- Perguntas ao corpus retornam ESTIMATIVAS qualitativas com citações; para
+  percentuais precisos, use a análise completa.
+- A qualidade do contexto fornecido importa: descreva o conteúdo e o que
+  "apoiar" significa naquele caso.

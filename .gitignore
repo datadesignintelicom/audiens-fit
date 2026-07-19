@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+runtime-mac/
+runtime-win/
+modelos/
+.DS_Store

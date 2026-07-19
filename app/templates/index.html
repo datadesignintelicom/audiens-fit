@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!--
+  Audiens Fit — interface offline (sem CDNs: funciona sem internet)
+  Criado por Daniel Bastos · Data Design Inteligência de Comunicação
+  Código MIT · Prompts e docs CC-BY-NC-4.0
+-->
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audiens Fit</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,'Segoe UI',Roboto,sans-serif; background:#f6f7f9; color:#1f2937; padding:24px 16px; }
+  .caixa { max-width:820px; margin:0 auto; }
+  h1 { font-size:22px; font-weight:700; }
+  .sub { font-size:12px; color:#9ca3af; margin:2px 0 18px; }
+  .perfil { display:inline-block; font-size:11px; background:#eef2ff; color:#3730a3; border-radius:999px; padding:3px 10px; font-weight:600; }
+  .abas { display:flex; gap:8px; margin:14px 0; }
+  .aba { padding:8px 18px; font-size:14px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; cursor:pointer; }
+  .aba.ativa { background:#1f2937; color:#fff; border-color:#1f2937; }
+  .painel { display:none; } .painel.ativo { display:block; }
+  .cartao { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:20px; margin-bottom:14px; }
+  .titulo { font-size:13px; color:#6b7280; margin-bottom:4px; }
+  .legenda { font-size:11px; color:#9ca3af; margin-bottom:12px; }
+  label { display:block; font-size:13px; color:#6b7280; margin:10px 0 6px; }
+  input[type=file], textarea, input[type=text] { width:100%; border:1px solid #e5e7eb; border-radius:10px; padding:9px 12px; font-size:14px; font-family:inherit; background:#fff; }
+  textarea { resize:vertical; min-height:70px; }
+  button.principal { margin-top:14px; background:#1f2937; color:#fff; border:0; border-radius:10px; padding:10px 22px; font-size:14px; cursor:pointer; }
+  button.principal:disabled { opacity:.5; cursor:default; }
+  .progresso { height:8px; background:#e5e7eb; border-radius:99px; overflow:hidden; margin:12px 0 6px; }
+  .progresso > div { height:100%; background:#1f2937; width:0%; transition:width .4s; }
+  .fase { font-size:12px; color:#9ca3af; }
+  .grande { font-size:42px; font-weight:300; }
+  .lista-item { display:flex; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid #f3f4f6; font-size:13px; }
+  .lista-item span:last-child { color:#6b7280; white-space:nowrap; font-weight:600; }
+  .verbatim { font-size:12px; color:#9ca3af; font-style:italic; margin:2px 0 6px; }
+  .barra-dist { display:flex; height:14px; border-radius:8px; overflow:hidden; margin:8px 0 4px; }
+  .chat { display:flex; flex-direction:column; gap:10px; max-height:420px; overflow-y:auto; margin-bottom:12px; }
+  .msg { padding:10px 14px; border-radius:12px; font-size:14px; line-height:1.55; max-width:85%; white-space:pre-wrap; }
+  .msg.eu { background:#1f2937; color:#fff; align-self:flex-end; }
+  .msg.ia { background:#f3f4f6; align-self:flex-start; }
+  .linha-envio { display:flex; gap:8px; }
+  .rodape { text-align:center; font-size:11px; color:#9ca3af; margin:26px 0 8px; }
+  .aviso { background:#fffbeb; border:1px solid #fde68a; color:#92400e; border-radius:10px; padding:10px 14px; font-size:12px; margin-bottom:12px; display:none; }
+  .metodo { font-size:11px; color:#9ca3af; line-height:1.7; }
+  a.botao-csv { display:inline-block; margin-top:8px; font-size:13px; color:#6b7280; border:1px solid #e5e7eb; border-radius:10px; padding:8px 16px; text-decoration:none; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="caixa">
+  <h1>Audiens Fit <span class="perfil">perfil {{ perfil.nome }} · {{ perfil.modelo }} · {{ perfil.ram_gb }} GB RAM</span></h1>
+  <p class="sub">Escuta qualificada de audiências, offline e portátil</p>
+
+  <div class="abas">
+    <div class="aba ativa" data-p="analise" onclick="trocarAba(this)">Analisar planilha</div>
+    <div class="aba" data-p="perguntas" onclick="trocarAba(this)">Perguntas ao corpus</div>
+  </div>
+
+  <div id="aviso" class="aviso"></div>
+
+  <!-- ── ABA: ANÁLISE ── -->
+  <div class="painel ativo" id="p-analise">
+    <div class="cartao">
+      <p class="titulo">Planilha de comentários</p>
+      <p class="legenda">XLSX ou CSV — a coluna de comentários é detectada automaticamente</p>
+      <input type="file" id="arquivo" accept=".xlsx,.csv,.tsv,.txt">
+      <label>Contexto do conteúdo <span style="color:#c4c9d2">(recomendado: descreva o post e o que "apoiar" significa)</span></label>
+      <textarea id="contexto" placeholder="Ex: Post da marca X anunciando o fim do produto Y; a audiência usou os comentários para protestar."></textarea>
+      <button class="principal" id="btn-analisar" onclick="analisar()">Analisar</button>
+      <div id="andamento" style="display:none">
+        <div class="progresso"><div id="barra"></div></div>
+        <p class="fase" id="fase">Iniciando…</p>
+      </div>
+    </div>
+    <div id="resultado"></div>
+  </div>
+
+  <!-- ── ABA: PERGUNTAS ── -->
+  <div class="painel" id="p-perguntas">
+    <div class="cartao">
+      <p class="titulo">Perguntas ao corpus</p>
+      <p class="legenda">Responde apenas com base nos comentários carregados, citando trechos reais. Números são estimativas — para percentuais precisos, use a análise completa.</p>
+      <p class="fase" id="fonte-corpus">Fonte: nenhum corpus carregado — analise uma planilha ou carregue uma abaixo.</p>
+      <label>Carregar planilha só para perguntas (opcional)</label>
+      <input type="file" id="arquivo-perguntas" accept=".xlsx,.csv,.tsv,.txt" onchange="carregarCorpus()">
+      <div class="chat" id="chat"></div>
+      <div class="linha-envio">
+        <input type="text" id="pergunta" placeholder="Ex: o que a audiência diz sobre o preço?" onkeydown="if(event.key==='Enter')perguntar()">
+        <button class="principal" style="margin-top:0" id="btn-perguntar" onclick="perguntar()">Perguntar</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="rodape">Criado por Daniel Bastos · Data Design Inteligência de Comunicação<br>
+    Audiens Fit — código MIT · metodologia e prompts CC-BY-NC-4.0</p>
+</div>
+
+<script>
+let sessaoAtual = null;
+let dadosAtuais = null;
+
+function trocarAba(el) {
+  document.querySelectorAll('.aba').forEach(a => a.classList.remove('ativa'));
+  document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
+  el.classList.add('ativa');
+  document.getElementById('p-' + el.dataset.p).classList.add('ativo');
+}
+
+function avisar(msg) {
+  const el = document.getElementById('aviso');
+  el.textContent = msg; el.style.display = msg ? 'block' : 'none';
+}
+
+function fmtPct(v) {
+  if (v == null || isNaN(v)) return '';
+  const n = Number(v);
+  return (n % 1 === 0 ? String(n) : n.toFixed(1).replace('.', ',')) + '%';
+}
+
+async function analisar() {
+  const arq = document.getElementById('arquivo').files[0];
+  if (!arq) { avisar('Escolha uma planilha primeiro.'); return; }
+  avisar('');
+  const fd = new FormData();
+  fd.append('arquivo', arq);
+  fd.append('contexto', document.getElementById('contexto').value);
+  document.getElementById('btn-analisar').disabled = true;
+  document.getElementById('andamento').style.display = 'block';
+  document.getElementById('resultado').innerHTML = '';
+  const r = await fetch('/analisar', { method: 'POST', body: fd });
+  const j = await r.json();
+  if (j.erro) { avisar(j.erro); document.getElementById('btn-analisar').disabled = false; return; }
+  if (j.aviso) avisar(j.aviso);
+  sessaoAtual = j.sessao;
+  document.getElementById('fonte-corpus').textContent =
+    'Fonte: ' + arq.name + ' (' + j.total + ' comentários)';
+  acompanhar(j.sessao);
+}
+
+async function acompanhar(sid) {
+  const t = setInterval(async () => {
+    const r = await fetch('/progresso/' + sid);
+    const s = await r.json();
+    if (s.erro && !s.fase) { clearInterval(t); avisar(s.erro); fim(); return; }
+    document.getElementById('barra').style.width = (s.pct || 0) + '%';
+    document.getElementById('fase').textContent = s.fase || '';
+    if (s.erro) { clearInterval(t); avisar(s.erro); fim(); }
+    if (s.resultado) { clearInterval(t); dadosAtuais = s.resultado; render(s.resultado); fim(); }
+  }, 1500);
+}
+
+function fim() {
+  document.getElementById('btn-analisar').disabled = false;
+  document.getElementById('andamento').style.display = 'none';
+}
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
+
+function render(d) {
+  const dist = d.distribuicao || {};
+  const partes = [
+    ['favoravel', '#22c55e', 'Favoráveis'], ['contrario', '#ef4444', 'Contrários'],
+    ['nao_claro', '#d1d5db', 'Não claros'],
+  ];
+  const totalDist = d.total || 1;
+  let h = '';
+
+  h += `<div class="cartao"><p class="titulo">Interpretação geral</p>
+    <p class="legenda">Resumo descritivo do que foi encontrado nos comentários</p>
+    <p style="font-size:14px;line-height:1.65">${esc(d.resumo)}</p></div>`;
+
+  h += `<div class="cartao"><p class="titulo">Receptividade</p>
+    <p class="legenda">% de favoráveis entre os comentários com posição clara em relação ao conteúdo — sempre contextual, nunca polaridade literal</p>
+    <p class="grande">${d.receptividade}<span style="font-size:18px;color:#9ca3af">/100</span></p>
+    <div class="barra-dist">${partes.map(([k, cor]) =>
+      `<div style="background:${cor};width:${(dist[k] || 0) / totalDist * 100}%"></div>`).join('')}</div>
+    ${partes.map(([k, cor, nome]) =>
+      `<div class="lista-item"><span><span style="color:${cor}">●</span> ${nome}</span><span>${dist[k] || 0} · ${fmtPct((dist[k] || 0) / totalDist * 100)}</span></div>`).join('')}
+    ${d.nao_verbais ? `<p class="legenda" style="margin-top:8px">${d.nao_verbais} comentários só de emoji classificados por tabela determinística, sem modelo</p>` : ''}</div>`;
+
+  if ((d.percepcoes || []).length) {
+    h += `<div class="cartao"><p class="titulo">Percepções detectadas</p>
+      <p class="legenda">Como o público se expressou · % do corpus (multi-rótulo, soma pode passar de 100%)</p>` +
+      d.percepcoes.map(p => `<div class="lista-item"><span>${esc(p.label)}</span><span>${p.n} · ${fmtPct(p.pct)}</span></div>` +
+        (p.exemplo ? `<p class="verbatim">"${esc(p.exemplo)}"</p>` : '')).join('') + '</div>';
+  }
+  if ((d.temas || []).length) {
+    h += `<div class="cartao"><p class="titulo">Temas dominantes</p>
+      <p class="legenda">Sobre o que a audiência falou — aderência à pauta indica conversa dirigida pelo autor</p>` +
+      d.temas.map(t => `<div class="lista-item"><span>${esc(t.label)}</span><span>${t.n} · ${fmtPct(t.pct)}</span></div>`).join('') + '</div>';
+  }
+  if ((d.posicionamentos || []).length) {
+    const cor = { favoravel: '#22c55e', contrario: '#ef4444', neutro: '#9ca3af' };
+    h += `<div class="cartao"><p class="titulo">Posicionamentos</p>
+      <p class="legenda">O que cada grupo defende — tom derivado do sentimento real dos comentários classificados</p>` +
+      d.posicionamentos.map(p => `<div class="lista-item"><span><span style="color:${cor[p.tom] || '#9ca3af'}">●</span> ${esc(p.label)}</span><span>${p.n} · ${fmtPct(p.pct)}</span></div>`).join('') + '</div>';
+  }
+  if ((d.nuvem || []).length) {
+    h += `<div class="cartao"><p class="titulo">Palavras mais frequentes</p><p style="font-size:13px;line-height:2">` +
+      d.nuvem.map(p => `${esc(p.palavra)} <span style="color:#9ca3af;font-size:11px">${p.frequencia}</span>`).join(' · ') + '</p></div>';
+  }
+
+  const m = d.metodologia || {}, c = d.cobertura || {};
+  const cob = Object.entries(c).map(([k, v]) =>
+    `${k}: ${v.classificados}/${v.total} (${fmtPct(v.classificados / v.total * 100)})` +
+    (v.lotes_falhos ? ` · ${v.lotes_falhos} lote(s) falho(s)` : '')).join(' · ');
+  h += `<div class="cartao"><p class="titulo">Nota metodológica</p><p class="metodo">
+    Fonte: ${esc(d.fonte || '')} · ${d.total} comentários analisados (totalidade).<br>
+    Perfil ${esc(m.perfil)} · modelo ${esc(m.modelo)} · seed ${m.seed} — mesma análise sobre o mesmo corpus produz o mesmo resultado.<br>
+    Sentimento binário contextual (favorável/contrário ao conteúdo) por lote; comentários não-verbais por tabela de emojis.<br>
+    ${cob ? 'Cobertura da classificação (atribuição nunca forçada): ' + cob + '.<br>' : ''}
+    ${m.falhas_sentimento ? m.falhas_sentimento + ' comentário(s) sem classificação por falha de lote — contados como "não claro".<br>' : ''}
+    ${d.aviso_importacao ? esc(d.aviso_importacao) + '<br>' : ''}</p>
+    <a class="botao-csv" onclick="exportarCSV()">⬇ Exportar CSV (comentários + resumo)</a></div>`;
+
+  document.getElementById('resultado').innerHTML = h;
+}
+
+function baixar(nome, linhas) {
+  const escCsv = c => /[";\n]/.test(String(c)) ? '"' + String(c).replace(/"/g, '""') + '"' : String(c);
+  const csv = '﻿' + linhas.map(l => l.map(escCsv).join(';')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = nome; a.click(); URL.revokeObjectURL(a.href);
+}
+
+function exportarCSV() {
+  if (!dadosAtuais) return;
+  const d = dadosAtuais, dt = new Date().toLocaleString('pt-BR');
+  const num = v => (v == null || isNaN(v)) ? '' : String(v).replace('.', ',');
+  const lc = [['data_hora', 'fonte', 'comentario', 'sentimento_contextual', 'ironia', 'via',
+               'percepcoes_atribuidas', 'tema_atribuido', 'posicionamento_atribuido']];
+  (d.detalhes || []).forEach(it => lc.push([dt, d.fonte || '', it.texto, it.sentimento || '',
+    it.ironia ? 'sim' : 'nao', it.via, (it.percepcoes || []).join(' | '), it.tema || '', it.posicionamento || '']));
+  baixar('audiensfit_comentarios.csv', lc);
+  const lr = [['data_hora', 'fonte', 'grupo_de_dados', 'rotulo', 'quantidade_comentarios', 'base_do_percentual', 'percentual']];
+  const add = (g, r, n, b, p) => lr.push([dt, d.fonte || '', g, r, num(n), num(b), num(p)]);
+  add('indicador', 'receptividade_0a100', d.receptividade, '', '');
+  add('indicador', 'perfil: ' + (d.metodologia || {}).perfil + ' / ' + (d.metodologia || {}).modelo, '', '', '');
+  Object.entries(d.distribuicao || {}).forEach(([k, n]) => add('sentimento', k, n, d.total, Math.round(n / d.total * 1000) / 10));
+  Object.entries(d.cobertura || {}).forEach(([k, v]) => add('cobertura', k + '_classificados', v.classificados, v.total, Math.round(v.classificados / v.total * 1000) / 10));
+  (d.percepcoes || []).forEach(p => add('percepcao', p.label, p.n, d.total, p.pct));
+  (d.temas || []).forEach(t => add('tema', t.label, t.n, '', t.pct));
+  (d.posicionamentos || []).forEach(p => add('posicionamento', p.label, p.n, d.total, p.pct));
+  setTimeout(() => baixar('audiensfit_resumo.csv', lr), 400);
+}
+
+async function carregarCorpus() {
+  const arq = document.getElementById('arquivo-perguntas').files[0];
+  if (!arq) return;
+  const fd = new FormData(); fd.append('arquivo', arq);
+  const j = await (await fetch('/carregar-corpus', { method: 'POST', body: fd })).json();
+  if (j.erro) { avisar(j.erro); return; }
+  sessaoAtual = j.sessao;
+  document.getElementById('fonte-corpus').textContent = 'Fonte: ' + arq.name + ' (' + j.total + ' comentários)';
+  if (j.aviso) avisar(j.aviso);
+}
+
+async function perguntar() {
+  const p = document.getElementById('pergunta').value.trim();
+  if (!p) return;
+  if (!sessaoAtual) { avisar('Carregue um corpus primeiro (analise uma planilha ou envie uma acima).'); return; }
+  avisar('');
+  const chat = document.getElementById('chat');
+  chat.insertAdjacentHTML('beforeend', `<div class="msg eu">${esc(p)}</div>`);
+  document.getElementById('pergunta').value = '';
+  document.getElementById('btn-perguntar').disabled = true;
+  chat.insertAdjacentHTML('beforeend', `<div class="msg ia" id="pensando">Consultando o corpus…</div>`);
+  chat.scrollTop = chat.scrollHeight;
+  const j = await (await fetch('/perguntar', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ pergunta: p, sessao: sessaoAtual }),
+  })).json();
+  document.getElementById('pensando').remove();
+  chat.insertAdjacentHTML('beforeend', `<div class="msg ia">${esc(j.erro || j.resposta)}${j.recuperados ? `\n\n<span style="font-size:11px;color:#9ca3af">base: ${j.recuperados} comentários recuperados de ${j.total}</span>` : ''}</div>`);
+  chat.scrollTop = chat.scrollHeight;
+  document.getElementById('btn-perguntar').disabled = false;
+}
+</script>
+</body>
+</html>
