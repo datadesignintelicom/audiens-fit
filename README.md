@@ -40,7 +40,7 @@ Criado por **Daniel Bastos · Data Design Inteligência de Comunicação**.
 
 | Máquina de uso | Perfil | Modelo | Expectativa |
 |---|---|---|---|
-| Mac Apple Silicon 8 GB | normal | qwen3:4b-instruct | ~1.000 comentários/hora (medido: 1.037 em 58 min num MacBook M1) |
+| Mac Apple Silicon 8 GB | normal | qwen3:4b-instruct | ~1.000 comentários/hora (medido: 1.017 em 58 min num MacBook M1) |
 | Mac Apple Silicon 16 GB+ | turbo (automático) | qwen3:8b | Mais preciso, ritmo semelhante |
 | Intel/Windows sem GPU dedicada | normal | qwen3:4b-instruct | ~100-250 comentários/hora (estimativa): reserve horas para corpus grande |
 
