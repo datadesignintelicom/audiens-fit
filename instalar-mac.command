@@ -17,14 +17,24 @@ DESTINO="${1:-}"
 # Duplo clique (sem argumento): se o script está dentro de um volume externo,
 # oferece instalar na raiz desse volume — o gesto natural no Mac
 if [ -z "$DESTINO" ]; then
+  VOL=""
   case "$0" in
-    /Volumes/*)
-      VOL="/Volumes/$(echo "$0" | cut -d/ -f3)"
-      echo "Nenhum destino informado."
-      read -p "Instalar o Audiens Fit em $VOL? [s/N] " r
-      [ "$r" = "s" ] && DESTINO="$VOL"
-      ;;
+    /Volumes/*) VOL="/Volumes/$(echo "$0" | cut -d/ -f3)" ;;   # script dentro do volume
   esac
+  if [ -z "$VOL" ]; then
+    # Rodando de uma pasta comum (ex: Downloads): procura volumes externos
+    # montados e, havendo exatamente um, oferece-o como destino
+    CANDIDATOS=()
+    for v in /Volumes/*; do
+      [ -d "$v" ] && [ "$(readlink "$v" 2>/dev/null)" != "/" ] && [ -w "$v" ] && CANDIDATOS+=("$v")
+    done
+    [ "${#CANDIDATOS[@]}" = "1" ] && VOL="${CANDIDATOS[0]}"
+  fi
+  if [ -n "$VOL" ]; then
+    echo "Nenhum destino informado."
+    read -p "Instalar o Audiens Fit em $VOL? [s/N] " r
+    [ "$r" = "s" ] && DESTINO="$VOL"
+  fi
 fi
 [ -z "$DESTINO" ] && { echo "Uso: $0 /Volumes/SEU_PENDRIVE (ou uma pasta local)"; read -p "Pressione Enter para fechar."; exit 1; }
 ORIGEM="$(cd "$(dirname "$0")" && pwd)"
