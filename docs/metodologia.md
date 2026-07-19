@@ -23,6 +23,21 @@ Criado por Daniel Bastos · Data Design Inteligência de Comunicação — CC-BY
    de palavra, preferindo sentimento coerente com a valência do rótulo; sem
    candidato coerente, o verbatim fica vazio — nunca um exemplo contraditório.
 
+## Lotes e amostragem (o que significa "lote X de Y")
+
+A classificação — sentimento, percepções, temas e posicionamentos — percorre
+o corpus INTEIRO, em lotes de 25 comentários por chamada de modelo. Num
+corpus de 1.000 comentários, a fase de sentimento tem 40 lotes, e cada bloco
+de rótulos percorre os 40 de novo. Todos os percentuais do relatório são
+contagem real sobre a totalidade, nunca extrapolação: essa é a razão da
+duração das análises grandes.
+
+A única amostragem do Audiens Fit é a da síntese interpretativa, por limite
+físico da janela do modelo: uma amostra estratificada por sentimento (100
+comentários no perfil normal, 120 no turbo; `amostra_sintese` em
+`app/config.py`), sorteada com seed fixo, serve apenas para NOMEAR os
+rótulos. Nomeados, eles voltam ao corpus completo para a contagem real.
+
 ## Reprodutibilidade
 
 Seed fixo (42) na geração e na amostragem: a mesma planilha com o mesmo
