@@ -29,8 +29,19 @@ if [ -z "$DESTINO" ]; then
       [ -d "$v" ] && [ "$(readlink "$v" 2>/dev/null)" != "/" ] && [ -w "$v" ] && CANDIDATOS+=("$v")
     done
     [ "${#CANDIDATOS[@]}" = "1" ] && VOL="${CANDIDATOS[0]}"
+    # Vários volumes externos montados: lista e deixa escolher pelo número
+    if [ -z "$VOL" ] && [ "${#CANDIDATOS[@]}" -gt 1 ]; then
+      echo "Nenhum destino informado. Volumes externos montados:"
+      i=1
+      for v in "${CANDIDATOS[@]}"; do echo "  $i) $v"; i=$((i+1)); done
+      read -p "Número do volume de destino (Enter cancela): " n
+      case "$n" in
+        ""|*[!0-9]*) ;;
+        *) [ "$n" -ge 1 ] && [ "$n" -le "${#CANDIDATOS[@]}" ] && DESTINO="${CANDIDATOS[$((n-1))]}" ;;
+      esac
+    fi
   fi
-  if [ -n "$VOL" ]; then
+  if [ -n "$VOL" ] && [ -z "$DESTINO" ]; then
     echo "Nenhum destino informado."
     read -p "Instalar o Audiens Fit em $VOL? [s/N] " r
     [ "$r" = "s" ] && DESTINO="$VOL"
