@@ -1,7 +1,8 @@
 # FAQ — Audiens Fit
 
-**Preciso de internet?** Só para instalar (baixar Ollama, Python e modelos).
-Depois, tudo roda offline. Notícias e tendências não existem nesta edição.
+**Preciso de internet?** Só na preparação do pendrive (o instalador baixa
+Ollama, Python e modelos para dentro dele). No uso, tudo roda offline e a
+máquina não precisa de nada instalado.
 
 **Meus dados saem da máquina?** Não. Planilha, análise e perguntas são
 processadas localmente. Nada é enviado a nenhum servidor.

@@ -1,36 +1,65 @@
 #!/bin/bash
-# Audiens Fit — instalador macOS
-# Monta a estrutura no destino (pendrive ou pasta local):
-#   destino/audiens-fit  destino/modelos  destino/runtime-mac
+# ---------------------------------------------------------------------------
+# Audiens Fit — instalador macOS (pendrive autossuficiente)
+#
+# A máquina que PREPARA o pendrive precisa de internet: este script baixa
+# tudo sozinho (Ollama standalone, Python relocável e os modelos de IA).
+# A máquina que USA o pendrive não precisa de NADA instalado.
+#
 # Uso: ./instalar-pendrive.command /Volumes/SEU_PENDRIVE
+# Variáveis opcionais:
+#   AUDIENS_INSTALAR_SEM_MODELOS=1   pula o download dos modelos
+#
+# Criado por Daniel Bastos · Data Design Inteligência de Comunicação — MIT
+# ---------------------------------------------------------------------------
 set -e
 DESTINO="${1:-}"
 [ -z "$DESTINO" ] && { echo "Uso: $0 /Volumes/SEU_PENDRIVE (ou uma pasta local)"; exit 1; }
 ORIGEM="$(cd "$(dirname "$0")/.." && pwd)"
-echo "── Audiens Fit: instalando em $DESTINO ──"
+RT="$DESTINO/runtime-mac"
+echo "══ Audiens Fit: instalando em $DESTINO ══"
 
-mkdir -p "$DESTINO/modelos" "$DESTINO/runtime-mac"
-rsync -a --exclude runtime-mac --exclude runtime-win "$ORIGEM/" "$DESTINO/audiens-fit/"
+mkdir -p "$DESTINO/modelos" "$RT"
+echo "→ Copiando o aplicativo…"
+rsync -a --exclude runtime-mac --exclude runtime-win --exclude .git \
+      "$ORIGEM/" "$DESTINO/audiens-fit/"
 
-# Python: exige python3 no sistema (macOS: instala via Command Line Tools)
-command -v python3 >/dev/null || { echo "ERRO: python3 não encontrado. Instale o Xcode CLT: xcode-select --install"; exit 1; }
-echo "Criando venv (--copies: compatível com exFAT, sem symlinks)…"
-python3 -m venv --copies "$DESTINO/runtime-mac/venv"
-"$DESTINO/runtime-mac/venv/bin/pip" install -q --upgrade pip
-"$DESTINO/runtime-mac/venv/bin/pip" install -q -r "$ORIGEM/requirements.txt"
+# ── Python relocável (vive no pendrive; máquina de uso não precisa ter) ──
+if [ ! -x "$RT/python/bin/python3" ]; then
+  ARQ="cpython-3.12.8%2B20241206-$( [ "$(uname -m)" = "arm64" ] && echo aarch64 || echo x86_64 )-apple-darwin-install_only.tar.gz"
+  echo "→ Baixando Python relocável ($(uname -m))…"
+  curl -L --progress-bar -o /tmp/audiens-python.tgz \
+    "https://github.com/astral-sh/python-build-standalone/releases/download/20241206/$ARQ"
+  tar -xzf /tmp/audiens-python.tgz -C "$RT" && rm /tmp/audiens-python.tgz
+fi
+echo "→ Instalando dependências no pendrive…"
+"$RT/python/bin/python3" -m pip install -q --upgrade pip
+"$RT/python/bin/python3" -m pip install -q -r "$ORIGEM/requirements.txt"
 
-# Ollama: usa o do sistema se existir; senão instrui
-if ! command -v ollama >/dev/null; then
-  echo "AVISO: Ollama não está instalado. Baixe em https://ollama.com/download"
-  echo "       (uma vez instalado, rode este instalador de novo para baixar os modelos)"
-else
-  echo "Baixando modelos para o pendrive (perfil normal; turbo é opcional)…"
-  OLLAMA_MODELS="$DESTINO/modelos" ollama pull qwen3:4b-instruct
-  read -p "Baixar também o modelo turbo qwen3:8b (5.2 GB, para máquinas de 16 GB+)? [s/N] " r
-  [ "$r" = "s" ] && OLLAMA_MODELS="$DESTINO/modelos" ollama pull qwen3:8b
+# ── Ollama standalone (vive no pendrive) ──
+if [ ! -x "$RT/ollama" ]; then
+  echo "→ Baixando Ollama standalone…"
+  curl -L --progress-bar -o /tmp/audiens-ollama.tgz \
+    "https://github.com/ollama/ollama/releases/latest/download/ollama-darwin.tgz"
+  tar -xzf /tmp/audiens-ollama.tgz -C "$RT" && rm /tmp/audiens-ollama.tgz
+  [ -x "$RT/ollama" ] || { echo "ERRO: binário do Ollama não encontrado após extração."; exit 1; }
+fi
+
+# ── Modelos de IA (baixados automaticamente — nada é manual) ──
+if [ "$AUDIENS_INSTALAR_SEM_MODELOS" != "1" ]; then
+  echo "→ Baixando o modelo do perfil normal (qwen3:4b-instruct, ~2.5 GB)…"
+  OLLAMA_MODELS="$DESTINO/modelos" "$RT/ollama" serve >/dev/null 2>&1 &
+  PID_OLLAMA=$!
+  for i in $(seq 1 30); do
+    curl -s --max-time 1 http://localhost:11434/api/tags >/dev/null 2>&1 && break; sleep 1
+  done
+  OLLAMA_MODELS="$DESTINO/modelos" "$RT/ollama" pull qwen3:4b-instruct
+  read -p "Baixar também o modelo turbo qwen3:8b (5.2 GB, máquinas de 16 GB+)? [s/N] " r
+  [ "$r" = "s" ] && OLLAMA_MODELS="$DESTINO/modelos" "$RT/ollama" pull qwen3:8b
+  kill $PID_OLLAMA 2>/dev/null || true
 fi
 
 cp "$ORIGEM/launchers/Audiens Fit.command" "$DESTINO/"
 cp "$ORIGEM/launchers/Encerrar Audiens.command" "$DESTINO/"
 chmod +x "$DESTINO/"*.command
-echo "── Pronto. Abra 'Audiens Fit.command' na raiz de $DESTINO ──"
+echo "══ Pronto. Ejete o pendrive; em qualquer Mac, abra 'Audiens Fit.command'. ══"

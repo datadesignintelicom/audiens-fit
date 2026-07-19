@@ -21,7 +21,8 @@ fi
 
 # Ollama: usa o do sistema ou o binário do pendrive
 if ! curl -s --max-time 2 http://localhost:11434/api/tags >/dev/null 2>&1; then
-  OLLAMA_BIN="$(command -v ollama || echo "$RAIZ/../runtime-mac/ollama")"
+  OLLAMA_BIN="$RAIZ/../runtime-mac/ollama"
+  [ -x "$OLLAMA_BIN" ] || OLLAMA_BIN="$(command -v ollama || true)"
   if [ ! -x "$OLLAMA_BIN" ]; then
     echo "ERRO: Ollama não encontrado. Rode o instalador primeiro."; read -p ""; exit 1
   fi
@@ -32,9 +33,10 @@ if ! curl -s --max-time 2 http://localhost:11434/api/tags >/dev/null 2>&1; then
   done
 fi
 
-VENV="$RAIZ/../runtime-mac/venv"
-[ -x "$VENV/bin/python" ] || { echo "ERRO: venv não encontrado. Rode o instalador."; read -p ""; exit 1; }
+PY="$RAIZ/../runtime-mac/python/bin/python3"
+[ -x "$PY" ] || PY="$RAIZ/../runtime-mac/venv/bin/python"
+[ -x "$PY" ] || { echo "ERRO: Python do pendrive não encontrado. Rode o instalador."; read -p ""; exit 1; }
 
 echo "Iniciando Audiens Fit… (primeira carga do modelo pode levar 1-3 min em pendrive)"
 ( sleep 3; open "http://localhost:5001" ) &
-exec "$VENV/bin/python" -m app.servidor
+exec "$PY" -m app.servidor

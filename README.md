@@ -2,9 +2,24 @@
 
 **Escuta qualificada de audiências — offline, portátil e auditável.**
 
-Analise planilhas de comentários de redes sociais com IA rodando 100% na sua
-máquina: sentimento contextual, percepções, temas, posicionamentos e perguntas
-em linguagem natural sobre o corpus. Nenhum dado sai do seu computador.
+*Read this in [English](README.en.md).*
+
+## Por que não jogar a planilha num chat de IA pago?
+
+Você pode colar mil comentários no chat de um LLM e pedir "resuma". O que
+recebe de volta: um texto sem método, sem números verificáveis, percentuais
+inventados com cara de exatos, sem layout de relatório, e seus dados
+entregues a um servidor de terceiros. O Audiens Fit faz o contrário:
+
+- **Metodologia de social listening de verdade**: sentimento medido em
+  relação ao conteúdo (protesto com redação positiva conta como contrário),
+  percepções e temas com percentuais calculados por **contagem real**,
+  cobertura declarada e atribuição nunca forçada
+- **Auditável até o fim**: exporte o universo classificado comentário a
+  comentário e confira cada número; mesmo corpus + mesmo contexto = mesmo
+  resultado (seed fixo)
+- **Relatório pronto**, não um parágrafo solto
+- **100% offline**: seus dados nunca saem da máquina — roda até de um pendrive
 
 Criado por **Daniel Bastos · Data Design Inteligência de Comunicação**.
 
@@ -13,75 +28,77 @@ Criado por **Daniel Bastos · Data Design Inteligência de Comunicação**.
 ## O que ele faz
 
 - **Análise de planilha** (XLSX/CSV): detecta a coluna de comentários sozinho
-- **Sentimento contextual**, não literal: "Queremos o produto de volta!" é
-  contrário ao anúncio de descontinuação, mesmo com redação positiva
-- **Percepções, temas e posicionamentos** com percentuais calculados por
-  contagem real e cobertura declarada — atribuição nunca é forçada
-- **Perguntas ao corpus**: pergunte "o que dizem sobre o preço?" e receba
-  resposta com citações reais dos comentários
-- **Exportação CSV**: universo classificado comentário a comentário + resumo
-- **Reprodutível**: mesma planilha + mesmo contexto = mesmo resultado (seed fixo)
+- **Receptividade contextual** com distribuição favorável/contrário/não claro
+- **Percepções, temas e posicionamentos** com contagens reais e verbatims
+- **Perguntas ao corpus**: "o que dizem sobre o preço?" → resposta com
+  citações reais dos comentários
+- **Exportação CSV** em dois arquivos: universo classificado + resumo com
+  funil de cobertura
 
 ## Requisitos e o que esperar
 
-| Máquina | Perfil | Modelo | Expectativa |
+| Máquina de uso | Perfil | Modelo | Expectativa |
 |---|---|---|---|
-| 8 GB RAM (mínimo) | normal | qwen3:4b-instruct | ~500-1.000 comentários/hora em Mac Apple Silicon |
-| 16 GB+ RAM | turbo (automático) | qwen3:8b | Mais preciso, mesmo ritmo |
-| Windows sem GPU dedicada | normal | qwen3:4b-instruct | **Lento** (CPU pura): reserve horas para corpus grande |
+| Mac Apple Silicon 8 GB | normal | qwen3:4b-instruct | ~500-1.000 comentários/hora |
+| Mac Apple Silicon 16 GB+ | turbo (automático) | qwen3:8b | Mais preciso, mesmo ritmo |
+| Windows sem GPU dedicada | normal | qwen3:4b-instruct | **Lento** (CPU): reserve horas para corpus grande |
 
-**Durante a análise**: o modelo ocupa a maior parte da RAM. Feche navegador
-com muitas abas e aplicativos pesados, especialmente em máquinas de 8 GB.
-A máquina continua utilizável para tarefas leves. Pendrive rápido (USB 3+)
-melhora a partida e a carga do modelo (1-3 min); a análise em si roda na RAM
-e não depende da velocidade do pendrive.
+**Durante a análise**: o modelo ocupa a maior parte da RAM. Em máquinas de
+8 GB, feche o navegador com muitas abas e aplicativos pesados; a máquina
+continua utilizável para tarefas leves. Pendrive rápido (USB 3+) acelera a
+partida e a carga do modelo (1-3 min); a análise em si roda na RAM e não
+depende da velocidade do pendrive.
 
 ## Instalação
 
-1. Instale o [Ollama](https://ollama.com/download) e o Python 3.10+
-2. Baixe este repositório (Code → Download ZIP) e descompacte
-3. Rode o instalador apontando o destino (pendrive ou pasta):
+O modelo é simples: **a máquina que prepara o pendrive precisa de internet;
+a máquina que usa não precisa de nada instalado** — Ollama, Python e os
+modelos de IA são baixados automaticamente pelo instalador e vivem no
+próprio pendrive.
+
+1. Baixe este repositório (Code → Download ZIP) e descompacte
+2. Plugue um pendrive em **exFAT** (padrão de fábrica) com 16 GB livres
+   (24 GB para incluir o modelo turbo)
+3. Rode o instalador apontando o destino:
    - **macOS**: `./instalador/instalar-pendrive.command /Volumes/SEU_PENDRIVE`
-   - **Windows**: `instalador\instalar-pendrive.bat E:\`
-4. Abra **Audiens Fit** (`.command` no Mac, `.bat` no Windows) na raiz do destino
+   - **Windows**: `instalador\instalar-pendrive.bat E:\` *(ainda não testado)*
+4. Em qualquer máquina, abra **Audiens Fit** na raiz do pendrive — o
+   navegador abre sozinho. Para encerrar liberando a RAM, **Encerrar Audiens**
 
-O pendrive deve estar em **exFAT** (padrão de fábrica) para funcionar em
-Mac e Windows. Para encerrar liberando a RAM, use **Encerrar Audiens**.
+Instalar numa pasta do computador em vez de pendrive também funciona: é só
+apontar o instalador para ela.
 
-> ⚠️ **Aviso sobre antivírus (Windows)**: arquivos `.bat` podem ser sinalizados
-> pelo SmartScreen ou por antivírus como suspeitos, porque scripts de lote são
-> um formato comum de malware. Os deste projeto são texto aberto — clique com
-> o botão direito → Editar para ler exatamente o que fazem antes de executar.
-> Se o SmartScreen bloquear: "Mais informações" → "Executar assim mesmo".
+> ⚠️ **Aviso sobre antivírus (Windows)**: arquivos `.bat` podem ser
+> sinalizados pelo SmartScreen ou por antivírus, porque scripts de lote são
+> um formato que malwares também usam. Os deste projeto são texto aberto —
+> botão direito → Editar para ler o que fazem antes de executar. Se o
+> SmartScreen bloquear: "Mais informações" → "Executar assim mesmo".
 
-## Personalizando os prompts
+## Personalize a metodologia
 
-Toda a metodologia de interpretação vive em **`prompts/prompts.json`** — um
-arquivo de texto editável, sem tocar em código. Ajuste o tom, as regras e as
-definições para o seu caso; preserve os `{placeholders}` entre chaves, que o
-sistema preenche em tempo de execução. Se o JSON quebrar, o servidor avisa a
-linha do erro na partida. Os prompts originais estão sob CC-BY-NC-4.0: uso e
-modificação livres para fins não comerciais, com atribuição.
-
-## Metodologia em uma linha
-
-Classificação em lotes com modelo local (Ollama), atribuição nunca forçada,
-cobertura real declarada em cada bloco, verbatims por casamento lexical com
-coerência de sentimento, e seed fixo para reprodutibilidade. Detalhes em
+Todos os prompts de interpretação vivem em **`prompts/prompts.json`** — texto
+editável, sem tocar em código. Ajuste tom, regras e definições para o seu
+caso; preserve os `{placeholders}`. Se o JSON quebrar, o servidor avisa a
+linha do erro na partida. Detalhes do método em
 [`docs/metodologia.md`](docs/metodologia.md).
+
+## Quer mais? Conheça o Audiens completo
+
+O Audiens Fit é a edição portátil e aberta do **Audiens**, a plataforma de
+escuta da Data Design que vai muito além: coleta direta de múltiplas
+plataformas (Instagram, Facebook, YouTube, TikTok, Threads, Bluesky, Reddit,
+LinkedIn), análise multicamadas com modelos maiores, auditoria de
+autenticidade de engajamento (detecção de atividade coordenada e inorgânica),
+séries comparativas e relatórios completos de inteligência de comunicação.
+
+**Interessado em análises profissionais ou em licenciar a tecnologia?**
+Fale com a Data Design Inteligência de Comunicação.
 
 ## Licenças
 
-- **Código**: [MIT](LICENSE) — use, modifique e redistribua com atribuição
+- **Código**: [MIT](LICENSE)
 - **Prompts, metodologia e documentação**: [CC-BY-NC-4.0](LICENSE-CONTEUDO) —
-  livres para uso **não comercial** com atribuição; para uso comercial,
-  contate Data Design Inteligência de Comunicação
+  livres para uso **não comercial** com atribuição; uso comercial mediante
+  licença com a Data Design
 - A identificação "Criado por Daniel Bastos · Data Design" na interface e
-  nestes arquivos deve ser preservada (condição de atribuição das licenças)
-
-## Projetos relacionados
-
-- **Audiens** (versão completa, com coleta multiplataforma): ferramenta interna
-  da Data Design — este repositório é a edição portátil e aberta
-- **Chat Offline**: chat multi-modelo independente para o mesmo pendrive
-  (repositório próprio)
+  nestes arquivos é condição de atribuição e deve ser preservada
