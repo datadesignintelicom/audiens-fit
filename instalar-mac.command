@@ -33,8 +33,14 @@ echo "══ Audiens Fit: instalando em $DESTINO ══"
 
 mkdir -p "$DESTINO/modelos" "$RT"
 echo "→ Copiando o aplicativo…"
-rsync -a --exclude runtime-mac --exclude runtime-win --exclude .git \
-      "$ORIGEM/" "$DESTINO/audiens-fit/"
+# Cópia por lista explícita: imune a pastas de sistema (.Spotlight-V100 etc.)
+# e ao caso de o ZIP ter sido extraído direto na raiz do pendrive
+mkdir -p "$DESTINO/audiens-fit"
+for item in app prompts docs launchers requirements.txt README.md README.en.md \
+            LICENSE LICENSE-CONTEUDO NOTICE instalar-mac.command instalar-windows.bat; do
+  [ -e "$ORIGEM/$item" ] && rsync -a "$ORIGEM/$item" "$DESTINO/audiens-fit/"
+done
+[ -d "$DESTINO/audiens-fit/app" ] || { echo "ERRO: arquivos do projeto não encontrados junto ao instalador."; exit 1; }
 
 # ── Python relocável (vive no pendrive; máquina de uso não precisa ter) ──
 if [ ! -x "$RT/python/bin/python3" ]; then
