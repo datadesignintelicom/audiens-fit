@@ -27,7 +27,12 @@ if errorlevel 1 (
   echo AVISO: Ollama nao instalado. Baixe em https://ollama.com/download e rode este instalador de novo.
 ) else (
   echo Baixando o modelo do perfil normal para o pendrive...
+  REM Porta dedicada: nao reaproveita um Ollama do sistema ja em uso por
+  REM outro programa — senao os modelos iriam parar na pasta DELE, nao aqui.
+  set OLLAMA_HOST=127.0.0.1:11435
   set OLLAMA_MODELS=%DESTINO%\modelos
+  start /b "" ollama serve
+  timeout /t 8 /nobreak >nul
   ollama pull qwen3:4b-instruct
 )
 copy "%ORIGEM%launchers\Audiens Fit.bat" "%DESTINO%\" >nul

@@ -85,13 +85,21 @@ if [ ! -x "$RT/ollama" ]; then
 fi
 
 # ── Modelos de IA (baixados automaticamente — nada é manual) ──
+# Porta dedicada 11435: nunca reaproveita um Ollama do sistema que já esteja
+# ocupando a 11434 (ex.: instalar num Mac que já roda o Audiens completo) —
+# sem isso, os modelos baixados iriam parar na pasta DESSE outro servidor,
+# não em $DESTINO/modelos, e o pendrive ficaria vazio silenciosamente.
+export OLLAMA_HOST=127.0.0.1:11435
 if [ "$AUDIENS_INSTALAR_SEM_MODELOS" != "1" ]; then
   echo "→ Baixando o modelo do perfil normal (qwen3:4b-instruct, ~2.5 GB)…"
   OLLAMA_MODELS="$DESTINO/modelos" "$RT/ollama" serve >/dev/null 2>&1 &
   PID_OLLAMA=$!
   for i in $(seq 1 30); do
-    curl -s --max-time 1 http://localhost:11434/api/tags >/dev/null 2>&1 && break; sleep 1
+    curl -s --max-time 1 "http://$OLLAMA_HOST/api/tags" >/dev/null 2>&1 && break; sleep 1
   done
+  if ! curl -s --max-time 1 "http://$OLLAMA_HOST/api/tags" >/dev/null 2>&1; then
+    echo "ERRO: o Ollama dedicado do instalador (porta 11435) não respondeu."; exit 1
+  fi
   OLLAMA_MODELS="$DESTINO/modelos" "$RT/ollama" pull qwen3:4b-instruct
   read -p "Baixar também o modelo turbo qwen3:8b (5.2 GB, máquinas de 16 GB+)? [s/N] " r
   [ "$r" = "s" ] && OLLAMA_MODELS="$DESTINO/modelos" "$RT/ollama" pull qwen3:8b

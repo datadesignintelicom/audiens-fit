@@ -14,7 +14,14 @@ if [ ! -d "$APP/app" ]; then
   echo "ERRO: pasta do aplicativo não encontrada ao lado deste atalho."
   read -p "Pressione Enter para fechar."; exit 1
 fi
-export OLLAMA_MODELS="${OLLAMA_MODELS:-$BASE/modelos}"
+# Porta dedicada 11435: isola de qualquer Ollama do sistema (ex.: o do
+# Audiens completo) — nunca reaproveita silenciosamente um servidor alheio
+export OLLAMA_HOST=127.0.0.1:11435
+export OLLAMA_URL="http://$OLLAMA_HOST"
+# Forçado (não apenas "se ainda não definido"): máquinas que já têm
+# OLLAMA_MODELS no shell para outro fim (ex.: o Audiens completo) não podem
+# vazar essa pasta para o pendrive, que precisa ficar sempre isolado
+export OLLAMA_MODELS="$BASE/modelos"
 
 echo "═══════════════════════════════════════════════"
 echo "  Audiens Fit — Data Design"
@@ -30,18 +37,19 @@ if curl -s --max-time 2 http://localhost:5002/ >/dev/null 2>&1; then
   pkill -f "chat/app/servidor.py" 2>/dev/null; sleep 1
 fi
 
-# Ollama: prioriza o binário do pendrive; o do sistema é fallback
-if ! curl -s --max-time 2 http://localhost:11434/api/tags >/dev/null 2>&1; then
+# Ollama: prioriza o binário do pendrive; o do sistema é fallback (mas
+# sempre isolado na porta 11435, nunca compartilha o servidor de outro app)
+if ! curl -s --max-time 2 "http://$OLLAMA_HOST/api/tags" >/dev/null 2>&1; then
   OLLAMA_BIN="$BASE/runtime-mac/ollama"
   [ -x "$OLLAMA_BIN" ] || OLLAMA_BIN="$(command -v ollama || true)"
   if [ ! -x "$OLLAMA_BIN" ]; then
     echo "ERRO: Ollama não encontrado. Rode o instalador primeiro."
     read -p "Pressione Enter para fechar."; exit 1
   fi
-  echo "Iniciando Ollama…"
+  echo "Iniciando Ollama (porta dedicada 11435)…"
   "$OLLAMA_BIN" serve >/dev/null 2>&1 &
   for i in $(seq 1 30); do
-    curl -s --max-time 1 http://localhost:11434/api/tags >/dev/null 2>&1 && break; sleep 1
+    curl -s --max-time 1 "http://$OLLAMA_HOST/api/tags" >/dev/null 2>&1 && break; sleep 1
   done
 fi
 
