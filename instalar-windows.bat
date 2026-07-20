@@ -16,11 +16,25 @@ echo == Audiens Fit: instalando em %DESTINO% ==
 mkdir "%DESTINO%\modelos" 2>nul
 mkdir "%DESTINO%\runtime-win" 2>nul
 robocopy "%ORIGEM%." "%DESTINO%\audiens-fit" /e /njh /njs /ndl /nc /ns /xd runtime-mac runtime-win .git >nul
+REM robocopy usa codigos de saida proprios (0-7 = sucesso, so 8+ e erro real)
+if not exist "%DESTINO%\audiens-fit\app\servidor.py" (
+  echo ERRO: copia falhou — "%DESTINO%\audiens-fit\app\servidor.py" nao existe.
+  echo Confira se "%ORIGEM%" e a pasta descompactada do projeto e tente de novo.
+  pause & exit /b 1
+)
 
 where python >nul 2>&1 || ( echo ERRO: Python nao encontrado. Instale em https://python.org e rode de novo. & pause & exit /b 1 )
 echo Criando ambiente Python no pendrive...
 python -m venv "%DESTINO%\runtime-win\venv"
+if not exist "%DESTINO%\runtime-win\venv\Scripts\python.exe" (
+  echo ERRO: criacao do ambiente Python falhou.
+  pause & exit /b 1
+)
 "%DESTINO%\runtime-win\venv\Scripts\pip" install -q -r "%ORIGEM%requirements.txt"
+if errorlevel 1 (
+  echo ERRO: instalacao das dependencias Python falhou — confira sua internet.
+  pause & exit /b 1
+)
 
 where ollama >nul 2>&1
 if errorlevel 1 (
@@ -34,7 +48,15 @@ if errorlevel 1 (
   start /b "" ollama serve
   timeout /t 8 /nobreak >nul
   ollama pull qwen3:4b-instruct
+  if errorlevel 1 (
+    echo AVISO: download do modelo falhou ou foi interrompido — confira sua
+    echo internet e rode o instalador de novo antes de usar o Audiens Fit.
+  )
 )
 copy "%ORIGEM%launchers\Audiens Fit.bat" "%DESTINO%\" >nul
+if not exist "%DESTINO%\Audiens Fit.bat" (
+  echo ERRO: falha ao copiar o launcher para "%DESTINO%".
+  pause & exit /b 1
+)
 echo == Pronto. Abra "Audiens Fit.bat" na raiz de %DESTINO% ==
 pause
