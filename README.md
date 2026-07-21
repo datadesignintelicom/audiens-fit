@@ -59,6 +59,9 @@ depende da velocidade do pendrive.
 
 ## Instalação
 
+📄 [**Guia visual passo a passo (PDF)**](docs/guia-instalacao-mac.pdf) — com telas do
+Mac ilustradas, para quem prefere seguir com imagens em vez de só texto.
+
 O modelo é simples: **a máquina que prepara o pendrive precisa de internet;
 a máquina que usa não precisa de nada instalado** — Ollama, Python e os
 modelos de IA são baixados automaticamente pelo instalador e vivem no
@@ -69,7 +72,9 @@ próprio pendrive.
    (24 GB para incluir o modelo turbo)
 3. Rode o instalador apontando o destino:
    - **macOS**: `./instalar-mac.command /Volumes/SEU_PENDRIVE`
-   - **Windows**: `instalar-windows.bat E:\` *(ainda não testado)*
+   - **Windows**: `instalar-windows.bat E:\` *(ainda não testado numa máquina
+     real — [guia visual](docs/guia-instalacao-windows.pdf) do funcionamento
+     esperado; testou e algo não bateu? conte pra gente: audiensbrasil@proton.me)*
 4. Em qualquer máquina, abra o aplicativo **Audiens Fit** (ícone "Af") na
    raiz do pendrive — o navegador abre sozinho. Para encerrar liberando a
    RAM, o aplicativo **Encerrar Audiens** (ícone vermelho). Os dois são
@@ -110,7 +115,7 @@ autenticidade de engajamento (detecção de atividade coordenada e inorgânica),
 séries comparativas e relatórios completos de inteligência de comunicação.
 
 **Interessado em análises profissionais ou em licenciar a tecnologia?**
-Fale com a Data Design Inteligência de Comunicação.
+Fale com a Data Design Inteligência de Comunicação: **audiensbrasil@proton.me**
 
 ## Licenças
 

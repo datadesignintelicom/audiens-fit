@@ -1,0 +1,335 @@
+<title>Instalar o Audiens Fit no Windows — guia passo a passo</title>
+<style>
+  :root {
+    --bg: #F6F7F5; --bg2: #EEF0EC; --ink: #1C2128; --mut: #5B6472; --line: #DEE2DD;
+    --card: #FFFFFF; --accent: #3730A3; --accent-soft: #EEF2FF; --accent-ink: #3730A3;
+    --warn: #92400E; --warn-bg: #FFFBEB; --warn-line: #FDE68A;
+    --danger-bg: #FEF2F2; --danger-line: #FCA5A5; --danger-ink: #991B1B;
+    --term-bg: #0C0C0C; --term-ink: #F2F2F2; --term-mut: #9AA0A6; --term-green: #7FD98F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+    line-height: 1.5; padding: 40px 20px 90px; font-size: 13px;
+  }
+  .folha { max-width: 700px; margin: 0 auto; }
+
+  header.topo { margin-bottom: 24px; }
+  .eyebrow { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mut); font-weight: 600; }
+  h1 { font-size: 24px; font-weight: 750; letter-spacing: -.01em; margin: 7px 0 8px; }
+  .lede { font-size: 13px; color: var(--mut); max-width: 60ch; }
+  .chips { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 14px; }
+  .chip { font-size: 10.5px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; color: var(--mut); }
+  .chip strong { color: var(--ink); font-weight: 600; }
+
+  .aviso-topo { display: flex; gap: 10px; background: var(--danger-bg); border: 1px solid var(--danger-line);
+                border-radius: 10px; padding: 13px 15px; margin: 16px 0 4px; }
+  .aviso-topo .marca { font-size: 15px; flex: none; }
+  .aviso-topo h4 { font-size: 12px; font-weight: 700; color: var(--danger-ink); margin-bottom: 3px; }
+  .aviso-topo p { font-size: 11.5px; color: var(--ink); max-width: 60ch; }
+  .aviso-topo ul { margin: 6px 0 0 16px; font-size: 11.5px; color: var(--ink); }
+  .aviso-topo li { margin-bottom: 2px; }
+
+  .parte-titulo { display: flex; align-items: baseline; gap: 9px; margin: 30px 0 15px; }
+  .parte-titulo .num { font-size: 11px; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft);
+                        border-radius: 999px; width: 21px; height: 21px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .parte-titulo h2 { font-size: 16px; font-weight: 700; }
+  .parte-nota { font-size: 11.5px; color: var(--mut); margin: -8px 0 15px 30px; max-width: 58ch; }
+
+  table.passo-wrap { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+  table.passo-wrap td { padding: 0; }
+  .passo { display: grid; grid-template-columns: 26px 1fr; gap: 11px; }
+  .passo .marca { width: 26px; height: 26px; border-radius: 50%; background: var(--card); border: 1px solid var(--line);
+                   display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 700; color: var(--ink); flex: none; }
+  .passo .corpo h3 { font-size: 13px; font-weight: 650; margin-bottom: 3px; }
+  .passo .corpo p { font-size: 12px; color: var(--mut); max-width: 60ch; }
+  .passo .corpo p code, .inline-code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: .92em; background: var(--bg2); border: 1px solid var(--line); border-radius: 5px; padding: 1.5px 6px; color: var(--ink); }
+  .mock { margin-top: 10px; }
+
+  .win-win { border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: var(--card); }
+  .win-win .barra { display: flex; align-items: center; gap: 8px; padding: 7px 6px 7px 11px; background: var(--bg2); border-bottom: 1px solid var(--line); }
+  .win-win .titulo-janela { flex: 1; font-size: 10.5px; color: var(--mut); font-weight: 600; }
+  .win-win .botoes-janela { display: flex; }
+  .win-win .botoes-janela span { width: 26px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--mut); }
+
+  .term { background: var(--term-bg); color: var(--term-ink); padding: 10px 12px 12px;
+          font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 10.5px; line-height: 1.6; }
+  .term .prompt { color: var(--term-green); }
+  .term .out { color: var(--term-mut); }
+  .term .drag { display: inline-flex; align-items: center; gap: 5px; background: #262A2F; border: 1px dashed #454B52; border-radius: 6px; padding: 1px 8px; color: #C9CDD3; font-size: 10.5px; }
+  .term .bar { display: inline-block; width: 120px; height: 6px; background: #2A2E33; border-radius: 4px; overflow: hidden; vertical-align: middle; margin: 0 6px; }
+  .term .bar > span { display: block; height: 100%; background: var(--term-green); }
+
+  .explorer { display: flex; min-height: 108px; }
+  .explorer .lado { width: 100px; background: var(--bg2); border-right: 1px solid var(--line); padding: 9px 7px; font-size: 9.5px; color: var(--mut); flex: none; }
+  .explorer .lado .grupo { font-size: 8.5px; text-transform: uppercase; letter-spacing: .06em; margin: 7px 0 4px; opacity: .8; }
+  .explorer .lado .item { padding: 3px 5px; border-radius: 3px; }
+  .explorer .lado .item.on { background: var(--accent); color: #fff; }
+  .explorer .conteudo { flex: 1; padding: 12px; display: flex; flex-wrap: wrap; gap: 14px; align-content: flex-start; }
+  .ficon { width: 66px; text-align: center; font-size: 9.5px; color: var(--ink); }
+  .ficon .quadro { width: 42px; height: 42px; border-radius: 6px; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 10.5px; }
+  .ficon.pasta .quadro { background: linear-gradient(160deg, #FCD34D, #F59E0B); font-size: 18px; }
+  .ficon.bat .quadro { background: linear-gradient(160deg, #6B7280, #374151); font-size: 10px; }
+
+  .smart { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 18px 18px 15px; background: var(--card); }
+  .smart .escudo { width: 38px; height: 38px; margin-bottom: 9px; border-radius: 50%; background: #2563EB; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; }
+  .smart h4 { font-size: 12.5px; font-weight: 700; margin-bottom: 5px; }
+  .smart p { font-size: 10.5px; color: var(--mut); max-width: 40ch; margin-bottom: 5px; }
+  .smart .maisinfo { font-size: 10.5px; color: var(--accent-ink); margin: 5px 0 10px; text-decoration: underline; }
+  .smart .botoes { display: flex; gap: 9px; }
+  .smart button { font: inherit; font-size: 11px; padding: 5px 15px; border-radius: 3px; border: 1px solid var(--line); background: var(--bg2); color: var(--ink); }
+  .smart button.primario { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  .smart .detalhe { font-size: 9.5px; color: var(--mut); background: var(--bg2); border-radius: 6px; padding: 7px 10px; margin-bottom: 10px; text-align: left; width: 100%; }
+  .smart .detalhe div { display: flex; justify-content: space-between; padding: 1px 0; }
+
+  .duvida { border: 1px solid var(--line); border-radius: 9px; padding: 13px 15px; margin-bottom: 10px; background: var(--card); }
+  .duvida .pergunta { font-size: 12px; font-weight: 650; display: flex; gap: 7px; align-items: baseline; }
+  .duvida .pergunta .marca-erro { font-family: ui-monospace, monospace; font-size: 10.5px; color: var(--mut); background: var(--bg2); border-radius: 5px; padding: 1px 6px; flex: none; }
+  .duvida .resposta { font-size: 11.5px; color: var(--mut); margin-top: 6px; max-width: 62ch; }
+
+  footer.pe { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 11px; color: var(--mut); text-align: center; }
+
+  @media print {
+    :root { --bg: #FFFFFF; --card: #FFFFFF; }
+    body { padding: 0 6px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    * { box-shadow: none !important; }
+    .pagina { break-after: page; page-break-after: always; }
+    .pagina:last-of-type { break-after: auto; page-break-after: auto; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+
+<div class="folha">
+
+  <!-- ═══ PÁGINA 1 — cabeçalho + aviso + Parte 0 + Parte 1 (1,2,3) ═══ -->
+  <section class="pagina">
+    <header class="topo">
+      <p class="eyebrow">Audiens Fit · guia para quem vai testar · Windows</p>
+      <h1>Instalar o Audiens Fit no Windows</h1>
+      <p class="lede">Este caminho ainda não foi testado numa máquina Windows real — o guia mostra
+      exatamente o que o instalador faz, para quem topar ser o primeiro teste. Encontrou algo diferente?
+      Escreva pra <strong>audiensbrasil@proton.me</strong>.</p>
+      <div class="chips">
+        <span class="chip"><strong>Windows</strong> 10 ou 11</span>
+        <span class="chip"><strong>Pendrive</strong> exFAT, 16 GB livres</span>
+        <span class="chip"><strong>Internet</strong> para preparar</span>
+      </div>
+    </header>
+
+    <div class="aviso-topo">
+      <span class="marca">⚠️</span>
+      <div>
+        <h4>Duas diferenças importantes em relação ao Mac</h4>
+        <ul>
+          <li><strong>O pendrive ainda não é independente da máquina.</strong> O instalador cria um
+          ambiente Python (venv) que aponta para a instalação já existente no computador — não uma cópia
+          completa. Toda máquina que for USAR o pendrive precisa ter Python e Ollama instalados nela,
+          não só a que preparou.</li>
+          <li><strong>Ainda não existe um "Encerrar Audiens" para Windows</strong> — fechar a janela do
+          terminal basta, mas não há um clique dedicado para liberar a RAM.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="parte-titulo"><span class="num">0</span><h2>Antes de começar</h2></div>
+    <p class="parte-nota">Só na máquina que vai preparar o pendrive. Pule se ela já tiver os dois instalados.</p>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">A</div>
+      <div class="corpo">
+        <h3>Instale o Python</h3>
+        <p>Baixe em <code>python.org/downloads</code>. Na primeira tela do instalador, marque
+        <strong>"Add python.exe to PATH"</strong> antes de clicar em Install.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">B</div>
+      <div class="corpo">
+        <h3>Instale o Ollama</h3>
+        <p>Baixe em <code>ollama.com/download</code> e rode o instalador — não pede nenhuma opção especial.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <div class="parte-titulo"><span class="num">1</span><h2>Preparar o pendrive</h2></div>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">1</div>
+      <div class="corpo">
+        <h3>Baixe e descompacte o projeto</h3>
+        <p>Na página do GitHub, botão verde <code>Code</code> → <code>Download ZIP</code>. Clique direito no ZIP baixado → <code>Extrair Tudo</code>.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">2</div>
+      <div class="corpo">
+        <h3>Plugue o pendrive e note a letra dele</h3>
+        <p>Abra "Este Computador" — o pendrive aparece como uma letra, por exemplo <code>E:</code>. Formatado em <strong>exFAT</strong>.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">3</div>
+      <div class="corpo">
+        <h3>Abra o Prompt de Comando na pasta certa</h3>
+        <p>Dentro da pasta descompactada, segure <strong>Shift</strong> e clique com o botão direito num espaço vazio → <code>Abrir janela do PowerShell aqui</code>.</p>
+      </div>
+    </div>
+    </td></tr></table>
+  </section>
+
+  <!-- ═══ PÁGINA 2 — Parte 1 (4,5,6) ═══ -->
+  <section class="pagina">
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">4</div>
+      <div class="corpo">
+        <h3>Rode o instalador com a letra do pendrive</h3>
+        <p>Troque <code>E:\</code> pela letra real do seu pendrive.</p>
+        <div class="mock">
+          <div class="win-win">
+            <div class="barra"><div class="titulo-janela">Prompt de Comando</div><div class="botoes-janela"><span>—</span><span>▢</span><span>✕</span></div></div>
+            <div class="term">
+              <div><span class="prompt">C:\Users\você\Downloads\audiens-fit-main&gt;</span> instalar-windows.bat E:\</div>
+              <div class="out">== Audiens Fit: instalando em E:\ ==</div>
+              <div class="out">Criando ambiente Python no pendrive...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">5</div>
+      <div class="corpo">
+        <h3>Se o SmartScreen bloquear</h3>
+        <p>Acontece com qualquer <code>.bat</code> baixado da internet. Clique em <strong>"Mais informações"</strong>, depois em <strong>"Executar assim mesmo"</strong>.</p>
+        <div class="mock">
+          <div class="win-win">
+            <div class="barra"><div class="titulo-janela">Windows protegeu o computador</div><div class="botoes-janela"><span>✕</span></div></div>
+            <div class="smart">
+              <div class="escudo">🛡</div>
+              <h4>O Windows protegeu o computador</h4>
+              <p>O SmartScreen do Microsoft Defender impediu a inicialização de um aplicativo não reconhecido.</p>
+              <span class="maisinfo">Mais informações</span>
+              <div class="detalhe"><div><span>App:</span><span>instalar-windows.bat</span></div><div><span>Editor:</span><span>Editor não reconhecido</span></div></div>
+              <div class="botoes"><button class="primario">Executar assim mesmo</button><button>Não executar</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">6</div>
+      <div class="corpo">
+        <h3>Acompanhe o download do modelo</h3>
+        <p>O ambiente Python é criado no pendrive, depois o modelo de IA (~2,5 GB) é baixado via Ollama.</p>
+        <div class="mock">
+          <div class="win-win">
+            <div class="barra"><div class="titulo-janela">Prompt de Comando</div><div class="botoes-janela"><span>—</span><span>▢</span><span>✕</span></div></div>
+            <div class="term">
+              <div class="out">Baixando o modelo do perfil normal para o pendrive...</div>
+              <div>pulling manifest <span class="bar"><span style="width:58%"></span></span> 58%</div>
+              <div class="out">== Pronto. Abra "Audiens Fit.bat" na raiz de E:\ ==</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+  </section>
+
+  <!-- ═══ PÁGINA 3 — Parte 2 (1,2,3) ═══ -->
+  <section class="pagina">
+    <div class="parte-titulo"><span class="num">2</span><h2>Usar no dia a dia</h2></div>
+    <p class="parte-nota">Nesta máquina, com o pendrive plugado. Numa máquina diferente, repita a Parte 0 antes.</p>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">1</div>
+      <div class="corpo">
+        <h3>Abra o pendrive no Explorador de Arquivos</h3>
+        <p>Duplo clique em <code>Audiens Fit.bat</code>.</p>
+        <div class="mock">
+          <div class="win-win">
+            <div class="barra"><div class="titulo-janela">E:\ — Este Computador</div><div class="botoes-janela"><span>—</span><span>▢</span><span>✕</span></div></div>
+            <div class="explorer">
+              <div class="lado"><div class="grupo">Este Computador</div><div class="item on">Pendrive (E:)</div></div>
+              <div class="conteudo">
+                <div class="ficon bat"><div class="quadro">.bat</div>Audiens Fit</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>audiens-fit</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>modelos</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>runtime-win</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:8px">Numa máquina <strong>diferente</strong> da que preparou, o SmartScreen do
+        passo 5 pode aparecer de novo — ainda não existe, no Windows, o "já liberado" que o Mac tem.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">2</div>
+      <div class="corpo">
+        <h3>O navegador abre sozinho</h3>
+        <p>Em <code>localhost:5001</code>. A janela preta atrás mostra o andamento — não feche, é o motor rodando.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">3</div>
+      <div class="corpo">
+        <h3>Para encerrar</h3>
+        <p>Feche a janela do Prompt de Comando (ou <code>Ctrl+C</code> dentro dela). Ainda não existe um
+        atalho dedicado para liberar a RAM como no Mac.</p>
+      </div>
+    </div>
+    </td></tr></table>
+  </section>
+
+  <!-- ═══ PÁGINA 4 — dúvidas + rodapé ═══ -->
+  <section class="pagina">
+    <div class="parte-titulo"><span class="num">?</span><h2>Se algo sair diferente</h2></div>
+
+    <div class="duvida">
+      <div class="pergunta"><span class="marca-erro">ERRO: Python nao encontrado</span></div>
+      <p class="resposta">O passo 0-A não foi feito, ou foi feito sem marcar "Add python.exe to PATH".
+      Reinstale o Python marcando essa opção e rode o instalador de novo.</p>
+    </div>
+
+    <div class="duvida">
+      <div class="pergunta"><span class="marca-erro">AVISO: Ollama nao instalado</span></div>
+      <p class="resposta">O passo 0-B não foi feito. Instale o Ollama e rode <code>instalar-windows.bat E:\</code> de novo — ele pula o que já está pronto.</p>
+    </div>
+
+    <div class="duvida">
+      <div class="pergunta"><span class="marca-erro">Antivírus alerta sobre o .bat</span></div>
+      <p class="resposta">Scripts <code>.bat</code> são texto puro — clique direito → <code>Editar</code> para ler exatamente o que fazem antes de rodar, se quiser conferir.</p>
+    </div>
+
+    <footer class="pe">Audiens Fit — Data Design Inteligência de Comunicação · audiensbrasil@proton.me</footer>
+  </section>
+
+</div>

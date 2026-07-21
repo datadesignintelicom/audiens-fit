@@ -1,0 +1,462 @@
+<title>Instalar o Audiens Fit — guia passo a passo</title>
+<style>
+  :root {
+    --bg: #F6F7F5; --bg2: #EEF0EC; --ink: #1C2128; --mut: #5B6472; --line: #DEE2DD;
+    --card: #FFFFFF; --accent: #3730A3; --accent-soft: #EEF2FF; --accent-ink: #3730A3;
+    --ok: #1B7A3D; --warn: #92400E; --warn-bg: #FFFBEB; --warn-line: #FDE68A;
+    --term-bg: #16181B; --term-ink: #E7E9EA; --term-mut: #7C8389; --term-green: #6FCF8F;
+    --shadow: 0 1px 2px rgba(20,20,30,.04), 0 8px 24px -12px rgba(20,20,30,.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14161A; --bg2: #1A1D22; --ink: #E4E6EA; --mut: #90979F; --line: #2A2E35;
+             --card: #1D2025; --accent: #A5B4FC; --accent-soft: #23264A; --accent-ink: #C7D2FE;
+             --ok: #4ADE80; --warn: #FBBF24; --warn-bg: #2A2410; --warn-line: #3F3418;
+             --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6); }
+  }
+  :root[data-theme="dark"] { --bg: #14161A; --bg2: #1A1D22; --ink: #E4E6EA; --mut: #90979F; --line: #2A2E35;
+             --card: #1D2025; --accent: #A5B4FC; --accent-soft: #23264A; --accent-ink: #C7D2FE;
+             --ok: #4ADE80; --warn: #FBBF24; --warn-bg: #2A2410; --warn-line: #3F3418; }
+  :root[data-theme="light"] { --bg: #F6F7F5; --bg2: #EEF0EC; --ink: #1C2128; --mut: #5B6472; --line: #DEE2DD;
+             --card: #FFFFFF; --accent: #3730A3; --accent-soft: #EEF2FF; --accent-ink: #3730A3;
+             --ok: #1B7A3D; --warn: #92400E; --warn-bg: #FFFBEB; --warn-line: #FDE68A; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.55; padding: 40px 20px 90px; font-size: 13px;
+  }
+  .folha { max-width: 700px; margin: 0 auto; }
+
+  /* ── cabeçalho ── */
+  header.topo { margin-bottom: 32px; }
+  .eyebrow { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mut); font-weight: 600; }
+  h1 { font-size: 25px; font-weight: 750; letter-spacing: -.01em; margin: 7px 0 8px; text-wrap: balance; }
+  .lede { font-size: 13.5px; color: var(--mut); max-width: 58ch; }
+  .chips { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 15px; }
+  .chip { font-size: 10.5px; background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+          padding: 4px 11px; color: var(--mut); box-shadow: var(--shadow); }
+  .chip strong { color: var(--ink); font-weight: 600; }
+
+  /* ── páginas: cada .pagina é um bloco de impressão FIXO, com atribuição
+     manual de conteúdo — sem heurística de quebra automática ── */
+  .pagina { margin-bottom: 6px; }
+  .parte-titulo { display: flex; align-items: baseline; gap: 9px; margin: 42px 0 17px; }
+  .parte-titulo .num { font-size: 11.5px; font-weight: 700; color: var(--accent-ink); background: var(--accent-soft);
+                        border-radius: 999px; width: 22px; height: 22px; display: inline-flex; align-items: center;
+                        justify-content: center; flex: none; }
+  .parte-titulo h2 { font-size: 17px; font-weight: 700; letter-spacing: -.005em; }
+  .parte-nota { font-size: 12px; color: var(--mut); margin: -10px 0 18px 31px; max-width: 56ch; }
+
+  /* ── passo ── */
+  table.passo-wrap { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+  table.passo-wrap td { padding: 0; }
+  .passo { display: grid; grid-template-columns: 28px 1fr; gap: 12px; }
+  .passo .marca { width: 28px; height: 28px; border-radius: 50%; background: var(--card); border: 1px solid var(--line);
+                   display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+                   color: var(--ink); box-shadow: var(--shadow); flex: none; }
+  .passo .corpo h3 { font-size: 13.5px; font-weight: 650; margin-bottom: 3px; }
+  .passo .corpo p { font-size: 12.5px; color: var(--mut); max-width: 58ch; }
+  .passo .corpo p code, .inline-code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: .92em; background: var(--bg2); border: 1px solid var(--line); border-radius: 5px; padding: 1.5px 6px; color: var(--ink); }
+  .mock { margin-top: 11px; }
+
+  /* ── janela macOS genérica ── */
+  .mac-win { border-radius: 9px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); background: var(--card); }
+  .mac-win .barra { display: flex; align-items: center; gap: 6px; padding: 7px 10px; background: var(--bg2);
+                     border-bottom: 1px solid var(--line); }
+  .mac-win .dots { display: flex; gap: 5px; }
+  .mac-win .dots i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .mac-win .dots i:nth-child(1) { background: #FF5F57; }
+  .mac-win .dots i:nth-child(2) { background: #FEBC2E; }
+  .mac-win .dots i:nth-child(3) { background: #28C840; }
+  .mac-win .titulo-janela { flex: 1; text-align: center; font-size: 10.5px; color: var(--mut); font-weight: 600;
+                             margin-right: 42px; }
+
+  /* ── terminal ── */
+  .term { background: var(--term-bg); color: var(--term-ink); padding: 11px 13px 13px;
+          font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 11px; line-height: 1.65; }
+  .term .prompt { color: var(--term-green); }
+  .term .cmd { color: var(--term-ink); }
+  .term .out { color: var(--term-mut); }
+  .term .drag { display: inline-flex; align-items: center; gap: 5px; background: #262A2F; border: 1px dashed #454B52;
+                border-radius: 6px; padding: 1px 8px; color: #C9CDD3; font-size: 11.5px; }
+  .term .drag::before { content: "⤵"; }
+  .term .bar { display: inline-block; width: 130px; height: 7px; background: #2A2E33; border-radius: 4px; overflow: hidden;
+               vertical-align: middle; margin: 0 6px; }
+  .term .bar > span { display: block; height: 100%; background: var(--term-green); }
+  .term .prompt-yn { color: #F2C94C; }
+
+  /* ── finder ── */
+  .finder { display: flex; min-height: 118px; }
+  .finder .lado { width: 108px; background: var(--bg2); border-right: 1px solid var(--line); padding: 10px 8px; font-size: 10px; color: var(--mut); flex: none; }
+  .finder .lado .grupo { font-size: 9px; text-transform: uppercase; letter-spacing: .06em; margin: 8px 0 4px; opacity: .8; }
+  .finder .lado .item { padding: 3px 5px; border-radius: 4px; }
+  .finder .lado .item.on { background: var(--accent); color: #fff; }
+  .finder .conteudo { flex: 1; padding: 13px; display: flex; flex-wrap: wrap; gap: 16px; align-content: flex-start; }
+  .ficon { width: 64px; text-align: center; font-size: 9.5px; color: var(--ink); }
+  .ficon .quadro { width: 44px; height: 44px; border-radius: 11px; margin: 0 auto 5px; display: flex; align-items: center;
+                    justify-content: center; color: #fff; font-weight: 800; font-size: 14px; box-shadow: 0 3px 8px -3px rgba(0,0,0,.35); }
+  .ficon.pasta .quadro { background: linear-gradient(160deg, #8FC0F5, #5B9BE0); border-radius: 8px; font-size: 22px; }
+  .ficon.zip .quadro { background: linear-gradient(160deg, #C9CDD3, #9AA0A8); border-radius: 8px; font-size: 20px; }
+  .ficon.app-fit .quadro { background: linear-gradient(160deg, #2B3542, #1C2128); position: relative; }
+  .ficon.app-fit .quadro::after { content: ""; position: absolute; bottom: 13px; width: 22px; height: 4px; border-radius: 3px; background: #818CF8; }
+  .ficon.app-off .quadro { background: linear-gradient(160deg, #A6403D, #7F1D1D); }
+
+  /* ── diálogo do sistema ── */
+  .sys-dialog { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 20px 16px;
+                background: var(--card); }
+  .sys-dialog .icone { width: 42px; height: 42px; border-radius: 11px; background: linear-gradient(160deg, #2B3542, #1C2128);
+                        margin-bottom: 10px; box-shadow: 0 3px 8px -3px rgba(0,0,0,.35); }
+  .sys-dialog h4 { font-size: 11.5px; font-weight: 650; max-width: 34ch; margin-bottom: 5px; }
+  .sys-dialog p { font-size: 10.5px; color: var(--mut); max-width: 36ch; margin-bottom: 14px; }
+  .sys-dialog .botoes { display: flex; gap: 9px; }
+  .sys-dialog button { font: inherit; font-size: 11px; padding: 5px 14px; border-radius: 6px; border: 1px solid var(--line);
+                        background: var(--bg2); color: var(--ink); cursor: default; }
+  .sys-dialog button.primario { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+
+  /* ── painel de ajustes ── */
+  .settings { display: flex; min-height: 118px; }
+  .settings .lado { width: 128px; background: var(--bg2); border-right: 1px solid var(--line); padding: 10px 8px; font-size: 10px; color: var(--mut); flex: none; }
+  .settings .lado .item { padding: 4px 7px; border-radius: 4px; }
+  .settings .lado .item.on { background: var(--accent); color: #fff; }
+  .settings .conteudo { flex: 1; padding: 14px 16px; font-size: 10.5px; }
+  .settings .conteudo h5 { font-size: 11.5px; font-weight: 650; margin-bottom: 10px; }
+  .settings .aviso-seg { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+                          background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; padding: 10px 12px; }
+  .settings .aviso-seg span { font-size: 11.5px; color: var(--warn); }
+  .settings .aviso-seg button { font: inherit; font-size: 11.5px; padding: 5px 12px; border-radius: 6px; border: 1px solid var(--line);
+                                 background: var(--card); color: var(--ink); }
+
+  /* ── navegador ── */
+  .browser .barra-nav { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg2); border-bottom: 1px solid var(--line); }
+  .browser .url { flex: 1; font-size: 11px; color: var(--mut); background: var(--card); border: 1px solid var(--line);
+                   border-radius: 6px; padding: 4px 10px; font-family: ui-monospace, monospace; }
+  .browser .conteudo { padding: 22px; background: var(--card); }
+  .browser .app-mini h6 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .browser .app-mini .badge { display: inline-block; font-size: 9.5px; background: var(--accent-soft); color: var(--accent-ink);
+                               border-radius: 999px; padding: 2px 9px; margin-bottom: 10px; }
+  .browser .barra-progresso { height: 6px; background: var(--bg2); border-radius: 99px; overflow: hidden; margin-top: 10px; }
+  .browser .barra-progresso > span { display: block; width: 62%; height: 100%; background: var(--accent); }
+
+  /* ── troubleshooting ── */
+  .duvida { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; background: var(--card); box-shadow: var(--shadow); }
+  .duvida .pergunta { font-size: 13.5px; font-weight: 650; display: flex; gap: 8px; align-items: baseline; }
+  .duvida .pergunta .marca-erro { font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--mut); background: var(--bg2);
+                                    border-radius: 5px; padding: 1px 7px; flex: none; }
+  .duvida .resposta { font-size: 13px; color: var(--mut); margin-top: 8px; max-width: 60ch; }
+
+  footer.pe { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; color: var(--mut); text-align: center; }
+
+  @media print {
+    :root { --bg: #FFFFFF; --card: #FFFFFF; }
+    body { padding: 0 6px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* box-shadow com blur (--shadow) rasteriza como faixas cinzas no
+       Chrome headless print-to-pdf — remove no modo impressão, decorativo */
+    * { box-shadow: none !important; }
+    /* Atribuição FIXA de conteúdo por página — decidida manualmente, não por
+       heurística de "avoid": 1-1..1-4 → pág.1 · 1-5..1-7 → pág.2 ·
+       1-8..2-3 → pág.3 · restante → pág.4. Cada .pagina força o início da
+       próxima em folha nova; o que está dentro de uma pagina permanece nela. */
+    .pagina { break-after: page; page-break-after: always; }
+    .pagina:last-of-type { break-after: auto; page-break-after: auto; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+
+<div class="folha">
+
+  <!-- ═══════════ PÁGINA 1 — cabeçalho + passos 1-1 a 1-4 ═══════════ -->
+  <section class="pagina">
+    <header class="topo">
+      <p class="eyebrow">Audiens Fit · guia para quem vai testar</p>
+      <h1>Instalar o Audiens Fit num pendrive</h1>
+      <p class="lede">O processo tem uma parte técnica — Terminal, um aviso de segurança do Mac —
+      mas você só passa por ela <strong>uma vez</strong>. Depois disso, usar o Fit é clicar num
+      ícone. Este guia mostra as duas partes separadas.</p>
+      <div class="chips">
+        <span class="chip"><strong>Mac</strong> Apple Silicon ou Intel</span>
+        <span class="chip"><strong>Pendrive</strong> exFAT, 16 GB livres</span>
+        <span class="chip"><strong>Internet</strong> só para preparar</span>
+        <span class="chip"><strong>Tempo</strong> ~10-20 min (rede boa)</span>
+      </div>
+    </header>
+
+    <div class="parte-titulo"><span class="num">1</span><h2>Preparar o pendrive</h2></div>
+    <p class="parte-nota">Feito uma única vez, na máquina que tem internet. O pendrive pronto funciona depois em qualquer Mac, sem internet.</p>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">1</div>
+      <div class="corpo">
+        <h3>Baixe e descompacte</h3>
+        <p>Na página do projeto no GitHub, botão verde <code>Code</code> → <code>Download ZIP</code>. Descompacte — vira uma pasta chamada algo como <code>audiens-fit-main</code>.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">Downloads</div></div>
+            <div class="finder">
+              <div class="lado">
+                <div class="grupo">Favoritos</div>
+                <div class="item on">Downloads</div>
+                <div class="item">Área de Trabalho</div>
+                <div class="item">Documentos</div>
+              </div>
+              <div class="conteudo">
+                <div class="ficon zip"><div class="quadro">.zip</div>audiens-fit-main.zip</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>audiens-fit-main</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">2</div>
+      <div class="corpo">
+        <h3>Plugue o pendrive</h3>
+        <p>Formatado em <strong>exFAT</strong> (o padrão de fábrica da maioria) — não precisa fazer nada especial nele antes.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">3</div>
+      <div class="corpo">
+        <h3>Abra o Terminal</h3>
+        <p><kbd class="inline-code">Cmd</kbd> + Espaço, digite <code>terminal</code>, Enter. É um aplicativo do próprio Mac.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">4</div>
+      <div class="corpo">
+        <h3>Entre na pasta e rode o instalador</h3>
+        <p>Truque para nunca errar o caminho: digite <code>cd</code> e um espaço, depois <strong>arraste a pasta</strong>
+        descompactada para dentro da janela do Terminal — o caminho se preenche sozinho. Enter. Repita o truque para
+        o pendrive, arrastando o ícone dele.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">terminal — zsh</div></div>
+            <div class="term">
+              <div><span class="prompt">mac ~ %</span> <span class="cmd">cd </span><span class="drag">audiens-fit-main</span></div>
+              <div><span class="prompt">mac audiens-fit-main %</span> <span class="cmd">./instalar-mac.command </span><span class="drag">AUDIENSFIT</span></div>
+              <div class="out">══ Audiens Fit: instalando em /Volumes/AUDIENSFIT ══</div>
+              <div class="out">→ Copiando o aplicativo…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+  </section>
+
+  <!-- ═══════════ PÁGINA 2 — passos 1-5 a 1-7 ═══════════ -->
+  <section class="pagina">
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">5</div>
+      <div class="corpo">
+        <h3>O Mac vai bloquear na primeira vez — é esperado</h3>
+        <p>Qualquer script baixado da internet recebe esse aviso, não é específico do Fit. Duas telas para passar por isso.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">Aviso de segurança</div></div>
+            <div class="sys-dialog">
+              <div class="icone"></div>
+              <h4>"instalar-mac.command" não pôde ser aberto porque a Apple não pode verificar se contém malware.</h4>
+              <p>Este software precisa ser atualizado. Entre em contato com o desenvolvedor para mais informações.</p>
+              <div class="botoes"><button>Mover para o Lixo</button><button class="primario">OK</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">6</div>
+      <div class="corpo">
+        <h3>Libere em Ajustes do Sistema</h3>
+        <p><code>Ajustes do Sistema</code> → <code>Privacidade e Segurança</code> → role até o fim. Aparece um aviso
+        recente com o botão <strong>Abrir Mesmo Assim</strong>. Clique, confirme com sua senha ou Touch ID.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">Ajustes do Sistema</div></div>
+            <div class="settings">
+              <div class="lado">
+                <div class="item">Geral</div>
+                <div class="item">Aparência</div>
+                <div class="item on">Privacidade e Segurança</div>
+                <div class="item">Rede</div>
+              </div>
+              <div class="conteudo">
+                <h5>Segurança</h5>
+                <div class="aviso-seg">
+                  <span>"instalar-mac.command" foi bloqueado para proteger o seu Mac.</span>
+                  <button>Abrir Mesmo Assim</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:10px">Volte ao Terminal e rode o mesmo comando do passo 4 de novo — dessa vez ele passa direto.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">7</div>
+      <div class="corpo">
+        <h3>Acompanhe os downloads</h3>
+        <p>O instalador baixa sozinho o Python, o Ollama e o modelo de IA (~2,5 GB) direto para o pendrive. Barra de
+        progresso no Terminal — o tempo depende só da sua internet.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">terminal — zsh</div></div>
+            <div class="term">
+              <div class="out">→ Baixando Python relocável (arm64)…</div>
+              <div class="out">→ Baixando Ollama standalone…</div>
+              <div class="out">→ Baixando o modelo do perfil normal (qwen3:4b-instruct, ~2.5 GB)…</div>
+              <div><span class="bar"><span style="width:74%"></span></span> 74%</div>
+              <div class="prompt-yn">Baixar também o modelo turbo qwen3:8b (5.2 GB, máquinas de 16 GB+)? [s/N]</div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:10px">O turbo é opcional — só compensa em Mac com 16 GB de RAM ou mais. Pode responder
+        <code>N</code> e adicionar depois, com calma.</p>
+      </div>
+    </div>
+    </td></tr></table>
+  </section>
+
+  <!-- ═══════════ PÁGINA 3 — passo 1-8 + passos 2-1 a 2-3 ═══════════ -->
+  <section class="pagina">
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">8</div>
+      <div class="corpo">
+        <h3>Pronto</h3>
+        <p>O Terminal avisa <code>Instalação concluída</code> e pergunta se quer abrir agora. Essa foi a parte técnica — não se repete.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">terminal — zsh</div></div>
+            <div class="term">
+              <div class="out">══ Instalação concluída. ══</div>
+              <div class="out">Para usar: abra o aplicativo 'Audiens Fit' (ícone Af) na raiz do pendrive.</div>
+              <div class="prompt-yn">Abrir o Audiens Fit agora? [s/N]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <div class="parte-titulo"><span class="num">2</span><h2>Usar no dia a dia</h2></div>
+    <p class="parte-nota">A partir daqui, em qualquer Mac, sem internet e sem Terminal.</p>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">1</div>
+      <div class="corpo">
+        <h3>Abra o pendrive no Finder</h3>
+        <p>Dois ícones prontos na raiz — foram criados pelo instalador, por isso abrem <strong>sem nenhum aviso</strong> de segurança, diferente do passo 5.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">AUDIENSFIT</div></div>
+            <div class="finder">
+              <div class="lado">
+                <div class="grupo">Locais</div>
+                <div class="item on">AUDIENSFIT</div>
+              </div>
+              <div class="conteudo">
+                <div class="ficon app-fit"><div class="quadro">Af</div>Audiens Fit</div>
+                <div class="ficon app-off"><div class="quadro">⏻</div>Encerrar Audiens</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>audiens-fit</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>modelos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">2</div>
+      <div class="corpo">
+        <h3>Duplo clique em "Audiens Fit"</h3>
+        <p>Uma janela de Terminal abre sozinha mostrando o andamento (é assim mesmo, faz parte) e, poucos segundos
+        depois, o navegador abre a interface.</p>
+        <div class="mock">
+          <div class="mac-win browser">
+            <div class="barra-nav"><div class="dots"><i></i><i></i><i></i></div><div class="url">localhost:5001</div></div>
+            <div class="conteudo app-mini">
+              <span class="badge">perfil normal · qwen3:4b-instruct</span>
+              <h6>Audiens Fit</h6>
+              <p style="font-size:12px;color:var(--mut);margin-bottom:4px">Carregando o modelo pela primeira vez…</p>
+              <div class="barra-progresso"><span></span></div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:10px">Primeira carga do modelo, do pendrive: 1 a 3 minutos. Nas vezes seguintes é mais rápido.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">3</div>
+      <div class="corpo">
+        <h3>Analise sua planilha</h3>
+        <p>XLSX ou CSV, coluna de comentários detectada sozinha. Tudo roda ali, no seu Mac — nada sobe para a internet.</p>
+      </div>
+    </div>
+    </td></tr></table>
+  </section>
+
+  <!-- ═══════════ PÁGINA 4 — passo 2-4 + dúvidas + rodapé ═══════════ -->
+  <section class="pagina">
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">4</div>
+      <div class="corpo">
+        <h3>Ao terminar, "Encerrar Audiens"</h3>
+        <p>Libera a RAM que o modelo estava usando. Só fechar a aba do navegador não faz isso sozinho.</p>
+      </div>
+    </div>
+    </td></tr></table>
+
+    <div class="parte-titulo"><span class="num">?</span><h2>Se algo sair diferente</h2></div>
+
+    <div class="duvida">
+      <div class="pergunta"><span class="marca-erro">Uso: instalar-mac.command…</span></div>
+      <p class="resposta">Apareceu porque o Terminal não sabia qual pendrive usar. Se você tiver mais de um disco
+      externo plugado, o instalador lista os disponíveis numerados — digite o número do seu. Com só um pendrive
+      plugado, normalmente ele nem pergunta.</p>
+    </div>
+
+    <div class="duvida">
+      <div class="pergunta"><span class="marca-erro">ERRO: Python do pendrive não encontrado</span></div>
+      <p class="resposta">Sinal de que a instalação não terminou (foi interrompida, ou a internet caiu no meio).
+      Repita o passo 4 — o instalador é seguro para rodar de novo, ele pula o que já baixou e completa só o que falta.</p>
+    </div>
+
+    <div class="duvida">
+      <div class="pergunta"><span class="marca-erro">Nada abre ao clicar duas vezes</span></div>
+      <p class="resposta">Confirme que o pendrive foi ejetado corretamente da última vez (não retirado direto) e que
+      está formatado em exFAT. Em caso de dúvida, uma reinstalação (passo 4) resolve sem apagar nada que já funciona.</p>
+    </div>
+
+    <footer class="pe">Audiens Fit — Data Design Inteligência de Comunicação</footer>
+  </section>
+
+</div>

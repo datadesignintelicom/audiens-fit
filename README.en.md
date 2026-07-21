@@ -59,6 +59,9 @@ speed.
 
 ## Installation
 
+📄 [**Visual step-by-step guide (PDF)**](docs/guia-instalacao-mac.pdf) — illustrated with
+Mac screens, for those who prefer following images over text (Portuguese).
+
 Simple model: **the machine that prepares the drive needs internet; the
 machine that uses it needs nothing installed** — Ollama, Python and the AI
 models are downloaded automatically by the installer and live on the drive
@@ -69,7 +72,10 @@ itself.
    (24 GB to include the turbo model)
 3. Run the installer pointing at the destination:
    - **macOS**: `./instalar-mac.command /Volumes/YOUR_DRIVE`
-   - **Windows**: `instalar-windows.bat E:\` *(not yet tested)*
+   - **Windows**: `instalar-windows.bat E:\` *(not yet tested on real
+     hardware — [visual guide](docs/guia-instalacao-windows.pdf) of the
+     expected behavior; tried it and something's off? tell us:
+     audiensbrasil@proton.me)*
 4. On any machine, open the **Audiens Fit** app (the "Af" icon) at the
    drive's root — the browser opens by itself. To quit and free the RAM,
    use the **Encerrar Audiens** app (red icon). Both are created by the
@@ -109,7 +115,7 @@ auditing (coordinated/inorganic activity detection), comparative time
 series and full communication-intelligence reports.
 
 **Interested in professional analyses or licensing the technology?**
-Contact Data Design Inteligência de Comunicação.
+Contact Data Design Inteligência de Comunicação: **audiensbrasil@proton.me**
 
 ## Licenses
 
