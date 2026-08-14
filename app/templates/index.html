@@ -227,6 +227,7 @@ function render(d) {
     Perfil ${esc(m.perfil)} · modelo ${esc(m.modelo)} · seed ${m.seed} — mesma análise sobre o mesmo corpus produz o mesmo resultado.<br>
     Sentimento binário contextual (favorável/contrário ao conteúdo) por lote; comentários não-verbais por tabela de emojis.<br>
     ${cob ? 'Cobertura da classificação (atribuição nunca forçada): ' + cob + '.<br>' : ''}
+    ${(d.percepcoes || []).some(p => p.exemplo_anonimizado) ? 'Exemplos com menção de usuário anonimizada (@n*****): o texto citado foi alterado apenas nisso.<br>' : ''}
     ${m.falhas_sentimento ? m.falhas_sentimento + ' comentário(s) sem classificação por falha de lote — contados como "não claro".<br>' : ''}
     ${d.aviso_importacao ? esc(d.aviso_importacao) + '<br>' : ''}</p>
     <a class="botao-csv" href="/exportar/${sessaoAnalise}" download>⬇ Exportar XLSX (aba de comentários + aba de resumo)</a>

@@ -233,27 +233,64 @@ def _valencia(rotulo):
     return None
 
 
+_RE_MENCAO   = re.compile(r"@([A-Za-z0-9._]{2,30})")
+_RE_ABERTURA = re.compile(r"^(?:@[A-Za-z0-9._]{2,30}[\s,]+)+")
+
+
+def _anonimizar_mencoes(texto):
+    """
+    Devolve (texto, alterado). Menção de abertura, que é endereçamento a outro
+    comentarista e não conteúdo, sai do começo; menção no meio vira
+    @inicial+asteriscos.
+
+    Antes, qualquer @ eliminava o comentário do conjunto de candidatos a
+    exemplo. Numa planilha exportada de rede social isso descarta a maior parte
+    do corpus, que é justamente onde vive a conversa — daí o verbatim vazio ser
+    tão comum. Mascarar preserva o comentário sem expor o perfil.
+    """
+    if not isinstance(texto, str):
+        return "", False
+    t = texto.strip()
+    alterado = False
+
+    m = _RE_ABERTURA.match(t)
+    if m:
+        resto = t[m.end():].strip()
+        if len(resto) >= 20:      # só remove se sobrar comentário de verdade
+            t, alterado = resto, True
+
+    def _mascara(match):
+        nonlocal alterado
+        handle = match.group(1)
+        alterado = True
+        return "@" + handle[0] + "*" * min(len(handle) - 1, 6)
+
+    return _RE_MENCAO.sub(_mascara, t), alterado
+
+
 def _verbatim(rotulo, itens, usados):
+    """Devolve (texto, anonimizado). Texto sem máscara tem prioridade."""
     termos = {t for t in re.findall(r"\b\w{4,}\b", rotulo.lower()) if t not in _STOP_MIN}
     if not termos:
-        return ""
+        return "", False
     padroes = [re.compile(r"\b" + re.escape(t)) for t in termos]
     valencia = _valencia(rotulo)
     candidatos = []
     for it in itens:
-        txt = it["texto"]
-        if len(txt.strip()) < 20 or re.search(r"@\w+", txt) or txt in usados:
+        txt, anonimo = _anonimizar_mencoes(it["texto"])
+        if len(txt.strip()) < 20 or txt in usados:
             continue
         pontos = sum(1 for p in padroes if p.search(txt.lower()))
         if pontos:
             coerente = 1 if (valencia is None or it["sentimento"] == valencia) else 0
-            candidatos.append((coerente, pontos, txt))
+            candidatos.append((coerente, 0 if anonimo else 1, pontos,
+                               -abs(len(txt) - 100), txt, anonimo))
     if not candidatos:
-        return ""
-    candidatos.sort(key=lambda c: (c[0], c[1], -abs(len(c[2]) - 100)), reverse=True)
+        return "", False
+    candidatos.sort(key=lambda c: c[:4], reverse=True)
     if valencia is not None and candidatos[0][0] == 0:
-        return ""   # sem candidato coerente: melhor nenhum verbatim que um contraditório
-    return candidatos[0][2]
+        return "", False   # sem candidato coerente: melhor nenhum verbatim que um contraditório
+    return candidatos[0][4], candidatos[0][5]
 
 
 # ── Orquestrador ───────────────────────────────────────────────────────────
@@ -331,12 +368,13 @@ def analisar(textos, contexto="", progresso=None):
         contagens = Counter(pi for lista in atrib.values() for pi in lista)
         usados = set()
         for pi, _ in contagens.most_common():
-            exemplo = _verbatim(percepcoes_rotulos[pi], itens, usados)
+            exemplo, exemplo_anonimo = _verbatim(percepcoes_rotulos[pi], itens, usados)
             if exemplo:
                 usados.add(exemplo)
             percepcoes.append({"label": percepcoes_rotulos[pi], "n": contagens[pi],
                                "pct": round(contagens[pi] / total * 100, 1),
-                               "exemplo": exemplo})
+                               "exemplo": exemplo,
+                               "exemplo_anonimizado": exemplo_anonimo})
         for gi, lista in atrib.items():
             itens[gi]["percepcoes"] = [percepcoes_rotulos[pi] for pi in lista]
         cobertura["percepcoes"] = {"classificados": len(atrib), "total": total, "lotes_falhos": falhos}

@@ -22,6 +22,11 @@ Criado por Daniel Bastos · Data Design Inteligência de Comunicação — CC-BY
 5. **Verbatims**: casamento lexical entre rótulo e comentários com fronteira
    de palavra, preferindo sentimento coerente com a valência do rótulo; sem
    candidato coerente, o verbatim fica vazio — nunca um exemplo contraditório.
+   Menções a perfis são anonimizadas (`@n*****`) antes de o comentário virar
+   exemplo: a menção de abertura, que endereça outro comentarista em vez de
+   dizer algo, é removida, e as do meio do texto viram inicial mais
+   asteriscos. Comentário com menção deixou de ser descartado por isso — a
+   nota metodológica do relatório declara quando algum exemplo foi alterado.
 
 ## Lotes e amostragem (o que significa "lote X de Y")
 
