@@ -112,8 +112,8 @@ Audiens Fit is the portable, open edition of **Audiens**, Data Design's
 listening platform, which goes much further: direct multi-platform
 collection (Instagram, Facebook, YouTube, TikTok, Threads, Bluesky, Reddit,
 LinkedIn), multi-layer analysis with larger models, engagement authenticity
-auditing (coordinated/inorganic activity detection), comparative time
-series and full communication-intelligence reports.
+auditing (coordinated/inorganic activity detection) and full
+communication-intelligence reports.
 
 **Interested in professional analyses or licensing the technology?**
 Contact Data Design Inteligência de Comunicação: **audiensbrasil@proton.me**
