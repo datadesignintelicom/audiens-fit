@@ -110,10 +110,12 @@ error line at startup. Method details in
 
 Audiens Fit is the portable, open edition of **Audiens**, Data Design's
 listening platform, which goes much further: direct multi-platform
-collection (Instagram, Facebook, YouTube, TikTok, Threads, Bluesky, Reddit,
-LinkedIn), multi-layer analysis with larger models, engagement authenticity
-auditing (coordinated/inorganic activity detection) and full
-communication-intelligence reports.
+collection (Instagram, Facebook, YouTube, TikTok, X, Threads, Bluesky,
+Reddit and LinkedIn), with per-post volume subject to the plan contracted with
+the collection service on networks that require an intermediary; multi-layer
+analysis with larger models; engagement authenticity auditing
+(coordinated/inorganic activity detection) and full communication-intelligence
+reports.
 
 **Interested in professional analyses or licensing the technology?**
 Contact Data Design Inteligência de Comunicação: **audiensbrasil@proton.me**
