@@ -120,6 +120,14 @@ reports.
 **Interested in professional analyses or licensing the technology?**
 Contact Data Design Inteligência de Comunicação: **audiensbrasil@proton.me**
 
+## Support the project
+
+Audiens Fit is free for non-commercial use and will stay that way. If it saved
+you work, consider supporting its development:
+
+- **Brazil**: [apoia.se/audiensbrasil](https://apoia.se/audiensbrasil)
+- **International**: [ko-fi.com/audiensbrasil](https://ko-fi.com/audiensbrasil)
+
 ## Licenses
 
 - **Code**: [MIT](LICENSE)

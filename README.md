@@ -121,6 +121,14 @@ comunicação.
 **Interessado em análises profissionais ou em licenciar a tecnologia?**
 Fale com a Data Design Inteligência de Comunicação: **audiensbrasil@proton.me**
 
+## Apoie o projeto
+
+O Audiens Fit é gratuito para uso não comercial e vai continuar assim. Se ele
+te poupou trabalho, considere apoiar o desenvolvimento:
+
+- **Brasil**: [apoia.se/audiensbrasil](https://apoia.se/audiensbrasil)
+- **Internacional**: [ko-fi.com/audiensbrasil](https://ko-fi.com/audiensbrasil)
+
 ## Licenças
 
 - **Código**: [MIT](LICENSE)
