@@ -24,6 +24,10 @@ third-party server. Audiens Fit does the opposite:
 
 Created by **Daniel Bastos · Data Design Inteligência de Comunicação**.
 
+Free, no ads, no tracking. If it saved you work, support its development:
+**https://ko-fi.com/audiensbrasil** (international) ·
+**https://apoia.se/audiensbrasil** (Brazil)
+
 ---
 
 ## What it does
@@ -119,14 +123,6 @@ reports.
 
 **Interested in professional analyses or licensing the technology?**
 Contact Data Design Inteligência de Comunicação: **audiensbrasil@proton.me**
-
-## Support the project
-
-Audiens Fit is free for non-commercial use and will stay that way. If it saved
-you work, consider supporting its development:
-
-- **Brazil**: [apoia.se/audiensbrasil](https://apoia.se/audiensbrasil)
-- **International**: [ko-fi.com/audiensbrasil](https://ko-fi.com/audiensbrasil)
 
 ## Licenses
 
