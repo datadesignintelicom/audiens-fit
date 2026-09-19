@@ -1,4 +1,4 @@
-# Contribuir com o Audiens Fit
+# Contribuir com o AudiensBR Fit
 
 Obrigado pelo interesse em melhorar o projeto. Este documento explica como
 mandar uma contribuição e o que acontece com ela depois.
@@ -22,10 +22,10 @@ documentação são CC-BY-NC-4.0, conforme os arquivos `LICENSE` e
 `LICENSE-CONTEUDO`. Ao abrir um Pull Request, sua contribuição é licenciada
 sob os mesmos termos da parte do projeto que ela modifica.
 
-## Uso da sua contribuição na versão completa do Audiens
+## Uso da sua contribuição na versão completa do AudiensBR
 
 Vale deixar claro, de forma transparente, um segundo uso possível. A Data
-Design mantém também uma versão fechada e comercial do Audiens. Contribuições
+Design mantém também uma versão fechada e comercial do AudiensBR. Contribuições
 recebidas aqui, incluindo ideias discutidas em Issues e não só código
 mergeado, podem servir de inspiração para o desenvolvimento dessa versão.
 

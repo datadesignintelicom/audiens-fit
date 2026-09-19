@@ -1,4 +1,4 @@
-# Metodologia — Audiens Fit
+# Metodologia — AudiensBR Fit
 
 Criado por Daniel Bastos · Data Design Inteligência de Comunicação — CC-BY-NC-4.0
 
@@ -37,7 +37,7 @@ de rótulos percorre os 40 de novo. Todos os percentuais do relatório são
 contagem real sobre a totalidade, nunca extrapolação: essa é a razão da
 duração das análises grandes.
 
-A única amostragem do Audiens Fit é a da síntese interpretativa, por limite
+A única amostragem do AudiensBR Fit é a da síntese interpretativa, por limite
 físico da janela do modelo: uma amostra estratificada por sentimento (100
 comentários no perfil normal, 120 no turbo; `amostra_sintese` em
 `app/config.py`), sorteada com seed fixo, serve apenas para NOMEAR os

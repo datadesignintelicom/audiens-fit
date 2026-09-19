@@ -1,4 +1,4 @@
-# FAQ — Audiens Fit
+# FAQ — AudiensBR Fit
 
 **Preciso de internet?** Só na preparação do pendrive (o instalador baixa
 Ollama, Python e modelos para dentro dele). No uso, tudo roda offline e a
@@ -14,7 +14,7 @@ Os deste projeto são texto aberto — leia antes de executar.
 **Posso mudar como a IA interpreta?** Sim: edite prompts/prompts.json
 (preserve os {placeholders}). É a metodologia inteira, em texto.
 
-**Qual a diferença para o Audiens completo?** O completo (interno da
+**Qual a diferença para o AudiensBR completo?** O completo (interno da
 Data Design) coleta direto das plataformas, usa modelos maiores e camadas
 extras de análise. O Fit é a edição portátil, aberta e planilha-first.
 

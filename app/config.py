@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Audiens Fit — config.py
+# AudiensBR Fit — config.py
 # Perfil adaptativo por RAM, carga e validação do prompts.json.
 #
 # Criado por Daniel Bastos · Data Design Inteligência de Comunicação
@@ -92,13 +92,13 @@ def carregar_prompts():
         with open(PROMPTS_PATH, encoding="utf-8") as f:
             prompts = json.load(f)
     except json.JSONDecodeError as e:
-        sys.exit(f"[AUDIENS FIT] prompts/prompts.json inválido (linha {e.lineno}): {e.msg}\n"
+        sys.exit(f"[AUDIENSBR FIT] prompts/prompts.json inválido (linha {e.lineno}): {e.msg}\n"
                  f"Corrija o arquivo ou restaure a versão original do repositório.")
     except FileNotFoundError:
-        sys.exit("[AUDIENS FIT] prompts/prompts.json não encontrado.")
+        sys.exit("[AUDIENSBR FIT] prompts/prompts.json não encontrado.")
     faltando = obrigatorias - set(prompts)
     if faltando:
-        sys.exit(f"[AUDIENS FIT] prompts.json sem as chaves: {', '.join(sorted(faltando))}")
+        sys.exit(f"[AUDIENSBR FIT] prompts.json sem as chaves: {', '.join(sorted(faltando))}")
     return prompts
 
 

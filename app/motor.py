@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Audiens Fit — motor.py
+# AudiensBR Fit — motor.py
 # Pipeline de análise compacto, calibrado para modelos 4B:
 #   0. Atalho determinístico para comentários não-verbais (tabela de emojis)
 #   1. Sentimento binário CONTEXTUAL em lote (favorável/contrário/não claro),
@@ -306,7 +306,7 @@ def analisar(textos, contexto="", progresso=None):
     if not total:
         return {"erro": "Nenhum comentário válido."}
     if not ollama_disponivel():
-        return {"erro": "Ollama não está acessível. Abra o Audiens Fit pelo atalho do pendrive."}
+        return {"erro": "Ollama não está acessível. Abra o AudiensBR Fit pelo atalho do pendrive."}
 
     emitir(2, "Separando comentários verbais e não-verbais…")
     itens = []

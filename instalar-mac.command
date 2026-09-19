@@ -1,6 +1,6 @@
 #!/bin/bash
 # ---------------------------------------------------------------------------
-# Audiens Fit — instalador macOS (pendrive autossuficiente)
+# AudiensBR Fit — instalador macOS (pendrive autossuficiente)
 #
 # A máquina que PREPARA o pendrive precisa de internet: este script baixa
 # tudo sozinho (Ollama standalone, Python relocável e os modelos de IA).
@@ -43,14 +43,14 @@ if [ -z "$DESTINO" ]; then
   fi
   if [ -n "$VOL" ] && [ -z "$DESTINO" ]; then
     echo "Nenhum destino informado."
-    read -p "Instalar o Audiens Fit em $VOL? [s/N] " r
+    read -p "Instalar o AudiensBR Fit em $VOL? [s/N] " r
     [ "$r" = "s" ] && DESTINO="$VOL"
   fi
 fi
 [ -z "$DESTINO" ] && { echo "Uso: $0 /Volumes/SEU_PENDRIVE (ou uma pasta local)"; read -p "Pressione Enter para fechar."; exit 1; }
 ORIGEM="$(cd "$(dirname "$0")" && pwd)"
 RT="$DESTINO/runtime-mac"
-echo "══ Audiens Fit: instalando em $DESTINO ══"
+echo "══ AudiensBR Fit: instalando em $DESTINO ══"
 
 mkdir -p "$DESTINO/modelos" "$RT"
 echo "→ Copiando o aplicativo…"
@@ -86,7 +86,7 @@ fi
 
 # ── Modelos de IA (baixados automaticamente — nada é manual) ──
 # Porta dedicada 11435: nunca reaproveita um Ollama do sistema que já esteja
-# ocupando a 11434 (ex.: instalar num Mac que já roda o Audiens completo) —
+# ocupando a 11434 (ex.: instalar num Mac que já roda o AudiensBR completo) —
 # sem isso, os modelos baixados iriam parar na pasta DESSE outro servidor,
 # não em $DESTINO/modelos, e o pendrive ficaria vazio silenciosamente.
 export OLLAMA_HOST=127.0.0.1:11435
@@ -106,8 +106,8 @@ if [ "$AUDIENS_INSTALAR_SEM_MODELOS" != "1" ]; then
   kill $PID_OLLAMA 2>/dev/null || true
 fi
 
-cp "$ORIGEM/launchers/Audiens Fit.command" "$DESTINO/"
-cp "$ORIGEM/launchers/Encerrar Audiens.command" "$DESTINO/"
+cp "$ORIGEM/launchers/AudiensBR Fit.command" "$DESTINO/"
+cp "$ORIGEM/launchers/Encerrar AudiensBR.command" "$DESTINO/"
 chmod +x "$DESTINO/"*.command
 
 # ── Aplicativos com ícone na raiz do pendrive ──
@@ -141,12 +141,12 @@ ABRIR
 }
 if [ -f "$DESTINO/audiens-fit/recursos/audiens-fit.icns" ]; then
   echo "→ Criando os aplicativos com ícone…"
-  criar_app "Audiens Fit" "Audiens Fit.command" "audiens-fit.icns"
-  criar_app "Encerrar Audiens" "Encerrar Audiens.command" "encerrar-audiens.icns"
+  criar_app "AudiensBR Fit" "AudiensBR Fit.command" "audiens-fit.icns"
+  criar_app "Encerrar AudiensBR" "Encerrar AudiensBR.command" "encerrar-audiens.icns"
 fi
 
 echo "══ Instalação concluída. ══"
-echo "Para usar: abra o aplicativo 'Audiens Fit' (ícone Af) na raiz de $DESTINO —"
+echo "Para usar: abra o aplicativo 'AudiensBR Fit' (ícone Af) na raiz de $DESTINO —"
 echo "neste Mac agora, ou em qualquer outro depois (leve o pendrive plugado)."
-read -p "Abrir o Audiens Fit agora? [s/N] " r
-[ "$r" = "s" ] && exec "$DESTINO/Audiens Fit.command"
+read -p "Abrir o AudiensBR Fit agora? [s/N] " r
+[ "$r" = "s" ] && exec "$DESTINO/AudiensBR Fit.command"

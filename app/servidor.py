@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Audiens Fit — servidor.py
+# AudiensBR Fit — servidor.py
 # Flask enxuto: análise por planilha, progresso por polling e perguntas
 # sobre o corpus. Sem SSE, sem coleta embutida — planilha-first.
 #
@@ -70,7 +70,7 @@ def iniciar_analise():
                     _sessoes[sid]["resultado"] = resultado
             if "erro" not in resultado:
                 minutos = (time.time() - inicio) / 60
-                print(f"[AUDIENS FIT] análise concluída — {len(textos)} comentários "
+                print(f"[AUDIENSBR FIT] análise concluída — {len(textos)} comentários "
                       f"em {minutos:.0f} min. O relatório está aberto no navegador.")
         except Exception as e:
             with _trava:
@@ -135,7 +135,7 @@ def carregar_corpus():
 
 
 def principal():
-    print(f"[AUDIENS FIT] perfil {PERFIL['nome']} · modelo {PERFIL['modelo']} · "
+    print(f"[AUDIENSBR FIT] perfil {PERFIL['nome']} · modelo {PERFIL['modelo']} · "
           f"RAM {PERFIL['ram_gb']} GB · http://localhost:{PORTA}")
     app.run(host="127.0.0.1", port=PORTA, threaded=True)
 

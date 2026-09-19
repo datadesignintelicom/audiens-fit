@@ -1,4 +1,4 @@
-# Instalação detalhada — Audiens Fit
+# Instalação detalhada — AudiensBR Fit
 
 Guias visuais, tela por tela: [Mac](guia-instalacao-mac.pdf) ·
 [Windows](guia-instalacao-windows.pdf) *(caminho ainda não testado numa
@@ -24,18 +24,18 @@ máquina real — veja a ressalva abaixo)*.
 - Também funciona apontando para uma pasta do computador.
 
 ## Rodar
-Duplo clique em **Audiens Fit** na raiz do pendrive, em qualquer máquina.
+Duplo clique em **AudiensBR Fit** na raiz do pendrive, em qualquer máquina.
 O navegador abre sozinho em http://localhost:5001. Primeira carga do
 modelo: 1-3 minutos em pendrive.
 
 ## Encerrar
-**Encerrar Audiens** derruba o servidor e descarrega os modelos da RAM.
+**Encerrar AudiensBR** derruba o servidor e descarrega os modelos da RAM.
 
 ## Problemas comuns
 - "O item não foi aberto pois a Apple não pode verificar se está livre de
   malware" (Mac/Gatekeeper): Ajustes do Sistema → Privacidade e Segurança →
   "Abrir Mesmo Assim" logo após a tentativa; ou
-  `xattr -d com.apple.quarantine instalar-mac.command "Audiens Fit.command"`.
+  `xattr -d com.apple.quarantine instalar-mac.command "AudiensBR Fit.command"`.
 - ".bat bloqueado" (Windows): SmartScreen → "Mais informações" → "Executar
   assim mesmo". Veja o aviso no README.
 - Máquinas Intel (Mac) usam o Python x86_64 baixado pelo instalador — o

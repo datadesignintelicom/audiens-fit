@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Audiens Fit — importador.py
+# AudiensBR Fit — importador.py
 # Leitura de planilhas (XLSX/CSV) com detecção automática da coluna de
 # comentários: por nome do cabeçalho ou, na falta, pela coluna de texto
 # com maior comprimento médio.

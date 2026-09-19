@@ -1,15 +1,17 @@
-# Audiens Fit
+# AudiensBR Fit
 
 **Escuta qualificada de audiências — offline, portátil e auditável.**
 
 *Read this in [English](README.en.md).*
+
+> **Mudança de nome:** o projeto passou a se chamar AudiensBR, com o sufixo do país, para não se confundir com uma ferramenta estrangeira que atua no mesmo segmento.
 
 ## Por que não jogar a planilha num chat de IA pago?
 
 Você pode colar mil comentários no chat de um LLM e pedir "resuma". O que
 recebe de volta: um texto sem método, sem números verificáveis, percentuais
 inventados com cara de exatos, sem layout de relatório, e seus dados
-entregues a um servidor de terceiros. O Audiens Fit faz o contrário:
+entregues a um servidor de terceiros. O AudiensBR Fit faz o contrário:
 
 - **Metodologia de social listening de verdade**: sentimento medido em
   relação ao conteúdo (protesto com redação positiva conta como contrário),
@@ -81,9 +83,9 @@ próprio pendrive.
 3. Rode o instalador apontando o destino:
    - **macOS**: `./instalar-mac.command /Volumes/SEU_PENDRIVE`
    - **Windows**: `instalar-windows.bat E:\`
-4. Em qualquer máquina, abra o aplicativo **Audiens Fit** (ícone "Af") na
+4. Em qualquer máquina, abra o aplicativo **AudiensBR Fit** (ícone "Af") na
    raiz do pendrive — o navegador abre sozinho. Para encerrar liberando a
-   RAM, o aplicativo **Encerrar Audiens** (ícone vermelho). Os dois são
+   RAM, o aplicativo **Encerrar AudiensBR** (ícone vermelho). Os dois são
    criados pelo instalador na própria máquina, por isso abrem sem o aviso
    do Gatekeeper
 
@@ -95,7 +97,7 @@ apontar o instalador para ela.
 > de malware"* — padrão para qualquer script baixado da internet. Solução:
 > Ajustes do Sistema → Privacidade e Segurança → botão **"Abrir Mesmo Assim"**
 > (aparece logo após a tentativa bloqueada); ou, no Terminal:
-> `xattr -d com.apple.quarantine instalar-mac.command "Audiens Fit.command"`.
+> `xattr -d com.apple.quarantine instalar-mac.command "AudiensBR Fit.command"`.
 >
 > ⚠️ **Aviso sobre antivírus (Windows)**: arquivos `.bat` podem ser
 > sinalizados pelo SmartScreen ou por antivírus, porque scripts de lote são
@@ -111,9 +113,9 @@ caso; preserve os `{placeholders}`. Se o JSON quebrar, o servidor avisa a
 linha do erro na partida. Detalhes do método em
 [`docs/metodologia.md`](docs/metodologia.md).
 
-## Quer mais? Conheça o Audiens completo
+## Quer mais? Conheça o AudiensBR completo
 
-O Audiens Fit é a edição portátil e aberta do **Audiens**, a plataforma de
+O AudiensBR Fit é a edição portátil e aberta do **AudiensBR**, a plataforma de
 escuta da Data Design que vai muito além: coleta direta de múltiplas
 plataformas (Instagram, Facebook, YouTube, TikTok, X, Threads, Bluesky,
 Reddit e LinkedIn), com volume por post condicionado ao plano contratado no

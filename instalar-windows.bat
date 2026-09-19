@@ -1,6 +1,6 @@
 @echo off
 REM ---------------------------------------------------------------------------
-REM Audiens Fit — instalador Windows (pendrive autossuficiente) — NAO TESTADO
+REM AudiensBR Fit — instalador Windows (pendrive autossuficiente) — NAO TESTADO
 REM A maquina que PREPARA o pendrive precisa de internet e de Python+Ollama
 REM instalados (versao autossuficiente do runtime Windows chega em breve).
 REM Uso: instalar-windows.bat E:\
@@ -11,7 +11,7 @@ setlocal
 set DESTINO=%~1
 if "%DESTINO%"=="" ( echo Uso: %~nx0 E:\  & exit /b 1 )
 set ORIGEM=%~dp0
-echo == Audiens Fit: instalando em %DESTINO% ==
+echo == AudiensBR Fit: instalando em %DESTINO% ==
 
 mkdir "%DESTINO%\modelos" 2>nul
 mkdir "%DESTINO%\runtime-win" 2>nul
@@ -50,13 +50,13 @@ if errorlevel 1 (
   ollama pull qwen3:4b-instruct
   if errorlevel 1 (
     echo AVISO: download do modelo falhou ou foi interrompido — confira sua
-    echo internet e rode o instalador de novo antes de usar o Audiens Fit.
+    echo internet e rode o instalador de novo antes de usar o AudiensBR Fit.
   )
 )
-copy "%ORIGEM%launchers\Audiens Fit.bat" "%DESTINO%\" >nul
-if not exist "%DESTINO%\Audiens Fit.bat" (
+copy "%ORIGEM%launchers\AudiensBR Fit.bat" "%DESTINO%\" >nul
+if not exist "%DESTINO%\AudiensBR Fit.bat" (
   echo ERRO: falha ao copiar o launcher para "%DESTINO%".
   pause & exit /b 1
 )
-echo == Pronto. Abra "Audiens Fit.bat" na raiz de %DESTINO% ==
+echo == Pronto. Abra "AudiensBR Fit.bat" na raiz de %DESTINO% ==
 pause

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Audiens Fit — launcher macOS
+# AudiensBR Fit — launcher macOS
 # Criado por Daniel Bastos · Data Design Inteligência de Comunicação — MIT
 # Funciona na RAIZ do pendrive (posição instalada) ou dentro do repositório
 BASE="$(cd "$(dirname "$0")" && pwd)"
@@ -15,16 +15,16 @@ if [ ! -d "$APP/app" ]; then
   read -p "Pressione Enter para fechar."; exit 1
 fi
 # Porta dedicada 11435: isola de qualquer Ollama do sistema (ex.: o do
-# Audiens completo) — nunca reaproveita silenciosamente um servidor alheio
+# AudiensBR completo) — nunca reaproveita silenciosamente um servidor alheio
 export OLLAMA_HOST=127.0.0.1:11435
 export OLLAMA_URL="http://$OLLAMA_HOST"
 # Forçado (não apenas "se ainda não definido"): máquinas que já têm
-# OLLAMA_MODELS no shell para outro fim (ex.: o Audiens completo) não podem
+# OLLAMA_MODELS no shell para outro fim (ex.: o AudiensBR completo) não podem
 # vazar essa pasta para o pendrive, que precisa ficar sempre isolado
 export OLLAMA_MODELS="$BASE/modelos"
 
 echo "═══════════════════════════════════════════════"
-echo "  Audiens Fit — Data Design"
+echo "  AudiensBR Fit — Data Design"
 echo "  Durante a análise, evite abrir aplicativos"
 echo "  pesados: o modelo usa a maior parte da RAM."
 echo "═══════════════════════════════════════════════"
@@ -60,7 +60,7 @@ if [ ! -x "$PY" ]; then
   read -p "Pressione Enter para fechar."; exit 1
 fi
 
-echo "Iniciando Audiens Fit… (primeira carga do modelo pode levar 1-3 min em pendrive)"
+echo "Iniciando AudiensBR Fit… (primeira carga do modelo pode levar 1-3 min em pendrive)"
 ( sleep 3; open "http://localhost:5001" ) &
 cd "$APP"
 exec "$PY" -m app.servidor

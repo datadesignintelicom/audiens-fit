@@ -1,15 +1,17 @@
-# Audiens Fit
+# AudiensBR Fit
 
 **Qualified audience listening — offline, portable and auditable.**
 
 *Leia em [Português](README.md).*
+
+> **Name change:** the project is now called AudiensBR, with the country suffix, to avoid confusion with a foreign tool working in the same segment.
 
 ## Why not just paste your spreadsheet into a paid AI chat?
 
 You could paste a thousand comments into an LLM chat and ask for a summary.
 What you get back: text with no method, no verifiable numbers, made-up
 percentages that look precise, no report layout — and your data handed to a
-third-party server. Audiens Fit does the opposite:
+third-party server. AudiensBR Fit does the opposite:
 
 - **Real social listening methodology**: sentiment measured against the
   content (a protest written in positive words counts as opposed),
@@ -81,9 +83,9 @@ itself.
 3. Run the installer pointing at the destination:
    - **macOS**: `./instalar-mac.command /Volumes/YOUR_DRIVE`
    - **Windows**: `instalar-windows.bat E:\`
-4. On any machine, open the **Audiens Fit** app (the "Af" icon) at the
+4. On any machine, open the **AudiensBR Fit** app (the "Af" icon) at the
    drive's root — the browser opens by itself. To quit and free the RAM,
-   use the **Encerrar Audiens** app (red icon). Both are created by the
+   use the **Encerrar AudiensBR** app (red icon). Both are created by the
    installer on the machine itself, so they open without the Gatekeeper
    warning
 
@@ -94,7 +96,7 @@ Installing to a local folder instead of a USB drive also works.
 > software"* — standard for any script downloaded from the internet. Fix:
 > System Settings → Privacy & Security → **"Open Anyway"** (shown right
 > after the blocked attempt); or in Terminal:
-> `xattr -d com.apple.quarantine instalar-mac.command "Audiens Fit.command"`.
+> `xattr -d com.apple.quarantine instalar-mac.command "AudiensBR Fit.command"`.
 >
 > ⚠️ **Antivirus notice (Windows)**: `.bat` files may be flagged by
 > SmartScreen or antivirus software, since batch scripts are a format
@@ -110,9 +112,9 @@ case; keep the `{placeholders}`. If the JSON breaks, the server reports the
 error line at startup. Method details in
 [`docs/metodologia.md`](docs/metodologia.md) (Portuguese).
 
-## Want more? Meet the full Audiens
+## Want more? Meet the full AudiensBR
 
-Audiens Fit is the portable, open edition of **Audiens**, Data Design's
+AudiensBR Fit is the portable, open edition of **AudiensBR**, Data Design's
 listening platform, which goes much further: direct multi-platform
 collection (Instagram, Facebook, YouTube, TikTok, X, Threads, Bluesky,
 Reddit and LinkedIn), with per-post volume subject to the plan contracted with

@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Audiens Fit — exportador.py
+# AudiensBR Fit — exportador.py
 # Gera o XLSX de exportação em uma única planilha com duas abas:
 # "comentarios" (universo classificado, um por linha) e "resumo"
 # (indicadores, distribuição, cobertura, percepções, temas, posicionamentos).
