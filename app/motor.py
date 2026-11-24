@@ -141,19 +141,33 @@ def _classificar_sentimento(textos_verbais, indices, contexto, emitir):
 
 # ── Síntese única descritiva ───────────────────────────────────────────────
 
+def _chave_texto(texto):
+    """Chave de texto idêntico: espaços normalizados, sem diferença de caixa."""
+    return " ".join(str(texto).split()).casefold()
+
+
 def _sintetizar(itens, contexto, emitir):
     rng = random.Random(SEED)
     alvo = PERFIL["amostra_sintese"]
-    if len(itens) > alvo:
+    # Cada texto entra uma vez só: cópias repetidas ocupavam vagas da amostra
+    # (que no perfil normal tem 100) e davam a uma única voz o peso de várias.
+    # A contagem real continua sobre todas as cópias, nos classificadores.
+    vistos, base = set(), []
+    for it in itens:
+        chave = _chave_texto(it["texto"])
+        if chave not in vistos:
+            vistos.add(chave)
+            base.append(it)
+    if len(base) > alvo:
         grupos = {}
-        for it in itens:
+        for it in base:
             grupos.setdefault(it["sentimento"], []).append(it)
         amostra = []
         for lista in grupos.values():
-            n = max(1, round(len(lista) / len(itens) * alvo))
+            n = max(1, round(len(lista) / len(base) * alvo))
             amostra += rng.sample(lista, min(n, len(lista)))
     else:
-        amostra = itens
+        amostra = base
     linhas = "\n".join(f'- "{it["texto"][:120]}"' for it in amostra)
     bloco_pos = PROMPTS["sintese_bloco_posicionamentos"] if POSICIONAMENTOS_ATIVOS else ""
     emitir(62, "Interpretando o que a audiência diz…")
@@ -178,7 +192,32 @@ def _limpar_rotulos(campo, maximo=6):
 # ── Classificadores de share (atribuição nunca forçada) ────────────────────
 
 def _classificar_lote(chave_prompt, rotulos, itens, contexto, multi=False):
-    """Retorna (atribuicoes: dict gi→lista|int, lotes_falhos)."""
+    """
+    Retorna (atribuicoes: dict gi→lista|int, lotes_falhos).
+
+    Texto idêntico é classificado UMA vez e o resultado vale para todas as
+    cópias, que continuam contando uma a uma. Mesma técnica do sentimento:
+    em lotes separados, o modelo dava rótulos diferentes ao mesmo texto
+    (medido num corpus de YouTube: tema divergente em metade dos textos
+    repetidos). Também poupa chamadas, o que pesa no perfil normal.
+    """
+    copias, reps = {}, []
+    for it in itens:
+        chave = _chave_texto(it["texto"])
+        if chave not in copias:
+            copias[chave] = []
+            reps.append(it)
+        copias[chave].append(it["i"])
+    atrib_reps, falhos = _classificar_lote_unicos(chave_prompt, rotulos, reps, contexto, multi)
+    atribuicoes = {}
+    for it in reps:
+        if it["i"] in atrib_reps:
+            for gi in copias[_chave_texto(it["texto"])]:
+                atribuicoes[gi] = atrib_reps[it["i"]]
+    return atribuicoes, falhos
+
+
+def _classificar_lote_unicos(chave_prompt, rotulos, itens, contexto, multi=False):
     atribuicoes, falhos = {}, 0
     lista_rotulos = "\n".join(f"{i}: {r}" for i, r in enumerate(rotulos))
     lotes = [itens[i:i + BATCH_SIZE] for i in range(0, len(itens), BATCH_SIZE)]
@@ -356,6 +395,9 @@ def analisar(textos, contexto="", progresso=None):
 
     sintese_bruta = _sintetizar(itens, contexto, emitir)
     resumo = str(sintese_bruta.get("resumo") or "Não foi possível gerar interpretação.")
+    # Vozes minoritárias ficam fora do resumo, mas não fora do relatório:
+    # o modelo 4B dava a elas o peso da reação principal quando cabiam no texto.
+    minoritarias = _limpar_rotulos(sintese_bruta.get("minoritarias"), 3)
     percepcoes_rotulos = _limpar_rotulos(sintese_bruta.get("percepcoes"))
     temas_rotulos = _limpar_rotulos(sintese_bruta.get("temas"))
     pos_rotulos = _limpar_rotulos(sintese_bruta.get("posicionamentos"), 4) if POSICIONAMENTOS_ATIVOS else []
@@ -427,6 +469,7 @@ def analisar(textos, contexto="", progresso=None):
         "ironicos": sum(1 for it in itens if it["ironia"]),
         "nao_verbais": nao_verbais,
         "resumo": resumo,
+        "minoritarias": minoritarias,
         "percepcoes": percepcoes,
         "temas": temas,
         "posicionamentos": posicionamentos,
