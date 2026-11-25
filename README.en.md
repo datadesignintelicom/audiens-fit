@@ -69,6 +69,12 @@ speed.
 
 ## Installation
 
+AudiensBR Fit was designed for a **USB or external drive**, preferably a fast
+one: everything stays in one place and can be taken to another computer. It can
+also be installed in a folder on the computer. On Mac, the installer downloads
+everything it needs. On Windows, Python and Ollama must be installed first
+(installation not yet tested on a real machine).
+
 **Visual guides, with illustrated screens (in Portuguese):**
 
 - 🍎 [**Visual step-by-step guide for Mac (PDF)**](docs/guia-instalacao-mac.pdf)
@@ -95,9 +101,9 @@ each.
 **Before you start, on either system:**
 
 1. Download this repository (Code → Download ZIP) and unzip
-2. Choose where to install: an **exFAT** external or USB drive (factory
-   default), preferably a fast one, or a folder on the computer, with 16 GB
-   free (24 GB to include the turbo model, on Mac)
+2. Choose where to install: an **exFAT** USB or external drive (factory
+   default), or a folder on the computer, with 16 GB free (24 GB to include
+   the turbo model, on Mac)
 
 ### Install on Mac
 

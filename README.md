@@ -69,6 +69,12 @@ depende da velocidade do pendrive.
 
 ## Instalação
 
+O AudiensBR Fit foi pensado para **pendrive ou disco externo**, de preferência
+rápido: fica tudo em um só lugar e pode ser levado a outro computador. Também
+pode ser instalado em uma pasta do computador. No Mac, o instalador baixa tudo
+o que é necessário. No Windows, é preciso instalar antes o Python e o Ollama
+(instalação ainda não testada em máquina real).
+
 **Guias visuais, com as telas ilustradas:**
 
 - 🍎 [**Guia visual passo a passo no Mac (PDF)**](docs/guia-instalacao-mac.pdf)
@@ -95,9 +101,9 @@ rode o instalador uma vez em cada.
 **Antes de começar, nos dois sistemas:**
 
 1. Baixe este repositório (Code → Download ZIP) e descompacte
-2. Escolha onde instalar: um disco externo ou pendrive em **exFAT** (padrão
-   de fábrica), de preferência rápido, ou uma pasta do computador, com 16 GB
-   livres (24 GB para incluir o modelo turbo, no Mac)
+2. Escolha onde instalar: pendrive ou disco externo em **exFAT** (padrão de
+   fábrica), ou uma pasta do computador, com 16 GB livres (24 GB para incluir
+   o modelo turbo, no Mac)
 
 ### Instalar no Mac
 
