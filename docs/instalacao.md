@@ -7,16 +7,11 @@ Guias visuais, tela por tela:
   ainda não testado numa máquina real — veja a ressalva abaixo)*
 
 ## O modelo de instalação
-- **No Mac**: a máquina que **prepara** o pendrive precisa de internet — o
-  instalador baixa automaticamente o Ollama (standalone), o Python
-  (relocável) e os modelos de IA, tudo passa a viver no pendrive. A máquina
-  que **usa** depois não precisa de nada instalado.
-- **No Windows** (ainda não testado numa máquina real): o instalador cria
-  um ambiente Python (venv) que referencia o Python já instalado na
-  máquina, não uma cópia completa — e o binário do Ollama não é copiado
-  para o pendrive. Por isso, hoje, **toda máquina que for usar o pendrive
-  no Windows precisa ter Python e Ollama instalados nela**, não só a que
-  preparou. Testou e quer ajudar a fechar essa lacuna? audiensbrasil@proton.me
+A máquina que **prepara** o pendrive precisa de internet: o instalador baixa
+o Ollama, o Python (relocável) e os modelos de IA, e tudo passa a viver no
+pendrive. A máquina que **usa** depois não precisa de nada instalado, no Mac
+ou no Windows. O do Windows ainda não foi testado num computador comum;
+encontrou algo diferente? audiensbrasil@proton.me
 
 ## Instalar no pendrive
 - Pendrive em exFAT (padrão de fábrica). 16 GB livres para o perfil normal;
@@ -35,8 +30,8 @@ modelo: 1-3 minutos em pendrive.
 
 ## Encerrar
 No Mac, **Encerrar AudiensBR** fecha o servidor e o Ollama do Fit, o que libera
-a RAM e permite ejetar o pendrive. No Windows, feche a janela do Prompt de
-Comando.
+a RAM e permite ejetar o pendrive. No Windows,
+**Encerrar AudiensBR.bat** faz o mesmo.
 
 ## Problemas comuns
 - "O item não foi aberto pois a Apple não pode verificar se está livre de

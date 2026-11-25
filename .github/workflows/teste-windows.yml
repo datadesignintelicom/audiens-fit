@@ -1,0 +1,65 @@
+# Testa o instalador do Windows numa maquina Windows do GitHub, sem usar o
+# Python nem o Ollama que ela tenha instalados.
+name: Teste do instalador Windows
+on:
+  workflow_dispatch:
+  push:
+    branches: [windows-autossuficiente]
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      LIMPO: C:\Windows\System32;C:\Windows;C:\Windows\System32\WindowsPowerShell\v1.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar em pasta com espaco, sem Python nem Ollama no PATH
+        run: |
+          $env:PATH = $env:LIMPO
+          cmd /c "where python & where ollama"
+          cmd /c "instalar-windows.bat ""C:\Teste Fit"" < nul"
+          if ($LASTEXITCODE -ne 0) { throw "instalador saiu com $LASTEXITCODE" }
+          Get-ChildItem "C:\Teste Fit" | Format-Table Name
+          foreach ($f in 'AudiensBR Fit.bat','Encerrar AudiensBR.bat','runtime-win\python\python.exe','runtime-win\ollama\ollama.exe','modelos\manifests\registry.ollama.ai\library\qwen3\4b-instruct') {
+            if (-not (Test-Path "C:\Teste Fit\$f")) { throw "faltou $f" } }
+          $g = (Get-ChildItem "C:\Teste Fit" -Recurse -File | Measure-Object Length -Sum).Sum / 1GB
+          "Tamanho instalado: {0:n1} GB" -f $g
+          if (Get-Process ollama* -ErrorAction SilentlyContinue) { throw "instalador deixou o Ollama aberto" }
+      - name: Mover a pasta, para simular outro computador
+        run: Move-Item "C:\Teste Fit" "C:\Outro Disco"
+      - name: Abrir, analisar, abrir de novo e encerrar
+        run: |
+          $env:PATH = $env:LIMPO
+          $raiz = 'C:\Outro Disco'
+          Start-Process cmd -ArgumentList '/c',"`"`"$raiz\AudiensBR Fit.bat`" > C:\fit.log 2>&1`"" -WindowStyle Hidden
+          $ok = $false
+          foreach ($i in 1..90) { try { Invoke-WebRequest http://127.0.0.1:5001/ -UseBasicParsing -TimeoutSec 2 | Out-Null; $ok = $true; break } catch { Start-Sleep 2 } }
+          Get-Content C:\fit.log
+          if (-not $ok) { throw "servidor nao abriu" }
+          $e = Invoke-RestMethod http://127.0.0.1:5001/estado; $e | ConvertTo-Json -Depth 4
+          if (-not $e.ollama -or $e.perfil.nome -ne 'normal') { throw "estado inesperado" }
+          Get-Process python, ollama | Format-Table Path
+          if (Get-Process python, ollama | Where-Object { -not $_.Path.StartsWith($raiz) }) { throw "usou programa de fora do destino" }
+          $c = @('comentario') + (1..4 | ForEach-Object { "A pizza ficou cara demais $_","Gostei muito do sabor $_","Prefiro a pizzaria do bairro $_" })
+          $c | Set-Content C:\c.csv -Encoding utf8
+          $r = Invoke-RestMethod http://127.0.0.1:5001/analisar -Method Post -Form @{ arquivo = Get-Item C:\c.csv; contexto = 'Video sobre redes de pizza' }
+          $r | ConvertTo-Json
+          $s = $r.sessao
+          $fim = $false
+          foreach ($i in 1..240) { $p = Invoke-RestMethod "http://127.0.0.1:5001/progresso/$s"; if ($p.erro) { throw $p.erro }; if ($p.resultado -or $p.pct -ge 100) { $fim = $true; break }; Start-Sleep 5 }
+          if (-not $fim) { throw "analise nao terminou: $($p | ConvertTo-Json -Depth 2)" }
+          Invoke-WebRequest "http://127.0.0.1:5001/exportar/$s" -OutFile C:\saida.xlsx
+          "XLSX: $((Get-Item C:\saida.xlsx).Length) bytes"
+          $n = @(Get-Process python).Count
+          cmd /c "`"$raiz\AudiensBR Fit.bat`" < nul"
+          if (@(Get-Process python).Count -ne $n) { throw "abriu um segundo servidor" }
+          cmd /c "`"$raiz\Encerrar AudiensBR.bat`" < nul"
+          if (Get-Process python, ollama* -ErrorAction SilentlyContinue | Where-Object { $_.Path -like "$raiz*" }) { throw "processos ficaram abertos" }
+          cmd /c "`"$raiz\Encerrar AudiensBR.bat`" < nul"
+          Remove-Item $raiz -Recurse -Force
+          "Nada ficou preso a pasta."

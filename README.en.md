@@ -71,9 +71,8 @@ speed.
 
 AudiensBR Fit was designed for a **USB or external drive**, preferably a fast
 one: everything stays in one place and can be taken to another computer. It can
-also be installed in a folder on the computer. On Mac, the installer downloads
-everything it needs. On Windows, Python and Ollama must be installed first
-(installation not yet tested on a real machine).
+also be installed in a folder on the computer. On Mac and Windows, the installer downloads
+everything it needs, and the machine that uses it needs nothing installed.
 
 **Visual guides, with illustrated screens (in Portuguese):**
 
@@ -87,12 +86,14 @@ everything it needs. On Windows, Python and Ollama must be installed first
 
 | | Mac | Windows |
 |---|---|---|
-| Machine that **prepares** the drive | Internet | Internet, with Python and Ollama installed |
-| Machine that **uses** the drive | Nothing installed | Python and Ollama installed |
-| Turbo model | Offered by the installer | Not downloaded by the installer |
+| System | Apple Silicon or Intel | Windows 10 (1803 or newer) or 11 |
+| Machine that **prepares** the drive | Internet | Internet |
+| Machine that **uses** the drive | Nothing installed | Nothing installed |
+| Turbo model | Offered by the installer | Offered by the installer |
 | To open | **AudiensBR Fit** app ("Af" icon) | **AudiensBR Fit.bat** |
+| To quit | **Encerrar AudiensBR** app (red icon) | **Encerrar AudiensBR.bat** |
 
-On Mac, the installer downloads Ollama, Python and the AI models onto the drive.
+The installer downloads Ollama, Python and the AI models onto the drive.
 A drive prepared on a Mac does not run on Windows unless the Windows installer is
 run on it too. Between Macs, the drive runs on the processor family it was
 prepared on (Apple Silicon or Intel); to cover both, run the installer once on
@@ -103,7 +104,7 @@ each.
 1. Download this repository (Code → Download ZIP) and unzip
 2. Choose where to install: an **exFAT** USB or external drive (factory
    default), or a folder on the computer, with 16 GB free (24 GB to include
-   the turbo model, on Mac)
+   the turbo model)
 
 ### Install on Mac
 
@@ -120,12 +121,11 @@ without the Gatekeeper warning.
 
 ### Install on Windows
 
-1. Install [Python](https://www.python.org/downloads/) and
-   [Ollama](https://ollama.com/download)
-2. Double-click `instalar-windows.bat` and enter the destination when asked
+1. Double-click `instalar-windows.bat` and enter the destination when asked
    (or, in Command Prompt, `instalar-windows.bat E:\`)
-3. Open **AudiensBR Fit.bat** at the chosen destination — the browser opens by
+2. Open **AudiensBR Fit.bat** at the chosen destination — the browser opens by
    itself
+3. To quit and free the RAM, open **Encerrar AudiensBR.bat**
 
 ### System security notices
 

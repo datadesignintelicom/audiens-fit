@@ -1,0 +1,2 @@
+# Scripts .bat guardados com CRLF, sem conversao: com LF, o cmd pode falhar em rotulos
+*.bat -text

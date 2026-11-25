@@ -71,9 +71,8 @@ depende da velocidade do pendrive.
 
 O AudiensBR Fit foi pensado para **pendrive ou disco externo**, de preferência
 rápido: fica tudo em um só lugar e pode ser levado a outro computador. Também
-pode ser instalado em uma pasta do computador. No Mac, o instalador baixa tudo
-o que é necessário. No Windows, é preciso instalar antes o Python e o Ollama
-(instalação ainda não testada em máquina real).
+pode ser instalado em uma pasta do computador. No Mac e no Windows, o instalador
+baixa tudo o que é necessário, e a máquina de uso não precisa de nada instalado.
 
 **Guias visuais, com as telas ilustradas:**
 
@@ -87,13 +86,14 @@ o que é necessário. No Windows, é preciso instalar antes o Python e o Ollama
 
 | | Mac | Windows |
 |---|---|---|
-| Máquina que **prepara** o pendrive | Internet | Internet, Python e Ollama instalados |
-| Máquina que **usa** o pendrive | Nada instalado | Python e Ollama instalados |
-| Modelo turbo | Oferecido pelo instalador | Não baixado pelo instalador |
+| Sistema | Apple Silicon ou Intel | Windows 10 (1803 ou mais novo) ou 11 |
+| Máquina que **prepara** o pendrive | Internet | Internet |
+| Máquina que **usa** o pendrive | Nada instalado | Nada instalado |
+| Modelo turbo | Oferecido pelo instalador | Oferecido pelo instalador |
 | Abrir | Aplicativo **AudiensBR Fit** (ícone "Af") | **AudiensBR Fit.bat** |
+| Encerrar | Aplicativo **Encerrar AudiensBR** (ícone vermelho) | **Encerrar AudiensBR.bat** |
 
-No Mac, o instalador baixa Ollama, Python e os modelos de IA para dentro do
-pendrive. Um pendrive preparado no Mac não roda no Windows sem passar também
+O instalador baixa Ollama, Python e os modelos de IA para dentro do pendrive. Um pendrive preparado no Mac não roda no Windows sem passar também
 pelo instalador do Windows. Entre Macs, o pendrive roda na mesma família de
 processador em que foi preparado (Apple Silicon ou Intel); para cobrir as duas,
 rode o instalador uma vez em cada.
@@ -103,7 +103,7 @@ rode o instalador uma vez em cada.
 1. Baixe este repositório (Code → Download ZIP) e descompacte
 2. Escolha onde instalar: pendrive ou disco externo em **exFAT** (padrão de
    fábrica), ou uma pasta do computador, com 16 GB livres (24 GB para incluir
-   o modelo turbo, no Mac)
+   o modelo turbo)
 
 ### Instalar no Mac
 
@@ -120,11 +120,10 @@ abrem sem o aviso do Gatekeeper.
 
 ### Instalar no Windows
 
-1. Instale o [Python](https://www.python.org/downloads/) e o
-   [Ollama](https://ollama.com/download)
-2. Abra `instalar-windows.bat` com duplo clique e informe o destino quando ele
+1. Abra `instalar-windows.bat` com duplo clique e informe o destino quando ele
    perguntar (ou, no Prompt de Comando, `instalar-windows.bat E:\`)
-3. Abra **AudiensBR Fit.bat** no destino escolhido — o navegador abre sozinho
+2. Abra **AudiensBR Fit.bat** no destino escolhido — o navegador abre sozinho
+3. Para encerrar liberando a RAM, abra **Encerrar AudiensBR.bat**
 
 ### Avisos de segurança do sistema
 
