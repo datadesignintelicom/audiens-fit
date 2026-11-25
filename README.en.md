@@ -36,12 +36,16 @@ Free, no ads, no tracking. If it saved you work, support its development:
 
 - **Spreadsheet analysis** (XLSX/CSV) with automatic comment-column detection
 - **Contextual receptivity** with favorable/opposed/unclear distribution
-- **Perceptions, topics and stances** with real counts and verbatim quotes
+- **Overall interpretation** that starts with what is most frequent and states
+  the weight of each claim in words ("many", "some", "a few"), with
+  **minority voices** in a separate block
+- **Perceptions, topics and stances** with real counts and verbatim quotes.
+  Repeated comments always get the same classification
 - **Ask the corpus**: "what do they say about pricing?" → answers with real
   quoted excerpts. Works without running the analysis — and unlike asking
   an online AI chat, your comments never leave the machine
 - **XLSX export** as a single file with two sheets: classified universe +
-  summary with coverage funnel
+  summary with coverage funnel and minority voices
 - **Print** the report straight from the browser (Print button)
 
 ## Requirements and what to expect
@@ -65,29 +69,54 @@ speed.
 
 ## Installation
 
-📄 [**Visual step-by-step guide (PDF)**](docs/guia-instalacao-mac.pdf) — illustrated with
-Mac screens, for those who prefer following images over text (Portuguese).
+**Visual guides, with illustrated screens (in Portuguese):**
 
-📄 [**Windows visual guide (PDF)**](docs/guia-instalacao-windows.pdf) — ⚠️ **not yet
-tested on real hardware**, shows the expected behavior (Portuguese). Tried it and
-something's off? Tell us: audiensbrasil@proton.me
+- 🍎 [**Visual step-by-step guide for Mac (PDF)**](docs/guia-instalacao-mac.pdf)
+- 🪟 [**Visual step-by-step guide for Windows (PDF)**](docs/guia-instalacao-windows.pdf)
+  — ⚠️ installation **not yet tested on a real Windows machine**; the guide shows
+  the expected behavior. Tried it and something's off? Tell us:
+  audiensbrasil@proton.me
 
-Simple model: **the machine that prepares the drive needs internet; the
-machine that uses it needs nothing installed** — Ollama, Python and the AI
-models are downloaded automatically by the installer and live on the drive
-itself.
+**What each system needs:**
+
+| | Mac | Windows |
+|---|---|---|
+| Machine that **prepares** the drive | Internet | Internet, with Python and Ollama installed |
+| Machine that **uses** the drive | Nothing installed | Python and Ollama installed |
+| Turbo model | Offered by the installer | Not downloaded by the installer |
+| To open | **AudiensBR Fit** app ("Af" icon) | **AudiensBR Fit.bat** |
+
+On Mac, the installer downloads Ollama, Python and the AI models onto the drive.
+A drive prepared on a Mac does not run on Windows unless the Windows installer is
+run on it too. Between Macs, the drive runs on the processor family it was
+prepared on (Apple Silicon or Intel); to cover both, run the installer once on
+each.
+
+**Before you start, on either system:**
 
 1. Download this repository (Code → Download ZIP) and unzip
 2. Plug in an **exFAT** USB drive (factory default) with 16 GB free
-   (24 GB to include the turbo model)
-3. Run the installer pointing at the destination:
-   - **macOS**: `./instalar-mac.command /Volumes/YOUR_DRIVE`
-   - **Windows**: `instalar-windows.bat E:\`
-4. On any machine, open the **AudiensBR Fit** app (the "Af" icon) at the
-   drive's root — the browser opens by itself. To quit and free the RAM,
-   use the **Encerrar AudiensBR** app (red icon). Both are created by the
-   installer on the machine itself, so they open without the Gatekeeper
-   warning
+   (24 GB to include the turbo model, on Mac)
+
+### Install on Mac
+
+1. Run the installer pointing at the destination:
+   `./instalar-mac.command /Volumes/YOUR_DRIVE`
+2. Open the **AudiensBR Fit** app (the "Af" icon) at the drive's root — the
+   browser opens by itself
+3. To quit and free the RAM, open the **Encerrar AudiensBR** app (red icon)
+
+Both apps are created by the installer on the machine itself, so they open
+without the Gatekeeper warning.
+
+### Install on Windows
+
+1. Install [Python](https://www.python.org/downloads/) and
+   [Ollama](https://ollama.com/download)
+2. Run the installer with the drive letter: `instalar-windows.bat E:\`
+3. Open **AudiensBR Fit.bat** at the drive's root — the browser opens by itself
+
+### Other details
 
 Installing to a local folder instead of a USB drive also works.
 

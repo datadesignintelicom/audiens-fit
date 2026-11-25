@@ -1,8 +1,9 @@
 # FAQ — AudiensBR Fit
 
-**Preciso de internet?** Só na preparação do pendrive (o instalador baixa
-Ollama, Python e modelos para dentro dele). No uso, tudo roda offline e a
-máquina não precisa de nada instalado.
+**Preciso de internet?** Só na preparação do pendrive. No uso, tudo roda
+offline. No Mac, o instalador baixa Ollama, Python e modelos para dentro do
+pendrive, e a máquina de uso não precisa de nada instalado. No Windows, a
+máquina de uso precisa ter Python e Ollama instalados.
 
 **Meus dados saem da máquina?** Não. Planilha, análise e perguntas são
 processadas localmente. Nada é enviado a nenhum servidor.

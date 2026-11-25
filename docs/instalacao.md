@@ -1,8 +1,10 @@
 # Instalação detalhada — AudiensBR Fit
 
-Guias visuais, tela por tela: [Mac](guia-instalacao-mac.pdf) ·
-[Windows](guia-instalacao-windows.pdf) *(caminho ainda não testado numa
-máquina real — veja a ressalva abaixo)*.
+Guias visuais, tela por tela:
+
+- [Guia visual passo a passo no Mac](guia-instalacao-mac.pdf)
+- [Guia visual passo a passo no Windows](guia-instalacao-windows.pdf) *(caminho
+  ainda não testado numa máquina real — veja a ressalva abaixo)*
 
 ## O modelo de instalação
 - **No Mac**: a máquina que **prepara** o pendrive precisa de internet — o
@@ -24,12 +26,12 @@ máquina real — veja a ressalva abaixo)*.
 - Também funciona apontando para uma pasta do computador.
 
 ## Rodar
-Duplo clique em **AudiensBR Fit** na raiz do pendrive, em qualquer máquina.
-O navegador abre sozinho em http://localhost:5001. Primeira carga do
+Duplo clique em **AudiensBR Fit** (Mac) ou **AudiensBR Fit.bat** (Windows) na
+raiz do pendrive. O navegador abre sozinho em http://localhost:5001. Primeira carga do
 modelo: 1-3 minutos em pendrive.
 
 ## Encerrar
-**Encerrar AudiensBR** derruba o servidor e descarrega os modelos da RAM.
+No Mac, **Encerrar AudiensBR** derruba o servidor e descarrega os modelos da RAM.
 
 ## Problemas comuns
 - "O item não foi aberto pois a Apple não pode verificar se está livre de

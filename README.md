@@ -35,13 +35,17 @@ desenvolvimento: **https://apoia.se/audiensbrasil** (Brasil) ·
 
 - **Análise de planilha** (XLSX/CSV): detecta a coluna de comentários sozinho
 - **Receptividade contextual** com distribuição favorável/contrário/não claro
-- **Percepções, temas e posicionamentos** com contagens reais e verbatims
+- **Interpretação geral** que começa pelo mais frequente e indica o peso de
+  cada afirmação em palavras ("muitos", "parte", "alguns"), com as **vozes
+  minoritárias** em bloco separado
+- **Percepções, temas e posicionamentos** com contagens reais e verbatims.
+  Comentários repetidos recebem sempre a mesma classificação
 - **Perguntas ao corpus**: "o que dizem sobre o preço?" → resposta com
   citações reais dos comentários. Funciona sem rodar a análise — e a
   diferença para perguntar a um chat de IA online é que aqui os comentários
   nunca saem da sua máquina
 - **Exportação XLSX** em arquivo único com duas abas: universo classificado
-  + resumo com funil de cobertura
+  + resumo com funil de cobertura e vozes minoritárias
 - **Impressão** do relatório direto do navegador (botão Imprimir)
 
 ## Requisitos e o que esperar
@@ -65,29 +69,55 @@ depende da velocidade do pendrive.
 
 ## Instalação
 
-📄 [**Guia visual passo a passo (PDF)**](docs/guia-instalacao-mac.pdf) — com telas do
-Mac ilustradas, para quem prefere seguir com imagens em vez de só texto.
+**Guias visuais, com as telas ilustradas:**
 
-📄 [**Guia visual do Windows (PDF)**](docs/guia-instalacao-windows.pdf) — ⚠️ **ainda não
-testado numa máquina real**, mostra o funcionamento esperado. Testou e algo não
-bateu? Conte pra gente: audiensbrasil@proton.me
+- 🍎 [**Guia visual passo a passo no Mac (PDF)**](docs/guia-instalacao-mac.pdf)
+- 🪟 [**Guia visual passo a passo no Windows (PDF)**](docs/guia-instalacao-windows.pdf)
+  — ⚠️ instalação **ainda não testada numa máquina Windows real**; o guia mostra
+  o funcionamento esperado. Testou e algo não bateu? Conte pra gente:
+  audiensbrasil@proton.me
 
-O modelo é simples: **a máquina que prepara o pendrive precisa de internet;
-a máquina que usa não precisa de nada instalado** — Ollama, Python e os
-modelos de IA são baixados automaticamente pelo instalador e vivem no
-próprio pendrive.
+**O que cada sistema precisa:**
+
+| | Mac | Windows |
+|---|---|---|
+| Máquina que **prepara** o pendrive | Internet | Internet, Python e Ollama instalados |
+| Máquina que **usa** o pendrive | Nada instalado | Python e Ollama instalados |
+| Modelo turbo | Oferecido pelo instalador | Não baixado pelo instalador |
+| Abrir | Aplicativo **AudiensBR Fit** (ícone "Af") | **AudiensBR Fit.bat** |
+
+No Mac, o instalador baixa Ollama, Python e os modelos de IA para dentro do
+pendrive. Um pendrive preparado no Mac não roda no Windows sem passar também
+pelo instalador do Windows. Entre Macs, o pendrive roda na mesma família de
+processador em que foi preparado (Apple Silicon ou Intel); para cobrir as duas,
+rode o instalador uma vez em cada.
+
+**Antes de começar, nos dois sistemas:**
 
 1. Baixe este repositório (Code → Download ZIP) e descompacte
 2. Plugue um pendrive em **exFAT** (padrão de fábrica) com 16 GB livres
-   (24 GB para incluir o modelo turbo)
-3. Rode o instalador apontando o destino:
-   - **macOS**: `./instalar-mac.command /Volumes/SEU_PENDRIVE`
-   - **Windows**: `instalar-windows.bat E:\`
-4. Em qualquer máquina, abra o aplicativo **AudiensBR Fit** (ícone "Af") na
-   raiz do pendrive — o navegador abre sozinho. Para encerrar liberando a
-   RAM, o aplicativo **Encerrar AudiensBR** (ícone vermelho). Os dois são
-   criados pelo instalador na própria máquina, por isso abrem sem o aviso
-   do Gatekeeper
+   (24 GB para incluir o modelo turbo, no Mac)
+
+### Instalar no Mac
+
+1. Rode o instalador apontando o destino:
+   `./instalar-mac.command /Volumes/SEU_PENDRIVE`
+2. Abra o aplicativo **AudiensBR Fit** (ícone "Af") na raiz do pendrive — o
+   navegador abre sozinho
+3. Para encerrar liberando a RAM, abra o aplicativo **Encerrar AudiensBR**
+   (ícone vermelho)
+
+Os dois aplicativos são criados pelo instalador na própria máquina, por isso
+abrem sem o aviso do Gatekeeper.
+
+### Instalar no Windows
+
+1. Instale o [Python](https://www.python.org/downloads/) e o
+   [Ollama](https://ollama.com/download)
+2. Rode o instalador com a letra do pendrive: `instalar-windows.bat E:\`
+3. Abra **AudiensBR Fit.bat** na raiz do pendrive — o navegador abre sozinho
+
+### Outros detalhes
 
 Instalar numa pasta do computador em vez de pendrive também funciona: é só
 apontar o instalador para ela.
