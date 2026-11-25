@@ -16,8 +16,17 @@ Criado por Daniel Bastos · Data Design Inteligência de Comunicação — CC-BY
    resumo, rótulos de percepções (emocionais), temas (assuntos) e
    posicionamentos (argumentos; desligáveis via AUDIENS_FIT_POSICIONAMENTOS=0).
    O modelo é instruído a nunca criar rótulos para dar aparência de equilíbrio.
+   O resumo começa pelo que aparece em mais comentários e marca o peso de cada
+   afirmação com palavras ("muitos", "parte", "alguns"), sem números. Antes de
+   afirmar ausência ("falta de", "não há"), o modelo confere se a amostra diz o
+   contrário. Reações de poucos comentários que destoam da principal vão para
+   um campo próprio, "vozes minoritárias", exibido abaixo do resumo e na aba
+   de resumo do XLSX: ficam no relatório sem ganhar o peso da reação dominante.
+   A amostra da síntese tem cada texto uma vez só, para que cópias não ocupem
+   vagas de vozes distintas.
 4. **Shares por contagem real** (modelo, lotes): cada rótulo é aplicado ao
-   corpus inteiro; a atribuição nunca é forçada (opção "nenhum" sempre
+   corpus inteiro (texto repetido é classificado uma vez e o resultado vale
+   para todas as cópias, que continuam contando); a atribuição nunca é forçada (opção "nenhum" sempre
    disponível) e a cobertura real (% classificado) é declarada no relatório.
 5. **Verbatims**: casamento lexical entre rótulo e comentários com fronteira
    de palavra, preferindo sentimento coerente com a valência do rótulo; sem

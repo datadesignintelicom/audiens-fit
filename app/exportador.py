@@ -57,6 +57,8 @@ def gerar_xlsx(d):
     for k, v in (d.get("cobertura") or {}).items():
         linha("cobertura", f"{k}_classificados", v.get("classificados", 0),
               v.get("total", 0), round(v.get("classificados", 0) / (v.get("total") or 1) * 100, 1))
+    for m in d.get("minoritarias", []):
+        linha("voz_minoritaria", m)
     for p in d.get("percepcoes", []):
         linha("percepcao", p.get("label", ""), p.get("n", ""), total, p.get("pct", ""))
     for t in d.get("temas", []):
