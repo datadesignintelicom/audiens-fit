@@ -2,7 +2,7 @@
 # AudiensBR Fit — launcher macOS
 # Criado por Daniel Bastos · Data Design Inteligência de Comunicação — MIT
 # Funciona na RAIZ do pendrive (posição instalada) ou dentro do repositório
-BASE="$(cd "$(dirname "$0")" && pwd)"
+BASE="$(cd "$(dirname "$0")" && pwd -P)"
 if [ -d "$BASE/audiens-fit/app" ]; then
   :                                   # raiz do pendrive (instalado)
 elif [ -d "$BASE/../app" ]; then
@@ -29,12 +29,53 @@ echo "  Durante a análise, evite abrir aplicativos"
 echo "  pesados: o modelo usa a maior parte da RAM."
 echo "═══════════════════════════════════════════════"
 
-# Exclusão mútua com o Chat Offline (porta 5002)
-if curl -s --max-time 2 http://localhost:5002/ >/dev/null 2>&1; then
+# Identificação precisa de processos: servidor = Python rodando
+# "-m app.servidor" com a pasta de trabalho do app (outros apps do mesmo
+# pendrive usam esse nome de módulo: o nome sozinho não distingue um do outro);
+# porta = só quem ESCUTA nela, nunca clientes conectados (ex.: o navegador)
+pids_servidor() {
+  for p in $(pgrep -f -- "-m app.servidor"); do
+    case "$(ps -o comm= -p "$p" 2>/dev/null)" in *[Pp]ython*) ;; *) continue;; esac
+    [ "$(lsof -a -p "$p" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')" = "$1" ] && echo "$p"
+  done
+}
+pid_ollama() {   # $1 porta: só quem escuta nela E é o Ollama
+  for p in $(lsof -ti "tcp:$1" -sTCP:LISTEN 2>/dev/null); do
+    case "$(ps -o comm= -p "$p" 2>/dev/null)" in *ollama*) echo "$p";; esac
+  done
+}
+pids_outros() {  # servidores em outras pastas desta mesma raiz (Chat Offline)
+  for p in $(pgrep -f -- "-m app.servidor"); do
+    case "$(ps -o comm= -p "$p" 2>/dev/null)" in *[Pp]ython*) ;; *) continue;; esac
+    case "$(lsof -a -p "$p" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')" in
+      "$APP") ;; "$BASE"/*) echo "$p";;
+    esac
+  done
+}
+encerrar_e_esperar() {
+  [ -n "$*" ] || return 0
+  kill $* 2>/dev/null
+  for i in 1 2 3 4 5 6 7 8 9 10; do
+    vivos=""; for p in $*; do kill -0 "$p" 2>/dev/null && vivos="$vivos $p"; done
+    [ -z "$vivos" ] && return 0; sleep 0.5
+  done
+  echo "Aviso: processo(s)$vivos não encerraram em 5 s."
+}
+
+# Fit já aberto (em qualquer porta): só reabre o navegador, sem subir outro
+if [ -n "$(pids_servidor "$APP")" ]; then
+  echo "O AudiensBR Fit já está aberto. Abrindo o navegador…"
+  open "http://localhost:5001"; exit 0
+fi
+
+# Exclusão mútua com o Chat Offline: servidor (qualquer porta) E o Ollama dele
+# (11436), senão o modelo do chat continua ocupando a RAM
+CHAT_PIDS="$(pids_outros) $(pid_ollama 11436)"
+if [ -n "$(echo $CHAT_PIDS)" ]; then
   echo "O Chat Offline está aberto. Os dois não rodam juntos (RAM)."
   read -p "Encerrar o Chat Offline e continuar? [s/N] " r
   [ "$r" = "s" ] || exit 0
-  pkill -f "chat/app/servidor.py" 2>/dev/null; sleep 1
+  encerrar_e_esperar $CHAT_PIDS
 fi
 
 # Ollama: prioriza o binário do pendrive; o do sistema é fallback (mas
