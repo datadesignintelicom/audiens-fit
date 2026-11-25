@@ -3,13 +3,17 @@ REM ---------------------------------------------------------------------------
 REM AudiensBR Fit — instalador Windows (pendrive autossuficiente) — NAO TESTADO
 REM A maquina que PREPARA o pendrive precisa de internet e de Python+Ollama
 REM instalados (versao autossuficiente do runtime Windows chega em breve).
-REM Uso: instalar-windows.bat E:\
+REM Uso: duplo clique (pergunta o destino) ou instalar-windows.bat E:\
 REM AVISO: antivirus/SmartScreen podem alertar sobre este .bat — veja o README.
 REM Criado por Daniel Bastos - Data Design Inteligencia de Comunicacao (MIT)
 REM ---------------------------------------------------------------------------
 setlocal
 set DESTINO=%~1
-if "%DESTINO%"=="" ( echo Uso: %~nx0 E:\  & exit /b 1 )
+if "%DESTINO%"=="" echo Onde instalar? Digite a letra do disco, como E:\ , ou o caminho de uma pasta.
+if "%DESTINO%"=="" set /p "DESTINO=Destino [%USERPROFILE%\AudiensBR-Fit]: "
+if "%DESTINO%"=="" set "DESTINO=%USERPROFILE%\AudiensBR-Fit"
+REM Caminho colado entre aspas: remove as aspas
+set "DESTINO=%DESTINO:"=%"
 set ORIGEM=%~dp0
 echo == AudiensBR Fit: instalando em %DESTINO% ==
 

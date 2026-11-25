@@ -95,17 +95,19 @@ rode o instalador uma vez em cada.
 **Antes de começar, nos dois sistemas:**
 
 1. Baixe este repositório (Code → Download ZIP) e descompacte
-2. Plugue um pendrive em **exFAT** (padrão de fábrica) com 16 GB livres
-   (24 GB para incluir o modelo turbo, no Mac)
+2. Escolha onde instalar: um disco externo ou pendrive em **exFAT** (padrão
+   de fábrica), de preferência rápido, ou uma pasta do computador, com 16 GB
+   livres (24 GB para incluir o modelo turbo, no Mac)
 
 ### Instalar no Mac
 
-1. Rode o instalador apontando o destino:
-   `./instalar-mac.command /Volumes/SEU_PENDRIVE`
-2. Abra o aplicativo **AudiensBR Fit** (ícone "Af") na raiz do pendrive — o
+1. Abra `instalar-mac.command` com duplo clique e escolha o destino quando ele
+   perguntar (ou, no Terminal, `./instalar-mac.command /Volumes/SEU_PENDRIVE`).
+   Se o Mac bloquear a abertura, veja o aviso do Gatekeeper abaixo
+2. Abra o aplicativo **AudiensBR Fit** (ícone "Af") no destino escolhido — o
    navegador abre sozinho
-3. Para encerrar liberando a RAM, abra o aplicativo **Encerrar AudiensBR**
-   (ícone vermelho)
+3. Para encerrar, abra o aplicativo **Encerrar AudiensBR** (ícone vermelho).
+   Ele libera a RAM e fecha o Ollama do Fit, o que permite ejetar o pendrive
 
 Os dois aplicativos são criados pelo instalador na própria máquina, por isso
 abrem sem o aviso do Gatekeeper.
@@ -114,13 +116,11 @@ abrem sem o aviso do Gatekeeper.
 
 1. Instale o [Python](https://www.python.org/downloads/) e o
    [Ollama](https://ollama.com/download)
-2. Rode o instalador com a letra do pendrive: `instalar-windows.bat E:\`
-3. Abra **AudiensBR Fit.bat** na raiz do pendrive — o navegador abre sozinho
+2. Abra `instalar-windows.bat` com duplo clique e informe o destino quando ele
+   perguntar (ou, no Prompt de Comando, `instalar-windows.bat E:\`)
+3. Abra **AudiensBR Fit.bat** no destino escolhido — o navegador abre sozinho
 
-### Outros detalhes
-
-Instalar numa pasta do computador em vez de pendrive também funciona: é só
-apontar o instalador para ela.
+### Avisos de segurança do sistema
 
 > ⚠️ **Aviso no macOS (Gatekeeper)**: na primeira abertura, o Mac pode dizer
 > que *"o item não foi aberto pois a Apple não pode verificar se está livre

@@ -95,16 +95,19 @@ each.
 **Before you start, on either system:**
 
 1. Download this repository (Code → Download ZIP) and unzip
-2. Plug in an **exFAT** USB drive (factory default) with 16 GB free
-   (24 GB to include the turbo model, on Mac)
+2. Choose where to install: an **exFAT** external or USB drive (factory
+   default), preferably a fast one, or a folder on the computer, with 16 GB
+   free (24 GB to include the turbo model, on Mac)
 
 ### Install on Mac
 
-1. Run the installer pointing at the destination:
-   `./instalar-mac.command /Volumes/YOUR_DRIVE`
-2. Open the **AudiensBR Fit** app (the "Af" icon) at the drive's root — the
-   browser opens by itself
-3. To quit and free the RAM, open the **Encerrar AudiensBR** app (red icon)
+1. Double-click `instalar-mac.command` and choose the destination when asked
+   (or, in Terminal, `./instalar-mac.command /Volumes/YOUR_DRIVE`). If the Mac
+   blocks it, see the Gatekeeper notice below
+2. Open the **AudiensBR Fit** app (the "Af" icon) at the chosen destination —
+   the browser opens by itself
+3. To quit, open the **Encerrar AudiensBR** app (red icon). It frees the RAM
+   and closes Fit's Ollama, so the drive can be ejected
 
 Both apps are created by the installer on the machine itself, so they open
 without the Gatekeeper warning.
@@ -113,12 +116,12 @@ without the Gatekeeper warning.
 
 1. Install [Python](https://www.python.org/downloads/) and
    [Ollama](https://ollama.com/download)
-2. Run the installer with the drive letter: `instalar-windows.bat E:\`
-3. Open **AudiensBR Fit.bat** at the drive's root — the browser opens by itself
+2. Double-click `instalar-windows.bat` and enter the destination when asked
+   (or, in Command Prompt, `instalar-windows.bat E:\`)
+3. Open **AudiensBR Fit.bat** at the chosen destination — the browser opens by
+   itself
 
-### Other details
-
-Installing to a local folder instead of a USB drive also works.
+### System security notices
 
 > ⚠️ **macOS notice (Gatekeeper)**: on first launch, the Mac may say the
 > item *"can't be opened because Apple cannot check it for malicious

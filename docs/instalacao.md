@@ -21,9 +21,12 @@ Guias visuais, tela por tela:
 ## Instalar no pendrive
 - Pendrive em exFAT (padrão de fábrica). 16 GB livres para o perfil normal;
   24 GB para incluir o modelo turbo (qwen3:8b, oferecido pelo instalador).
-- macOS: `./instalar-mac.command /Volumes/SEU_PENDRIVE`
-- Windows: `instalar-windows.bat E:\` (ainda não testado numa máquina real)
-- Também funciona apontando para uma pasta do computador.
+- macOS: duplo clique em `instalar-mac.command`, ou
+  `./instalar-mac.command /Volumes/SEU_PENDRIVE` no Terminal.
+- Windows: duplo clique em `instalar-windows.bat`, ou `instalar-windows.bat E:\`
+  no Prompt de Comando (ainda não testado numa máquina real).
+- Sem destino informado, o instalador pergunta. Pode ser um disco externo ou
+  uma pasta do computador.
 
 ## Rodar
 Duplo clique em **AudiensBR Fit** (Mac) ou **AudiensBR Fit.bat** (Windows) na
@@ -31,7 +34,9 @@ raiz do pendrive. O navegador abre sozinho em http://localhost:5001. Primeira ca
 modelo: 1-3 minutos em pendrive.
 
 ## Encerrar
-No Mac, **Encerrar AudiensBR** derruba o servidor e descarrega os modelos da RAM.
+No Mac, **Encerrar AudiensBR** fecha o servidor e o Ollama do Fit, o que libera
+a RAM e permite ejetar o pendrive. No Windows, feche a janela do Prompt de
+Comando.
 
 ## Problemas comuns
 - "O item não foi aberto pois a Apple não pode verificar se está livre de

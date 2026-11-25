@@ -6,7 +6,8 @@
 # tudo sozinho (Ollama standalone, Python relocável e os modelos de IA).
 # A máquina que USA o pendrive não precisa de NADA instalado.
 #
-# Uso: ./instalar-pendrive.command /Volumes/SEU_PENDRIVE
+# Uso: duplo clique (pergunta o destino) ou, no Terminal,
+#      ./instalar-mac.command /Volumes/SEU_PENDRIVE (ou uma pasta do computador)
 # Variáveis opcionais:
 #   AUDIENS_INSTALAR_SEM_MODELOS=1   pula o download dos modelos
 #
@@ -34,7 +35,7 @@ if [ -z "$DESTINO" ]; then
       echo "Nenhum destino informado. Volumes externos montados:"
       i=1
       for v in "${CANDIDATOS[@]}"; do echo "  $i) $v"; i=$((i+1)); done
-      read -p "Número do volume de destino (Enter cancela): " n
+      read -p "Número do volume (Enter para instalar numa pasta do computador): " n
       case "$n" in
         ""|*[!0-9]*) ;;
         *) [ "$n" -ge 1 ] && [ "$n" -le "${#CANDIDATOS[@]}" ] && DESTINO="${CANDIDATOS[$((n-1))]}" ;;
@@ -47,8 +48,24 @@ if [ -z "$DESTINO" ]; then
     [ "$r" = "s" ] && DESTINO="$VOL"
   fi
 fi
-[ -z "$DESTINO" ] && { echo "Uso: $0 /Volumes/SEU_PENDRIVE (ou uma pasta local)"; read -p "Pressione Enter para fechar."; exit 1; }
+# Nenhum volume escolhido: pergunta uma pasta do computador (disco interno)
+if [ -z "$DESTINO" ]; then
+  PADRAO="$HOME/AudiensBR-Fit"
+  echo "Em qual pasta do computador instalar? Digite o caminho, ou arraste a"
+  echo "pasta para esta janela. Precisa de 16 GB livres. (c cancela)"
+  # Sem -r de propósito: a pasta arrastada vem com espaços escapados (\ )
+  read -p "Pasta [$PADRAO]: " p || p="c"
+  case "$p" in
+    c|C) echo "Instalação cancelada."; exit 1 ;;
+    "") DESTINO="$PADRAO" ;;
+    "~") DESTINO="$HOME" ;;
+    "~/"*) DESTINO="$HOME/${p#"~/"}" ;;
+    *) DESTINO="$p" ;;
+  esac
+fi
 ORIGEM="$(cd "$(dirname "$0")" && pwd)"
+mkdir -p "$DESTINO" || { echo "ERRO: não foi possível criar ou acessar $DESTINO"; read -p "Pressione Enter para fechar."; exit 1; }
+DESTINO="$(cd "$DESTINO" && pwd)"
 RT="$DESTINO/runtime-mac"
 echo "══ AudiensBR Fit: instalando em $DESTINO ══"
 
