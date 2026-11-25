@@ -78,8 +78,8 @@ everything it needs, and the machine that uses it needs nothing installed.
 
 - 🍎 [**Visual step-by-step guide for Mac (PDF)**](docs/guia-instalacao-mac.pdf)
 - 🪟 [**Visual step-by-step guide for Windows (PDF)**](docs/guia-instalacao-windows.pdf)
-  — ⚠️ installation **not yet tested on a real Windows machine**; the guide shows
-  the expected behavior. Tried it and something's off? Tell us:
+  — ⚠️ installation tested on a Windows virtual machine, **not yet on an
+  ordinary computer**. Tried it and something's off? Tell us:
   audiensbrasil@proton.me
 
 **What each system needs:**

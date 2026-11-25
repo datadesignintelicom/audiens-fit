@@ -78,8 +78,8 @@ baixa tudo o que é necessário, e a máquina de uso não precisa de nada instal
 
 - 🍎 [**Guia visual passo a passo no Mac (PDF)**](docs/guia-instalacao-mac.pdf)
 - 🪟 [**Guia visual passo a passo no Windows (PDF)**](docs/guia-instalacao-windows.pdf)
-  — ⚠️ instalação **ainda não testada numa máquina Windows real**; o guia mostra
-  o funcionamento esperado. Testou e algo não bateu? Conte pra gente:
+  — ⚠️ instalação testada numa máquina virtual Windows, **ainda não num
+  computador comum**. Testou e algo não bateu? Conte pra gente:
   audiensbrasil@proton.me
 
 **O que cada sistema precisa:**

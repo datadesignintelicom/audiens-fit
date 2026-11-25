@@ -155,8 +155,8 @@
        Chrome headless print-to-pdf — remove no modo impressão, decorativo */
     * { box-shadow: none !important; }
     /* Atribuição FIXA de conteúdo por página — decidida manualmente, não por
-       heurística de "avoid": 1-1..1-4 → pág.1 · 1-5..1-7 → pág.2 ·
-       1-8..2-3 → pág.3 · restante → pág.4. Cada .pagina força o início da
+       heurística de "avoid": 1-1..1-3 → pág.1 · 1-4..1-6 → pág.2 ·
+       1-7..1-8 → pág.3 · 2-1..2-3 → pág.4 · restante → pág.5. Cada .pagina força o início da
        próxima em folha nova; o que está dentro de uma pagina permanece nela. */
     .pagina { break-after: page; page-break-after: always; }
     .pagina:last-of-type { break-after: auto; page-break-after: auto; }
@@ -166,24 +166,23 @@
 
 <div class="folha">
 
-  <!-- ═══════════ PÁGINA 1 — cabeçalho + passos 1-1 a 1-4 ═══════════ -->
+  <!-- ═══════════ PÁGINA 1 — cabeçalho + passos 1-1 a 1-3 ═══════════ -->
   <section class="pagina">
     <header class="topo">
       <p class="eyebrow">AudiensBR Fit · guia para quem vai testar</p>
-      <h1>Instalar o AudiensBR Fit num pendrive</h1>
-      <p class="lede">O processo tem uma parte técnica — Terminal, um aviso de segurança do Mac —
-      mas você só passa por ela <strong>uma vez</strong>. Depois disso, usar o Fit é clicar num
-      ícone. Este guia mostra as duas partes separadas.</p>
+      <h1>Instalar o AudiensBR Fit no Mac</h1>
+      <p class="lede">A instalação inclui liberar um aviso de segurança do Mac e é feita <strong>uma vez</strong>.
+      Depois disso, usar o Fit é clicar num ícone. Este guia mostra as duas partes separadas.</p>
       <div class="chips">
         <span class="chip"><strong>Mac</strong> Apple Silicon ou Intel</span>
-        <span class="chip"><strong>Pendrive</strong> exFAT, 16 GB livres</span>
+        <span class="chip"><strong>Espaço</strong> 16 GB livres</span>
         <span class="chip"><strong>Internet</strong> só para preparar</span>
         <span class="chip"><strong>Tempo</strong> ~10-20 min (rede boa)</span>
       </div>
     </header>
 
-    <div class="parte-titulo"><span class="num">1</span><h2>Preparar o pendrive</h2></div>
-    <p class="parte-nota">Feito uma única vez, na máquina que tem internet. O pendrive pronto funciona depois em qualquer Mac, sem internet.</p>
+    <div class="parte-titulo"><span class="num">1</span><h2>Instalar</h2></div>
+    <p class="parte-nota">Feito uma única vez, com internet. O disco pronto funciona depois, sem internet, em outros Macs da mesma família de processador (Apple Silicon ou Intel).</p>
 
     <table class="passo-wrap"><tr><td>
     <div class="passo">
@@ -216,8 +215,8 @@
     <div class="passo">
       <div class="marca">2</div>
       <div class="corpo">
-        <h3>Plugue o pendrive</h3>
-        <p>Formatado em <strong>exFAT</strong> (o padrão de fábrica da maioria) — não precisa fazer nada especial nele antes.</p>
+        <h3>Escolha onde instalar</h3>
+        <p>De preferência um pendrive ou disco externo rápido, em <strong>exFAT</strong> (o padrão de fábrica da maioria): plugue antes de continuar. Também pode ser uma pasta do computador.</p>
       </div>
     </div>
     </td></tr></table>
@@ -226,28 +225,21 @@
     <div class="passo">
       <div class="marca">3</div>
       <div class="corpo">
-        <h3>Abra o Terminal</h3>
-        <p><kbd class="inline-code">Cmd</kbd> + Espaço, digite <code>terminal</code>, Enter. É um aplicativo do próprio Mac.</p>
-      </div>
-    </div>
-    </td></tr></table>
-
-    <table class="passo-wrap"><tr><td>
-    <div class="passo">
-      <div class="marca">4</div>
-      <div class="corpo">
-        <h3>Entre na pasta e rode o instalador</h3>
-        <p>Truque para nunca errar o caminho: digite <code>cd</code> e um espaço, depois <strong>arraste a pasta</strong>
-        descompactada para dentro da janela do Terminal — o caminho se preenche sozinho. Enter. Repita o truque para
-        o pendrive, arrastando o ícone dele.</p>
+        <h3>Abra o instalador</h3>
+        <p>Na pasta descompactada, dê duplo clique em <code>instalar-mac.command</code>.</p>
         <div class="mock">
           <div class="mac-win">
-            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">terminal — zsh</div></div>
-            <div class="term">
-              <div><span class="prompt">mac ~ %</span> <span class="cmd">cd </span><span class="drag">audiens-fit-main</span></div>
-              <div><span class="prompt">mac audiens-fit-main %</span> <span class="cmd">./instalar-mac.command </span><span class="drag">AUDIENSBRFIT</span></div>
-              <div class="out">══ AudiensBR Fit: instalando em /Volumes/AUDIENSBRFIT ══</div>
-              <div class="out">→ Copiando o aplicativo…</div>
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">audiens-fit-main</div></div>
+            <div class="finder">
+              <div class="lado">
+                <div class="grupo">Favoritos</div>
+                <div class="item on">Downloads</div>
+              </div>
+              <div class="conteudo">
+                <div class="ficon zip"><div class="quadro">&gt;_</div>instalar-mac.command</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>app</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>docs</div>
+              </div>
             </div>
           </div>
         </div>
@@ -256,11 +248,11 @@
     </td></tr></table>
   </section>
 
-  <!-- ═══════════ PÁGINA 2 — passos 1-5 a 1-7 ═══════════ -->
+  <!-- ═══════════ PÁGINA 2 — passos 1-4 a 1-6 ═══════════ -->
   <section class="pagina">
     <table class="passo-wrap"><tr><td>
     <div class="passo">
-      <div class="marca">5</div>
+      <div class="marca">4</div>
       <div class="corpo">
         <h3>O Mac vai bloquear na primeira vez — é esperado</h3>
         <p>Qualquer script baixado da internet recebe esse aviso, não é específico do Fit. Duas telas para passar por isso.</p>
@@ -281,7 +273,7 @@
 
     <table class="passo-wrap"><tr><td>
     <div class="passo">
-      <div class="marca">6</div>
+      <div class="marca">5</div>
       <div class="corpo">
         <h3>Libere em Ajustes do Sistema</h3>
         <p><code>Ajustes do Sistema</code> → <code>Privacidade e Segurança</code> → role até o fim. Aparece um aviso
@@ -306,17 +298,40 @@
             </div>
           </div>
         </div>
-        <p style="margin-top:10px">Volte ao Terminal e rode o mesmo comando do passo 4 de novo — dessa vez ele passa direto.</p>
+        <p style="margin-top:10px">Se o instalador não abrir em seguida, dê duplo clique nele de novo.</p>
       </div>
     </div>
     </td></tr></table>
 
     <table class="passo-wrap"><tr><td>
     <div class="passo">
+      <div class="marca">6</div>
+      <div class="corpo">
+        <h3>Confirme o destino</h3>
+        <p>O Terminal abre e pergunta onde instalar. Com um disco externo plugado, responda <code>s</code> para usá-lo. Com vários, digite o número. Para uma pasta do computador, responda <code>N</code> (ou Enter, na lista) e indique a pasta.</p>
+        <div class="mock">
+          <div class="mac-win">
+            <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">Terminal</div></div>
+            <div class="term">
+              <div class="out">Nenhum destino informado.</div>
+              <div class="prompt-yn">Instalar o AudiensBR Fit em /Volumes/AUDIENSBRFIT? [s/N] s</div>
+              <div class="out">══ AudiensBR Fit: instalando em /Volumes/AUDIENSBRFIT ══</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
+  </section>
+
+  <!-- ═══════════ PÁGINA 3 — passos 1-7 e 1-8 ═══════════ -->
+  <section class="pagina">
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
       <div class="marca">7</div>
       <div class="corpo">
         <h3>Acompanhe os downloads</h3>
-        <p>O instalador baixa sozinho o Python, o Ollama e o modelo de IA (~2,5 GB) direto para o pendrive. Barra de
+        <p>O instalador baixa sozinho o Python, o Ollama e o modelo de IA (~2,5 GB) direto para o destino. Barra de
         progresso no Terminal — o tempo depende só da sua internet.</p>
         <div class="mock">
           <div class="mac-win">
@@ -330,27 +345,23 @@
             </div>
           </div>
         </div>
-        <p style="margin-top:10px">O turbo é opcional — só compensa em Mac com 16 GB de RAM ou mais. Pode responder
-        <code>N</code> e adicionar depois, com calma.</p>
+        <p style="margin-top:10px">O turbo é opcional — só compensa em Mac com 16 GB de RAM ou mais. Se responder
+        <code>N</code>, o Fit usa o modelo normal. Para adicionar o turbo depois, rode o instalador de novo.</p>
       </div>
     </div>
     </td></tr></table>
-  </section>
-
-  <!-- ═══════════ PÁGINA 3 — passo 1-8 + passos 2-1 a 2-3 ═══════════ -->
-  <section class="pagina">
     <table class="passo-wrap"><tr><td>
     <div class="passo">
       <div class="marca">8</div>
       <div class="corpo">
         <h3>Pronto</h3>
-        <p>O Terminal avisa <code>Instalação concluída</code> e pergunta se quer abrir agora. Essa foi a parte técnica — não se repete.</p>
+        <p>O Terminal avisa <code>Instalação concluída</code> e pergunta se quer abrir agora. Esta parte não se repete.</p>
         <div class="mock">
           <div class="mac-win">
             <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">terminal — zsh</div></div>
             <div class="term">
               <div class="out">══ Instalação concluída. ══</div>
-              <div class="out">Para usar: abra o aplicativo 'AudiensBR Fit' (ícone Af) na raiz do pendrive.</div>
+              <div class="out">Para usar: abra o aplicativo 'AudiensBR Fit' (ícone Af) na raiz de /Volumes/AUDIENSBRFIT</div>
               <div class="prompt-yn">Abrir o AudiensBR Fit agora? [s/N]</div>
             </div>
           </div>
@@ -359,15 +370,19 @@
     </div>
     </td></tr></table>
 
+  </section>
+
+  <!-- ═══════════ PÁGINA 4 — passos 2-1 a 2-3 ═══════════ -->
+  <section class="pagina">
     <div class="parte-titulo"><span class="num">2</span><h2>Usar no dia a dia</h2></div>
-    <p class="parte-nota">A partir daqui, em qualquer Mac, sem internet e sem Terminal.</p>
+    <p class="parte-nota">A partir daqui, sem internet e sem digitar comandos.</p>
 
     <table class="passo-wrap"><tr><td>
     <div class="passo">
       <div class="marca">1</div>
       <div class="corpo">
-        <h3>Abra o pendrive no Finder</h3>
-        <p>Dois ícones prontos na raiz — foram criados pelo instalador, por isso abrem <strong>sem nenhum aviso</strong> de segurança, diferente do passo 5.</p>
+        <h3>Abra o destino no Finder</h3>
+        <p>Há dois aplicativos prontos. Como são criados pelo instalador, abrem <strong>sem o aviso</strong> de segurança do passo 4.</p>
         <div class="mock">
           <div class="mac-win">
             <div class="barra"><div class="dots"><i></i><i></i><i></i></div><div class="titulo-janela">AUDIENSBRFIT</div></div>
@@ -423,14 +438,14 @@
     </td></tr></table>
   </section>
 
-  <!-- ═══════════ PÁGINA 4 — passo 2-4 + dúvidas + rodapé ═══════════ -->
+  <!-- ═══════════ PÁGINA 5 — passo 2-4 + dúvidas + rodapé ═══════════ -->
   <section class="pagina">
     <table class="passo-wrap"><tr><td>
     <div class="passo">
       <div class="marca">4</div>
       <div class="corpo">
         <h3>Ao terminar, "Encerrar AudiensBR"</h3>
-        <p>Libera a RAM que o modelo estava usando. Só fechar a aba do navegador não faz isso sozinho.</p>
+        <p>Libera a RAM e fecha o Ollama do Fit, o que permite ejetar o disco. Só fechar a aba do navegador não faz isso.</p>
       </div>
     </div>
     </td></tr></table>
@@ -438,22 +453,20 @@
     <div class="parte-titulo"><span class="num">?</span><h2>Se algo sair diferente</h2></div>
 
     <div class="duvida">
-      <div class="pergunta"><span class="marca-erro">Uso: instalar-mac.command…</span></div>
-      <p class="resposta">Apareceu porque o Terminal não sabia qual pendrive usar. Se você tiver mais de um disco
-      externo plugado, o instalador lista os disponíveis numerados — digite o número do seu. Com só um pendrive
-      plugado, normalmente ele nem pergunta.</p>
+      <div class="pergunta"><span class="marca-erro">O disco certo não aparece na lista</span></div>
+      <p class="resposta">Confira se ele está plugado e visível no Finder. Depois, abra o instalador de novo.</p>
     </div>
 
     <div class="duvida">
       <div class="pergunta"><span class="marca-erro">ERRO: Python do pendrive não encontrado</span></div>
       <p class="resposta">Sinal de que a instalação não terminou (foi interrompida, ou a internet caiu no meio).
-      Repita o passo 4 — o instalador é seguro para rodar de novo, ele pula o que já baixou e completa só o que falta.</p>
+      Abra o instalador de novo e escolha o mesmo destino (passos 3 e 6): ele pula o que já baixou e completa o que falta.</p>
     </div>
 
     <div class="duvida">
       <div class="pergunta"><span class="marca-erro">Nada abre ao clicar duas vezes</span></div>
-      <p class="resposta">Confirme que o pendrive foi ejetado corretamente da última vez (não retirado direto) e que
-      está formatado em exFAT. Em caso de dúvida, uma reinstalação (passo 4) resolve sem apagar nada que já funciona.</p>
+      <p class="resposta">Confirme que o disco está plugado e que foi ejetado corretamente da última vez. Se continuar, abra o
+      instalador de novo (passo 3): ele completa a instalação sem apagar os modelos baixados.</p>
     </div>
 
     <footer class="pe">AudiensBR Fit — Data Design Inteligência de Comunicação</footer>

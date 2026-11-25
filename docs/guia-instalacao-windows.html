@@ -103,61 +103,22 @@
 
 <div class="folha">
 
-  <!-- ═══ PÁGINA 1 — cabeçalho + aviso + Parte 0 + Parte 1 (1,2,3) ═══ -->
+  <!-- ═══ PÁGINA 1 — cabeçalho + Parte 1 (1,2,3) ═══ -->
   <section class="pagina">
     <header class="topo">
       <p class="eyebrow">AudiensBR Fit · guia para quem vai testar · Windows</p>
       <h1>Instalar o AudiensBR Fit no Windows</h1>
-      <p class="lede">Este caminho ainda não foi testado numa máquina Windows real — o guia mostra
-      exatamente o que o instalador faz, para quem topar ser o primeiro teste. Encontrou algo diferente?
-      Escreva pra <strong>audiensbrasil@proton.me</strong>.</p>
+      <p class="lede">A instalação foi testada numa máquina virtual Windows e ainda não num computador comum.
+      As telas são ilustrativas. Encontrou algo diferente? Escreva pra <strong>audiensbrasil@proton.me</strong>.</p>
       <div class="chips">
-        <span class="chip"><strong>Windows</strong> 10 ou 11</span>
-        <span class="chip"><strong>Pendrive</strong> exFAT, 16 GB livres</span>
-        <span class="chip"><strong>Internet</strong> para preparar</span>
+        <span class="chip"><strong>Windows</strong> 10 (1803 ou mais novo) ou 11</span>
+        <span class="chip"><strong>Espaço</strong> 16 GB livres</span>
+        <span class="chip"><strong>Internet</strong> só para preparar</span>
       </div>
     </header>
 
-    <div class="aviso-topo">
-      <span class="marca">⚠️</span>
-      <div>
-        <h4>Duas diferenças importantes em relação ao Mac</h4>
-        <ul>
-          <li><strong>O pendrive ainda não é independente da máquina.</strong> O instalador cria um
-          ambiente Python (venv) que aponta para a instalação já existente no computador — não uma cópia
-          completa. Toda máquina que for USAR o pendrive precisa ter Python e Ollama instalados nela,
-          não só a que preparou.</li>
-          <li><strong>Ainda não existe um "Encerrar AudiensBR" para Windows</strong> — fechar a janela do
-          terminal basta, mas não há um clique dedicado para liberar a RAM.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="parte-titulo"><span class="num">0</span><h2>Antes de começar</h2></div>
-    <p class="parte-nota">Só na máquina que vai preparar o pendrive. Pule se ela já tiver os dois instalados.</p>
-
-    <table class="passo-wrap"><tr><td>
-    <div class="passo">
-      <div class="marca">A</div>
-      <div class="corpo">
-        <h3>Instale o Python</h3>
-        <p>Baixe em <code>python.org/downloads</code>. Na primeira tela do instalador, marque
-        <strong>"Add python.exe to PATH"</strong> antes de clicar em Install.</p>
-      </div>
-    </div>
-    </td></tr></table>
-
-    <table class="passo-wrap"><tr><td>
-    <div class="passo">
-      <div class="marca">B</div>
-      <div class="corpo">
-        <h3>Instale o Ollama</h3>
-        <p>Baixe em <code>ollama.com/download</code> e rode o instalador — não pede nenhuma opção especial.</p>
-      </div>
-    </div>
-    </td></tr></table>
-
-    <div class="parte-titulo"><span class="num">1</span><h2>Preparar o pendrive</h2></div>
+    <div class="parte-titulo"><span class="num">1</span><h2>Instalar</h2></div>
+    <p class="parte-nota">Feito uma única vez, com internet. Não é preciso instalar Python nem Ollama: o instalador baixa os dois para o destino.</p>
 
     <table class="passo-wrap"><tr><td>
     <div class="passo">
@@ -173,8 +134,8 @@
     <div class="passo">
       <div class="marca">2</div>
       <div class="corpo">
-        <h3>Plugue o pendrive e note a letra dele</h3>
-        <p>Abra "Este Computador" — o pendrive aparece como uma letra, por exemplo <code>E:</code>. Formatado em <strong>exFAT</strong>.</p>
+        <h3>Escolha onde instalar</h3>
+        <p>De preferência um pendrive ou disco externo rápido, em <strong>exFAT</strong>. Plugue e veja a letra dele em "Este Computador", por exemplo <code>E:</code>. Também pode ser uma pasta do computador.</p>
       </div>
     </div>
     </td></tr></table>
@@ -183,38 +144,31 @@
     <div class="passo">
       <div class="marca">3</div>
       <div class="corpo">
-        <h3>Abra o Prompt de Comando na pasta certa</h3>
-        <p>Dentro da pasta descompactada, segure <strong>Shift</strong> e clique com o botão direito num espaço vazio → <code>Abrir janela do PowerShell aqui</code>.</p>
-      </div>
-    </div>
-    </td></tr></table>
-  </section>
-
-  <!-- ═══ PÁGINA 2 — Parte 1 (4,5,6) ═══ -->
-  <section class="pagina">
-    <table class="passo-wrap"><tr><td>
-    <div class="passo">
-      <div class="marca">4</div>
-      <div class="corpo">
-        <h3>Rode o instalador com a letra do pendrive</h3>
-        <p>Troque <code>E:\</code> pela letra real do seu pendrive.</p>
+        <h3>Abra o instalador</h3>
+        <p>Na pasta descompactada, dê duplo clique em <code>instalar-windows.bat</code>.</p>
         <div class="mock">
           <div class="win-win">
-            <div class="barra"><div class="titulo-janela">Prompt de Comando</div><div class="botoes-janela"><span>—</span><span>▢</span><span>✕</span></div></div>
-            <div class="term">
-              <div><span class="prompt">C:\Users\você\Downloads\audiens-fit-main&gt;</span> instalar-windows.bat E:\</div>
-              <div class="out">== AudiensBR Fit: instalando em E:\ ==</div>
-              <div class="out">Criando ambiente Python no pendrive...</div>
+            <div class="barra"><div class="titulo-janela">audiens-fit-main</div><div class="botoes-janela"><span>—</span><span>▢</span><span>✕</span></div></div>
+            <div class="explorer">
+              <div class="lado"><div class="grupo">Este Computador</div><div class="item on">Downloads</div></div>
+              <div class="conteudo">
+                <div class="ficon bat"><div class="quadro">.bat</div>instalar-windows</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>app</div>
+                <div class="ficon pasta"><div class="quadro">📁</div>docs</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     </td></tr></table>
+  </section>
 
+  <!-- ═══ PÁGINA 2 — Parte 1 (4,5) ═══ -->
+  <section class="pagina">
     <table class="passo-wrap"><tr><td>
     <div class="passo">
-      <div class="marca">5</div>
+      <div class="marca">4</div>
       <div class="corpo">
         <h3>Se o SmartScreen bloquear</h3>
         <p>Acontece com qualquer <code>.bat</code> baixado da internet. Clique em <strong>"Mais informações"</strong>, depois em <strong>"Executar assim mesmo"</strong>.</p>
@@ -237,17 +191,17 @@
 
     <table class="passo-wrap"><tr><td>
     <div class="passo">
-      <div class="marca">6</div>
+      <div class="marca">5</div>
       <div class="corpo">
-        <h3>Acompanhe o download do modelo</h3>
-        <p>O ambiente Python é criado no pendrive, depois o modelo de IA (~2,5 GB) é baixado via Ollama.</p>
+        <h3>Informe o destino</h3>
+        <p>Digite a letra do disco, como <code>E:\</code>, ou o caminho de uma pasta. Só Enter instala na pasta indicada entre colchetes.</p>
         <div class="mock">
           <div class="win-win">
             <div class="barra"><div class="titulo-janela">Prompt de Comando</div><div class="botoes-janela"><span>—</span><span>▢</span><span>✕</span></div></div>
             <div class="term">
-              <div class="out">Baixando o modelo do perfil normal para o pendrive...</div>
-              <div>pulling manifest <span class="bar"><span style="width:58%"></span></span> 58%</div>
-              <div class="out">== Pronto. Abra "AudiensBR Fit.bat" na raiz de E:\ ==</div>
+              <div class="out">Onde instalar? Digite a letra do disco, como E:\ , ou o caminho de uma pasta.</div>
+              <div>Destino [C:\Users\você\AudiensBR-Fit]: E:\</div>
+              <div class="out">== AudiensBR Fit: instalando em E:\ ==</div>
             </div>
           </div>
         </div>
@@ -256,16 +210,39 @@
     </td></tr></table>
   </section>
 
-  <!-- ═══ PÁGINA 3 — Parte 2 (1,2,3) ═══ -->
+  <!-- ═══ PÁGINA 3 — Parte 1 (6) + Parte 2 (1) ═══ -->
   <section class="pagina">
+    <table class="passo-wrap"><tr><td>
+    <div class="passo">
+      <div class="marca">6</div>
+      <div class="corpo">
+        <h3>Acompanhe os downloads</h3>
+        <p>O instalador baixa o Python, o Ollama (cerca de 1,7 GB) e o modelo de IA (cerca de 2,5 GB). O tempo depende da sua internet e da velocidade do disco. O modelo turbo é opcional, para máquinas com 16 GB de RAM ou mais; sem ele, o Fit usa o modelo normal.</p>
+        <div class="mock">
+          <div class="win-win">
+            <div class="barra"><div class="titulo-janela">Prompt de Comando</div><div class="botoes-janela"><span>—</span><span>▢</span><span>✕</span></div></div>
+            <div class="term">
+              <div class="out">Baixando Python portatil, cerca de 42 MB...</div>
+              <div class="out">Instalando dependencias no destino...</div>
+              <div class="out">Baixando Ollama portatil, pode passar de 1,7 GB...</div>
+              <div class="out">Baixando o modelo do perfil normal, qwen3:4b-instruct, cerca de 2,5 GB...</div>
+              <div>pulling manifest <span class="bar"><span style="width:58%"></span></span> 58%</div>
+              <div class="out">Baixar tambem o modelo turbo qwen3:8b, 5,2 GB, para maquinas de 16 GB ou mais? [s/N]</div>
+              <div class="out">== Pronto. Abra "AudiensBR Fit.bat" em E:\ ==</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </td></tr></table>
     <div class="parte-titulo"><span class="num">2</span><h2>Usar no dia a dia</h2></div>
-    <p class="parte-nota">Nesta máquina, com o pendrive plugado. Numa máquina diferente, repita a Parte 0 antes.</p>
+    <p class="parte-nota">Sem internet, neste computador ou em outro com Windows, levando o disco. Não é preciso instalar nada nele.</p>
 
     <table class="passo-wrap"><tr><td>
     <div class="passo">
       <div class="marca">1</div>
       <div class="corpo">
-        <h3>Abra o pendrive no Explorador de Arquivos</h3>
+        <h3>Abra o destino no Explorador de Arquivos</h3>
         <p>Duplo clique em <code>AudiensBR Fit.bat</code>.</p>
         <div class="mock">
           <div class="win-win">
@@ -274,6 +251,7 @@
               <div class="lado"><div class="grupo">Este Computador</div><div class="item on">Pendrive (E:)</div></div>
               <div class="conteudo">
                 <div class="ficon bat"><div class="quadro">.bat</div>AudiensBR Fit</div>
+                <div class="ficon bat"><div class="quadro">.bat</div>Encerrar AudiensBR</div>
                 <div class="ficon pasta"><div class="quadro">📁</div>audiens-fit</div>
                 <div class="ficon pasta"><div class="quadro">📁</div>modelos</div>
                 <div class="ficon pasta"><div class="quadro">📁</div>runtime-win</div>
@@ -282,7 +260,7 @@
           </div>
         </div>
         <p style="margin-top:8px">Numa máquina <strong>diferente</strong> da que preparou, o SmartScreen do
-        passo 5 pode aparecer de novo — ainda não existe, no Windows, o "já liberado" que o Mac tem.</p>
+        passo 4 pode aparecer de novo.</p>
       </div>
     </div>
     </td></tr></table>
@@ -302,8 +280,7 @@
       <div class="marca">3</div>
       <div class="corpo">
         <h3>Para encerrar</h3>
-        <p>Feche a janela do Prompt de Comando (ou <code>Ctrl+C</code> dentro dela). Ainda não existe um
-        atalho dedicado para liberar a RAM como no Mac.</p>
+        <p>Dê duplo clique em <code>Encerrar AudiensBR.bat</code>. Ele fecha só o Fit, libera a RAM e permite ejetar o disco.</p>
       </div>
     </div>
     </td></tr></table>
@@ -314,14 +291,18 @@
     <div class="parte-titulo"><span class="num">?</span><h2>Se algo sair diferente</h2></div>
 
     <div class="duvida">
-      <div class="pergunta"><span class="marca-erro">ERRO: Python nao encontrado</span></div>
-      <p class="resposta">O passo 0-A não foi feito, ou foi feito sem marcar "Add python.exe to PATH".
-      Reinstale o Python marcando essa opção e rode o instalador de novo.</p>
+      <div class="pergunta"><span class="marca-erro">ERRO: download do Python (ou do Ollama, ou do modelo) falhou</span></div>
+      <p class="resposta">Confira a internet e abra o instalador de novo com o mesmo destino: ele pula o que já está pronto.</p>
     </div>
 
     <div class="duvida">
-      <div class="pergunta"><span class="marca-erro">AVISO: Ollama nao instalado</span></div>
-      <p class="resposta">O passo 0-B não foi feito. Instale o Ollama e rode <code>instalar-windows.bat E:\</code> de novo — ele pula o que já está pronto.</p>
+      <div class="pergunta"><span class="marca-erro">ERRO: a porta 11435 ja esta em uso</span></div>
+      <p class="resposta">O AudiensBR Fit está aberto. Abra <code>Encerrar AudiensBR.bat</code> e rode o instalador de novo.</p>
+    </div>
+
+    <div class="duvida">
+      <div class="pergunta"><span class="marca-erro">ERRO: este Windows nao tem o tar</span></div>
+      <p class="resposta">A instalação precisa do Windows 10 versão 1803 ou mais novo.</p>
     </div>
 
     <div class="duvida">

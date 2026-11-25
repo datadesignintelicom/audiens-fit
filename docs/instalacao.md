@@ -3,14 +3,14 @@
 Guias visuais, tela por tela:
 
 - [Guia visual passo a passo no Mac](guia-instalacao-mac.pdf)
-- [Guia visual passo a passo no Windows](guia-instalacao-windows.pdf) *(caminho
-  ainda não testado numa máquina real — veja a ressalva abaixo)*
+- [Guia visual passo a passo no Windows](guia-instalacao-windows.pdf) *(instalação
+  testada numa máquina virtual, ainda não num computador comum)*
 
 ## O modelo de instalação
 A máquina que **prepara** o pendrive precisa de internet: o instalador baixa
 o Ollama, o Python (relocável) e os modelos de IA, e tudo passa a viver no
 pendrive. A máquina que **usa** depois não precisa de nada instalado, no Mac
-ou no Windows. O do Windows ainda não foi testado num computador comum;
+ou no Windows. O do Windows foi testado numa máquina virtual, ainda não num computador comum;
 encontrou algo diferente? audiensbrasil@proton.me
 
 ## Instalar no pendrive
@@ -19,7 +19,7 @@ encontrou algo diferente? audiensbrasil@proton.me
 - macOS: duplo clique em `instalar-mac.command`, ou
   `./instalar-mac.command /Volumes/SEU_PENDRIVE` no Terminal.
 - Windows: duplo clique em `instalar-windows.bat`, ou `instalar-windows.bat E:\`
-  no Prompt de Comando (ainda não testado numa máquina real).
+  no Prompt de Comando.
 - Sem destino informado, o instalador pergunta. Pode ser um disco externo ou
   uma pasta do computador.
 

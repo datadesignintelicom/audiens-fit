@@ -22,6 +22,10 @@ export OLLAMA_URL="http://$OLLAMA_HOST"
 # OLLAMA_MODELS no shell para outro fim (ex.: o AudiensBR completo) não podem
 # vazar essa pasta para o pendrive, que precisa ficar sempre isolado
 export OLLAMA_MODELS="$BASE/modelos"
+# Sem o modelo turbo baixado, usa o perfil normal mesmo com 16 GB de RAM
+if [ -z "$AUDIENS_FIT_PERFIL" ] && [ ! -e "$OLLAMA_MODELS/manifests/registry.ollama.ai/library/qwen3/8b" ]; then
+  export AUDIENS_FIT_PERFIL=normal
+fi
 
 echo "═══════════════════════════════════════════════"
 echo "  AudiensBR Fit — Data Design"
